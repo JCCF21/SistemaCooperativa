@@ -80,6 +80,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
         txtSistemadeCooperativa.setForeground(new java.awt.Color(24, 75, 95));
         txtSistemadeCooperativa.setText("SISTEMA DE COOPERATIVA");
 
+        txtLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/trabajo-en-equipo64.png"))); // NOI18N
+
         javax.swing.GroupLayout pnlLogoLayout = new javax.swing.GroupLayout(pnlLogo);
         pnlLogo.setLayout(pnlLogoLayout);
         pnlLogoLayout.setHorizontalGroup(

@@ -6,14 +6,14 @@ public class SistemaCooperativa {
     public static void main(String[] args) {
         // Hace visible la pantalla de login al arrancar el programa
         java.awt.EventQueue.invokeLater(() -> {
-           MainLogin pantallaLogin = new MainLogin();
+           FrmMainLogin pantallaLogin = new FrmMainLogin();
            pantallaLogin.setLocationRelativeTo(null);
-           pantallaLogin.setVisible(true);
+           pantallaLogin.setVisible(true);   
         });
-        java.awt.EventQueue.invokeLater(()-> {
-            FrmPrincipal pantallaMiembro = new FrmPrincipal();
-            pantallaMiembro.setVisible(true);
-            pantallaMiembro.setLocationRelativeTo(null);
-        });
+//        java.awt.EventQueue.invokeLater(()-> {
+//            FrmPrincipal pantallaMiembro = new FrmPrincipal();
+//            pantallaMiembro.setVisible(true);
+//            pantallaMiembro.setLocationRelativeTo(null);
+//        });
     }
 }
