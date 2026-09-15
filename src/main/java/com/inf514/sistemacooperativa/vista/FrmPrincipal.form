@@ -128,11 +128,6 @@
                   </Properties>
                 </Component>
                 <Component class="javax.swing.JLabel" name="txtLogo">
-                  <Properties>
-                    <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                      <Image iconType="2" name="D:\user\Julio\UASD\ProgramacionII\trabajo-en-equipo64.png"/>
-                    </Property>
-                  </Properties>
                 </Component>
               </SubComponents>
             </Container>
@@ -266,6 +261,7 @@
               </Properties>
               <Events>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="panelMienbroBotonMouseClicked"/>
+                <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="panelMienbroBotonMouseEntered"/>
                 <EventHandler event="mousePressed" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="panelMienbroBotonMousePressed"/>
                 <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="panelMienbroBotonMouseReleased"/>
               </Events>
@@ -430,8 +426,10 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Group type="102" alignment="1" attributes="0">
                       <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
-                      <Component id="lblFecha" min="-2" pref="441" max="-2" attributes="0"/>
-                      <EmptySpace pref="565" max="32767" attributes="0"/>
+                      <Component id="lblFecha" min="-2" pref="45" max="-2" attributes="0"/>
+                      <EmptySpace max="-2" attributes="0"/>
+                      <Component id="lblFechaActual" min="-2" pref="395" max="-2" attributes="0"/>
+                      <EmptySpace pref="560" max="32767" attributes="0"/>
                       <Component id="lblVersion" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="132" max="-2" attributes="0"/>
                   </Group>
@@ -443,7 +441,10 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="1" attributes="0">
                           <Component id="lblVersion" alignment="1" pref="24" max="32767" attributes="0"/>
-                          <Component id="lblFecha" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                              <Component id="lblFecha" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="lblFechaActual" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
                   </Group>
@@ -471,6 +472,11 @@
                   <Color blue="0" green="0" red="0" type="rgb"/>
                 </Property>
                 <Property name="text" type="java.lang.String" value="Fecha:"/>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JLabel" name="lblFechaActual">
+              <Properties>
+                <Property name="text" type="java.lang.String" value="fecha actual"/>
               </Properties>
             </Component>
           </SubComponents>

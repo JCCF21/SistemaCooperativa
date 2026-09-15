@@ -3,7 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.inf514.sistemacooperativa.vista;
-
+import static com.inf514.sistemacooperativa.utilidades.ManejadorFechas.obtenerFecha;
+import com.inf514.sistemacooperativa.utilidades.ConfiguracionGlobal;
 /**
  *
  * @author jfria
@@ -19,6 +20,8 @@ public class FrmPrincipal extends javax.swing.JFrame {
         initComponents();
         
         mostrarPanel(new PnlMiembros());
+        lblFechaActual.setText(obtenerFecha());
+        lblVersion.setText("Version: "+ConfiguracionGlobal.VERSION_APP);
     }
     
     private void mostrarPanel(javax.swing.JPanel panelNuevo) {
@@ -62,6 +65,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         pnlBottonPanel = new javax.swing.JPanel();
         lblVersion = new javax.swing.JLabel();
         lblFecha = new javax.swing.JLabel();
+        lblFechaActual = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -75,8 +79,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
         txtSistemadeCooperativa.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         txtSistemadeCooperativa.setForeground(new java.awt.Color(24, 75, 95));
         txtSistemadeCooperativa.setText("SISTEMA DE COOPERATIVA");
-
-        txtLogo.setIcon(new javax.swing.ImageIcon("D:\\user\\Julio\\UASD\\ProgramacionII\\trabajo-en-equipo64.png")); // NOI18N
 
         javax.swing.GroupLayout pnlLogoLayout = new javax.swing.GroupLayout(pnlLogo);
         pnlLogo.setLayout(pnlLogoLayout);
@@ -170,6 +172,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
         panelMienbroBoton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 panelMienbroBotonMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                panelMienbroBotonMouseEntered(evt);
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 panelMienbroBotonMousePressed(evt);
@@ -298,14 +303,18 @@ public class FrmPrincipal extends javax.swing.JFrame {
         lblFecha.setForeground(new java.awt.Color(0, 0, 0));
         lblFecha.setText("Fecha:");
 
+        lblFechaActual.setText("fecha actual");
+
         javax.swing.GroupLayout pnlBottonPanelLayout = new javax.swing.GroupLayout(pnlBottonPanel);
         pnlBottonPanel.setLayout(pnlBottonPanelLayout);
         pnlBottonPanelLayout.setHorizontalGroup(
             pnlBottonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlBottonPanelLayout.createSequentialGroup()
                 .addGap(23, 23, 23)
-                .addComponent(lblFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 441, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 565, Short.MAX_VALUE)
+                .addComponent(lblFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblFechaActual, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 560, Short.MAX_VALUE)
                 .addComponent(lblVersion)
                 .addGap(132, 132, 132))
         );
@@ -315,7 +324,9 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(pnlBottonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(lblVersion, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
-                    .addComponent(lblFecha, javax.swing.GroupLayout.Alignment.LEADING))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlBottonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(lblFecha)
+                        .addComponent(lblFechaActual)))
                 .addContainerGap())
         );
 
@@ -362,10 +373,16 @@ public class FrmPrincipal extends javax.swing.JFrame {
         mostrarPanel(new PnlPrestamos());
     }//GEN-LAST:event_panelPestamoBotonMouseClicked
 
+    private void panelMienbroBotonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelMienbroBotonMouseEntered
+        // TODO add your handling code here:
+        panelMienbroBoton.setBackground(new java.awt.Color(190,221,239));  
+    }//GEN-LAST:event_panelMienbroBotonMouseEntered
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel lblAhoros;
     private javax.swing.JLabel lblFecha;
+    private javax.swing.JLabel lblFechaActual;
     private javax.swing.JLabel lblVersion;
     private javax.swing.JPanel panelAhorroBoton;
     private javax.swing.JPanel panelInicioBoton;
