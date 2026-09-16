@@ -24,7 +24,7 @@ public class FrmMainLogin extends javax.swing.JFrame {
        
         panelNuevo.setSize(pnlContenedor.getWidth(), pnlContenedor.getHeight());
         panelNuevo.setLocation(0, 0);
-       //limpia el contenedor y añade la nueva vista
+       //limpia el contenedor y agrega la nueva vista
         pnlContenedor.removeAll();
         pnlContenedor.add(panelNuevo, java.awt.BorderLayout.CENTER);
         //refresca la interfaz grafica para que los cambios sean visible 

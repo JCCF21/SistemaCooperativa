@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.2" xmlns="http://xmlns.jcp.org/xml/ns/persistence" 
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+             xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/persistence http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+             
+   
+    <persistence-unit name="CooperativaPU" transaction-type="RESOURCE_LOCAL">
+        
+        <!-- Proveedor de persistencia: Hibernate -->
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        
+        <!-- Tus clases modelo (Asegúrate de que la ruta del paquete sea correcta) -->
+        <class>com.inf514.sistemacooperativa.modelo.Usuario</class>
+        <class>com.inf514.sistemacooperativa.modelo.Miembro</class>
+
+        <properties>
+            <!-- 1. Credenciales de Clever Cloud -->
+            <!-- Ejemplo de URL: jdbc:mysql://bfy3m...clever-cloud.com:3306/bfy3m... -->
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://bcpfhrwqcyja3tjforvm-mysql.services.clever-cloud.com:3306/bcpfhrwqcyja3tjforvm?useSSL=false&amp;serverTimezone=UTC"/>
+            <property name="javax.persistence.jdbc.user" value="ugdh6nipfa2onj5n"/>
+            <property name="javax.persistence.jdbc.password" value="27AhNUrtEGFQRybMq8FF"/>
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+
+            <!-- 2. Configuración de Hibernate -->
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            
+            <!-- Magia pura: "update" crea o actualiza las tablas automáticamente basándose en tus clases -->
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+        </properties>
+    </persistence-unit>
+</persistence>
