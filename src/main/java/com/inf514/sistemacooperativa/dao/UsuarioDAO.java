@@ -41,8 +41,8 @@ public class UsuarioDAO {
     public Usuario buscarPorCedula(String cedula){
         EntityManager em = emf.createEntityManager();
         try{
-            em.getTransaction().begin();
-            return em.createQuery("SELECT U FROM Usuario u WHERE u.cedula = :cedula", Usuario.class)
+            em.getTransaction().begin();//lenguje de consula JDQL
+            return em.createQuery("SELECT u FROM Usuario u WHERE u.cedula = :cedula", Usuario.class)
                     .setParameter("cedula",cedula)
                     .getSingleResult();
             
