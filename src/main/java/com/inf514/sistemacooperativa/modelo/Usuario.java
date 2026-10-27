@@ -4,6 +4,7 @@
  */
 package com.inf514.sistemacooperativa.modelo;
 
+import java.time.LocalDate;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -27,17 +28,20 @@ public class Usuario {
     private String telefono;
     private String correoElectronico;
     private String contrasenia;
+    @javax.persistence.Column(name = "fechaNacimiento")
+    private LocalDate fechaNacimiento;
 
     public Usuario() {
     }
 
-    public Usuario( String cedula, String nombreCompleto, String telefono, String correoElectronico, String contrasenia) {
+    public Usuario( String cedula, String nombreCompleto, String telefono, String correoElectronico, String contrasenia,LocalDate fechaNacimiento) {
    
         this.cedula = cedula;
         this.nombreCompleto = nombreCompleto;
         this.telefono = telefono;
         this.correoElectronico = correoElectronico;
         this.contrasenia = contrasenia;
+        this.fechaNacimiento = fechaNacimiento;
     }
 
     public int getId() {
@@ -87,5 +91,15 @@ public class Usuario {
     public void setContrasenia(String contrasenia) {
         this.contrasenia = contrasenia;
     }
+
+    public LocalDate getFechaNacimiento() {
+        return fechaNacimiento;
+    }
+
+    public void setFechaNacimiento(LocalDate fechaNacimiento) {
+        this.fechaNacimiento = fechaNacimiento;
+    }
+    
+    
 
 }

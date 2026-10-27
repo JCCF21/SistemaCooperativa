@@ -6,27 +6,25 @@
    
     <persistence-unit name="CooperativaPU" transaction-type="RESOURCE_LOCAL">
         
-        <!-- Proveedor de persistencia: Hibernate -->
         <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
         
-        <!-- Tus clases modelo (Asegúrate de que la ruta del paquete sea correcta) -->
+        
         <class>com.inf514.sistemacooperativa.modelo.Usuario</class>
         <class>com.inf514.sistemacooperativa.modelo.Miembro</class>
 
         <properties>
-            <!-- 1. Credenciales de Clever Cloud -->
-            <!-- Ejemplo de URL: jdbc:mysql://bfy3m...clever-cloud.com:3306/bfy3m... -->
-            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://bcpfhrwqcyja3tjforvm-mysql.services.clever-cloud.com:3306/bcpfhrwqcyja3tjforvm?useSSL=false&amp;serverTimezone=UTC"/>
-            <property name="javax.persistence.jdbc.user" value="ugdh6nipfa2onj5n"/>
-            <property name="javax.persistence.jdbc.password" value="27AhNUrtEGFQRybMq8FF"/>
+       <!--Configuracion de la conexion de la base de datos  -->
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/cooperativadb?useSSL=false&amp;serverTimezone=UTC"/>
+            <property name="javax.persistence.jdbc.user" value="root"/>
+            <property name="javax.persistence.jdbc.password" value=""/>
             <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
 
-            <!-- 2. Configuración de Hibernate -->
+            <!-- 2. Configuracion de Hibernate -->
             <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
             <property name="hibernate.show_sql" value="true"/>
             <property name="hibernate.format_sql" value="true"/>
             
-            <!-- Magia pura: "update" crea o actualiza las tablas automáticamente basándose en tus clases -->
+            <!-- "update" crea o actualiza las tablas automáticamente basándose en las clases -->
             <property name="hibernate.hbm2ddl.auto" value="update"/>
         </properties>
     </persistence-unit>
