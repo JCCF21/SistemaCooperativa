@@ -3,7 +3,7 @@ import com.inf514.sistemacooperativa.vista.*;
 
 public class SistemaCooperativa {
 
-    public static void main(String[] args) {
+    /*public static void main(String[] args) {
         // Hace visible la pantalla de login al arrancar el programa
         java.awt.EventQueue.invokeLater(() -> {
            FrmMainLogin pantallaLogin = new FrmMainLogin();
