@@ -70,9 +70,9 @@ public class PnlRegistro extends javax.swing.JPanel {
         lblRegistroNuevoUsuario.setBackground(new java.awt.Color(255, 255, 255));
         lblRegistroNuevoUsuario.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lblRegistroNuevoUsuario.setForeground(new java.awt.Color(0, 0, 0));
-        lblRegistroNuevoUsuario.setText("Registro Nuevo usuario");
+        lblRegistroNuevoUsuario.setText("Registro Nuevo Usuario");
 
-        lblNombreCompleto.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblNombreCompleto.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblNombreCompleto.setForeground(new java.awt.Color(0, 0, 0));
         lblNombreCompleto.setText("Nombre Completo");
 
@@ -87,9 +87,9 @@ public class PnlRegistro extends javax.swing.JPanel {
 
         jSeparatorNombreRegistro.setForeground(new java.awt.Color(0, 0, 0));
 
-        lblCedula.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblCedula.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblCedula.setForeground(new java.awt.Color(0, 0, 0));
-        lblCedula.setText("Cedula");
+        lblCedula.setText("Cédula");
 
         txtCedula.setBackground(new java.awt.Color(244, 239, 230));
         txtCedula.setText("digite su cedula sin guiones");
@@ -103,9 +103,9 @@ public class PnlRegistro extends javax.swing.JPanel {
 
         jSeparatorCedulaRegistro.setForeground(new java.awt.Color(0, 0, 0));
 
-        lblFechaNacimiento.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblFechaNacimiento.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblFechaNacimiento.setForeground(new java.awt.Color(0, 0, 0));
-        lblFechaNacimiento.setText("Fecha de nacimiento");
+        lblFechaNacimiento.setText("Fecha de Nacimiento");
 
         txtFechaNacimiento.setBackground(new java.awt.Color(244, 239, 230));
         txtFechaNacimiento.setBorder(null);
@@ -117,9 +117,9 @@ public class PnlRegistro extends javax.swing.JPanel {
 
         jSeparatorFechaNacimientoRegistro.setForeground(new java.awt.Color(0, 0, 0));
 
-        lblTelefono.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblTelefono.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblTelefono.setForeground(new java.awt.Color(0, 0, 0));
-        lblTelefono.setText("Telefono:");
+        lblTelefono.setText("Teléfono:");
 
         txtTelefono.setBackground(new java.awt.Color(244, 239, 230));
         txtTelefono.setText("Telefono");
@@ -133,7 +133,7 @@ public class PnlRegistro extends javax.swing.JPanel {
 
         jSeparatorTelefonoRegistro.setForeground(new java.awt.Color(0, 0, 0));
 
-        lblCorreo.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblCorreo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblCorreo.setForeground(new java.awt.Color(0, 0, 0));
         lblCorreo.setText("Correo Electronico:");
 
@@ -148,7 +148,7 @@ public class PnlRegistro extends javax.swing.JPanel {
 
         jSeparatorEmailRegistro.setForeground(new java.awt.Color(0, 0, 0));
 
-        lblContrasenia.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblContrasenia.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblContrasenia.setForeground(new java.awt.Color(0, 0, 0));
         lblContrasenia.setText("Contraseña:");
 
@@ -163,9 +163,9 @@ public class PnlRegistro extends javax.swing.JPanel {
 
         jSeparatorPasswordRegistro.setForeground(new java.awt.Color(0, 0, 0));
 
-        lblRepetirContrasenia.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblRepetirContrasenia.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblRepetirContrasenia.setForeground(new java.awt.Color(0, 0, 0));
-        lblRepetirContrasenia.setText("Repita Su Contraseña");
+        lblRepetirContrasenia.setText("Repetir Contraseña");
 
         pwdRepitaPassword.setBackground(new java.awt.Color(244, 239, 230));
         pwdRepitaPassword.setText("password");
@@ -204,7 +204,7 @@ public class PnlRegistro extends javax.swing.JPanel {
             .addGroup(pnlRegistarBottonLayout.createSequentialGroup()
                 .addGap(30, 30, 30)
                 .addComponent(txtRegistar, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(33, Short.MAX_VALUE))
+                .addContainerGap(34, Short.MAX_VALUE))
         );
         pnlRegistarBottonLayout.setVerticalGroup(
             pnlRegistarBottonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -231,23 +231,24 @@ public class PnlRegistro extends javax.swing.JPanel {
         txtRegistar1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         txtRegistar1.setForeground(new java.awt.Color(255, 255, 255));
         txtRegistar1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        txtRegistar1.setText("Atras");
+        txtRegistar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/back-white-atras.png"))); // NOI18N
+        txtRegistar1.setText("ATRÁS");
 
         javax.swing.GroupLayout pnlBotonAtrasLayout = new javax.swing.GroupLayout(pnlBotonAtras);
         pnlBotonAtras.setLayout(pnlBotonAtrasLayout);
         pnlBotonAtrasLayout.setHorizontalGroup(
             pnlBotonAtrasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlBotonAtrasLayout.createSequentialGroup()
-                .addContainerGap(36, Short.MAX_VALUE)
+            .addGroup(pnlBotonAtrasLayout.createSequentialGroup()
+                .addGap(35, 35, 35)
                 .addComponent(txtRegistar1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
         pnlBotonAtrasLayout.setVerticalGroup(
             pnlBotonAtrasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlBotonAtrasLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlBotonAtrasLayout.createSequentialGroup()
+                .addContainerGap(21, Short.MAX_VALUE)
                 .addComponent(txtRegistar1)
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addGap(15, 15, 15))
         );
 
         javax.swing.GroupLayout pnlBackgroundRegistroLayout = new javax.swing.GroupLayout(pnlBackgroundRegistro);
@@ -255,51 +256,45 @@ public class PnlRegistro extends javax.swing.JPanel {
         pnlBackgroundRegistroLayout.setHorizontalGroup(
             pnlBackgroundRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlBackgroundRegistroLayout.createSequentialGroup()
-                .addGap(34, 34, 34)
+                .addGap(56, 56, 56)
                 .addGroup(pnlBackgroundRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlBackgroundRegistroLayout.createSequentialGroup()
-                        .addGroup(pnlBackgroundRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pnlBackgroundRegistroLayout.createSequentialGroup()
-                                .addGap(116, 116, 116)
-                                .addComponent(lblRegistroNuevoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(pnlBackgroundRegistroLayout.createSequentialGroup()
-                                .addGroup(pnlBackgroundRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(lblCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtCedula, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                    .addComponent(lblNombreCompleto)
-                                    .addComponent(lblTelefono)
-                                    .addComponent(txtTelefono, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                    .addComponent(txtNombre)
-                                    .addComponent(pnlRegistarBotton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jSeparatorFechaNacimientoRegistro, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                    .addComponent(txtFechaNacimiento))
-                                .addGap(105, 105, 105)
-                                .addGroup(pnlBackgroundRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblCorreo)
-                                    .addComponent(lblContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(pwdPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblRepetirContrasenia)
-                                    .addComponent(pwdRepitaPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(pnlBotonAtras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jSeparatorEmailRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jSeparatorPasswordRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jSeparatorRepitaPasswordRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addContainerGap(111, Short.MAX_VALUE))
-                    .addGroup(pnlBackgroundRegistroLayout.createSequentialGroup()
-                        .addGroup(pnlBackgroundRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jSeparatorTelefonoRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(lblFechaNacimiento)
-                            .addComponent(jSeparatorNombreRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jSeparatorCedulaRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))))
+                    .addComponent(pnlBotonAtras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblNombreCompleto)
+                    .addComponent(jSeparatorNombreRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblFechaNacimiento)
+                    .addComponent(lblTelefono)
+                    .addGroup(pnlBackgroundRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jSeparatorTelefonoRegistro, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtTelefono, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jSeparatorFechaNacimientoRegistro, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtFechaNacimiento, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jSeparatorCedulaRegistro, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)))
+                .addGap(126, 126, 126)
+                .addGroup(pnlBackgroundRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(pnlBackgroundRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblCorreo)
+                        .addComponent(jSeparatorEmailRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pwdPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jSeparatorPasswordRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblRepetirContrasenia)
+                        .addComponent(pwdRepitaPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jSeparatorRepitaPasswordRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(pnlRegistarBotton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+            .addGroup(pnlBackgroundRegistroLayout.createSequentialGroup()
+                .addGap(170, 170, 170)
+                .addComponent(lblRegistroNuevoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         pnlBackgroundRegistroLayout.setVerticalGroup(
             pnlBackgroundRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlBackgroundRegistroLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(10, 10, 10)
                 .addComponent(lblRegistroNuevoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22)
+                .addGap(18, 18, 18)
                 .addGroup(pnlBackgroundRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblNombreCompleto)
                     .addComponent(lblCorreo))
@@ -311,18 +306,21 @@ public class PnlRegistro extends javax.swing.JPanel {
                 .addGroup(pnlBackgroundRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jSeparatorNombreRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jSeparatorEmailRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(9, 9, 9)
-                .addGroup(pnlBackgroundRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblContrasenia)
-                    .addComponent(lblCedula))
+                .addGroup(pnlBackgroundRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlBackgroundRegistroLayout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addComponent(lblCedula))
+                    .addGroup(pnlBackgroundRegistroLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblContrasenia)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlBackgroundRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(pwdPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnlBackgroundRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jSeparatorCedulaRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jSeparatorPasswordRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pnlBackgroundRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jSeparatorCedulaRegistro, javax.swing.GroupLayout.DEFAULT_SIZE, 10, Short.MAX_VALUE)
+                    .addComponent(jSeparatorPasswordRegistro))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlBackgroundRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(lblFechaNacimiento)
@@ -339,16 +337,16 @@ public class PnlRegistro extends javax.swing.JPanel {
                 .addComponent(lblTelefono)
                 .addGap(9, 9, 9)
                 .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparatorTelefonoRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
+                .addGap(12, 12, 12)
                 .addGroup(pnlBackgroundRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(pnlRegistarBotton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(pnlBotonAtras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(47, 47, 47))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
-        add(pnlBackgroundRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        add(pnlBackgroundRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 670, 440));
     }// </editor-fold>//GEN-END:initComponents
 
     private void txtCedulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCedulaActionPerformed
