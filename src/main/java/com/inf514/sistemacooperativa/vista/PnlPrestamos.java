@@ -41,6 +41,7 @@ public PnlPrestamos() {
             }
         )
     );
+    //vvvv
 
     jComboBox2.setModel(
         new javax.swing.DefaultComboBoxModel<>(
