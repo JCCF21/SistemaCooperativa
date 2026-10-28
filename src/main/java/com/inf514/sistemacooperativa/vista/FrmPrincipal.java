@@ -181,7 +181,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         lblCerrarSeccion.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblCerrarSeccion.setForeground(new java.awt.Color(255, 255, 255));
         lblCerrarSeccion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/exit-white-24.png"))); // NOI18N
-        lblCerrarSeccion.setText("Cerrar Seccion");
+        lblCerrarSeccion.setText("Cerrar Sesión");
         lblCerrarSeccion.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lblCerrarSeccionMouseClicked(evt);
@@ -299,7 +299,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         lblPrestamo.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblPrestamo.setForeground(new java.awt.Color(0, 0, 0));
         lblPrestamo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/prestamos-24px.png"))); // NOI18N
-        lblPrestamo.setText("Prestamo");
+        lblPrestamo.setText("Préstamo");
 
         javax.swing.GroupLayout pnlPrestamoBotonLayout = new javax.swing.GroupLayout(pnlPrestamoBoton);
         pnlPrestamoBoton.setLayout(pnlPrestamoBotonLayout);
@@ -462,7 +462,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         lblVersion.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblVersion.setForeground(new java.awt.Color(0, 0, 0));
-        lblVersion.setText("Version:");
+        lblVersion.setText("Versión:");
 
         lblFecha.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblFecha.setForeground(new java.awt.Color(0, 0, 0));

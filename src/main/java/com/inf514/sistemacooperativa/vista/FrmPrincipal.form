@@ -173,7 +173,7 @@
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/iconos/exit-white-24.png"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Cerrar Seccion"/>
+                <Property name="text" type="java.lang.String" value="Cerrar Sesi&#xf3;n"/>
               </Properties>
               <Events>
                 <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="lblCerrarSeccionMouseClicked"/>
@@ -356,7 +356,7 @@
                     <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                       <Image iconType="3" name="/iconos/prestamos-24px.png"/>
                     </Property>
-                    <Property name="text" type="java.lang.String" value="Prestamo"/>
+                    <Property name="text" type="java.lang.String" value="Pr&#xe9;stamo"/>
                   </Properties>
                 </Component>
               </SubComponents>
@@ -578,7 +578,7 @@
                 <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                   <Color blue="0" green="0" red="0" type="rgb"/>
                 </Property>
-                <Property name="text" type="java.lang.String" value="Version:"/>
+                <Property name="text" type="java.lang.String" value="Versi&#xf3;n:"/>
               </Properties>
             </Component>
             <Component class="javax.swing.JLabel" name="lblFecha">

@@ -51,11 +51,11 @@ public class PnlLogin extends javax.swing.JPanel {
 
         lblInicioDeSesion.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lblInicioDeSesion.setForeground(new java.awt.Color(0, 0, 0));
-        lblInicioDeSesion.setText("Inicio de Sesion");
+        lblInicioDeSesion.setText("Inicio de Sesión");
 
         lblCedula.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblCedula.setForeground(new java.awt.Color(0, 0, 0));
-        lblCedula.setText("Cedula");
+        lblCedula.setText("Cédula");
 
         txtCedula.setBackground(new java.awt.Color(244, 239, 230));
         txtCedula.setText("Digite su Cedula sin guiones");

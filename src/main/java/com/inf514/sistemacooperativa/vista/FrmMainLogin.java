@@ -56,12 +56,12 @@ public class FrmMainLogin extends javax.swing.JFrame {
 
         lblCooperativa.setBackground(new java.awt.Color(221, 238, 249));
 
-        lblcoop.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblcoop.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         lblcoop.setForeground(new java.awt.Color(0, 0, 0));
         lblcoop.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblcoop.setText("Cooperativa");
 
-        lblManosALaObra.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblManosALaObra.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
         lblManosALaObra.setForeground(new java.awt.Color(0, 0, 0));
         lblManosALaObra.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblManosALaObra.setText("Manos a la Obra");
@@ -72,35 +72,38 @@ public class FrmMainLogin extends javax.swing.JFrame {
         lblCooperativa.setLayout(lblCooperativaLayout);
         lblCooperativaLayout.setHorizontalGroup(
             lblCooperativaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, lblCooperativaLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(lblCooperativaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblcoop, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblManosALaObra))
-                .addGap(111, 111, 111))
             .addGroup(lblCooperativaLayout.createSequentialGroup()
-                .addGap(61, 61, 61)
-                .addComponent(lblIconoCooperativa, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(93, Short.MAX_VALUE))
+                .addGroup(lblCooperativaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(lblCooperativaLayout.createSequentialGroup()
+                        .addGap(61, 61, 61)
+                        .addGroup(lblCooperativaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(lblCooperativaLayout.createSequentialGroup()
+                                .addGap(6, 6, 6)
+                                .addComponent(lblcoop, javax.swing.GroupLayout.PREFERRED_SIZE, 248, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lblIconoCooperativa, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(lblCooperativaLayout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(lblManosALaObra, javax.swing.GroupLayout.PREFERRED_SIZE, 347, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(45, Short.MAX_VALUE))
         );
         lblCooperativaLayout.setVerticalGroup(
             lblCooperativaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, lblCooperativaLayout.createSequentialGroup()
-                .addContainerGap(113, Short.MAX_VALUE)
+                .addContainerGap(97, Short.MAX_VALUE)
                 .addComponent(lblIconoCooperativa, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(46, 46, 46)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblcoop, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(18, 18, 18)
                 .addComponent(lblManosALaObra)
-                .addGap(80, 80, 80))
+                .addGap(102, 102, 102))
         );
 
         backgroundMainLogin.add(lblCooperativa, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 420, 610));
 
         lblSistemaDeCooperativa.setFont(new java.awt.Font("Segoe UI", 1, 48)); // NOI18N
-        lblSistemaDeCooperativa.setForeground(new java.awt.Color(0, 0, 0));
-        lblSistemaDeCooperativa.setText("Sistema de cooperativa");
-        backgroundMainLogin.add(lblSistemaDeCooperativa, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 20, -1, -1));
+        lblSistemaDeCooperativa.setForeground(new java.awt.Color(255, 255, 255));
+        lblSistemaDeCooperativa.setText("Sistema de Cooperativa");
+        backgroundMainLogin.add(lblSistemaDeCooperativa, new org.netbeans.lib.awtextra.AbsoluteConstraints(510, 30, -1, -1));
 
         javax.swing.GroupLayout pnlContenedorLayout = new javax.swing.GroupLayout(pnlContenedor);
         pnlContenedor.setLayout(pnlContenedorLayout);
