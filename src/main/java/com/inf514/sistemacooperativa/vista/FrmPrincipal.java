@@ -3,41 +3,106 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package com.inf514.sistemacooperativa.vista;
+
+import com.inf514.sistemacooperativa.modelo.Usuario;
 import static com.inf514.sistemacooperativa.utilidades.ManejadorFechas.obtenerFecha;
 import com.inf514.sistemacooperativa.utilidades.ConfiguracionGlobal;
+import java.awt.Color;
+import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+
 /**
  *
  * @author jfria
  */
 public class FrmPrincipal extends javax.swing.JFrame {
-    
+
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmPrincipal.class.getName());
+    private JPanel botonActivo;
 
     /**
      * Creates new form ResgirterMainScreen
      */
-    public FrmPrincipal() {
+    public FrmPrincipal(Usuario usuario) {
         initComponents();
-        
-        mostrarPanel(new PnlMiembros());
+
+        botonActivo = pnlInicioBoton;
+        seleccionarBoton(pnlInicioBoton);
+        mostrarPanel(new PnlInicio());
+
         lblFechaActual.setText(obtenerFecha());
-        lblVersion.setText("Version: "+ConfiguracionGlobal.VERSION_APP);
+        lblVersion.setText("Version: " + ConfiguracionGlobal.VERSION_APP);
+        
+        if(usuario != null){
+            lblUsuarioLogeado.setText("Bienvenido: "+ usuario.getNombreCompleto());
+        }
     }
-    
+
     private void mostrarPanel(javax.swing.JPanel panelNuevo) {
         //ajusta el panel entrante a la dimensiones del contenedor
-       
+
         panelNuevo.setSize(pnlContenedor.getWidth(), pnlContenedor.getHeight());
         panelNuevo.setLocation(0, 0);
-       //limpia el contenedor y añade la nueva vista
+        //limpia el contenedor y añade la nueva vista
         pnlContenedor.removeAll();
         pnlContenedor.add(panelNuevo, java.awt.BorderLayout.CENTER);
         //refresca la interfaz grafica para que los cambios sean visible 
         pnlContenedor.revalidate();
         pnlContenedor.repaint();
     }
-    
-    
+
+    private void seleccionarBoton(JPanel botonSeleccionado) {
+        Color colorBase = new Color(221, 238, 249);
+        Color colorBotonSeleccionado = new Color(24, 75, 95);
+
+        pnlInicioBoton.setBackground(colorBase);
+        lblInicio.setForeground(Color.BLACK);
+        lblInicio.setIcon(new ImageIcon(getClass().getResource("/iconos/inicio-24.png")));
+
+        pnlMiembroBoton.setBackground(colorBase);
+        lblMiembro.setForeground(Color.BLACK);
+        lblMiembro.setIcon(new ImageIcon(getClass().getResource("/iconos/miembrosicon-24.png")));
+
+        pnlPrestamoBoton.setBackground(colorBase);
+        lblPrestamo.setForeground(Color.BLACK);
+        lblPrestamo.setIcon(new ImageIcon(getClass().getResource("/iconos/prestamos-24.png")));
+
+        pnlAhorroBoton.setBackground(colorBase);
+        lblAhorro.setForeground(Color.BLACK);
+        lblAhorro.setIcon(new ImageIcon(getClass().getResource("/iconos/Ahorro-24.png")));
+
+        pnlPresupuestoBoton.setBackground(colorBase);
+        lblPresupuesto.setForeground(Color.BLACK);
+        lblPresupuesto.setIcon(new ImageIcon(getClass().getResource("/iconos/presupuestos-24.png")));
+
+        botonSeleccionado.setBackground(colorBotonSeleccionado);
+
+        if (botonSeleccionado == pnlInicioBoton) {
+            lblInicio.setForeground(Color.WHITE);
+            lblInicio.setIcon(new ImageIcon(getClass().getResource("/iconos/inicio-white-24.png")));
+        }
+        if (botonSeleccionado == pnlMiembroBoton) {
+            lblMiembro.setForeground(Color.WHITE);
+            lblMiembro.setIcon(new ImageIcon(getClass().getResource("/iconos/usuarios-white-alt-24.png")));
+        }
+        if (botonSeleccionado == pnlPrestamoBoton) {
+            lblPrestamo.setForeground(Color.WHITE);
+            lblPrestamo.setIcon(new ImageIcon(getClass().getResource("/iconos/prestamos-white-24.png")));
+        }
+        if (botonSeleccionado == pnlAhorroBoton) {
+            lblAhorro.setForeground(Color.WHITE);
+            lblAhorro.setIcon(new ImageIcon(getClass().getResource("/iconos/Ahorro-white-24.png")));
+        }
+        if (botonSeleccionado == pnlPresupuestoBoton) {
+            lblPresupuesto.setForeground(Color.WHITE);
+            lblPresupuesto.setIcon(new ImageIcon(getClass().getResource("/iconos/presupuestos-white-24.png")));
+        }
+
+        botonActivo = botonSeleccionado;
+
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -52,16 +117,21 @@ public class FrmPrincipal extends javax.swing.JFrame {
         pnlLogo = new javax.swing.JPanel();
         txtSistemadeCooperativa = new javax.swing.JLabel();
         txtLogo = new javax.swing.JLabel();
+        lblUsuarioLogeado = new javax.swing.JLabel();
+        lblCerrarSeccion = new javax.swing.JLabel();
+        lblUsuarioIcono = new javax.swing.JLabel();
         pnlContenedor = new javax.swing.JPanel();
         pnlSidePanel = new javax.swing.JPanel();
-        panelInicioBoton = new javax.swing.JPanel();
-        txtInicio = new javax.swing.JLabel();
-        panelMienbroBoton = new javax.swing.JPanel();
-        txtMiembroBoton = new javax.swing.JLabel();
-        panelPestamoBoton = new javax.swing.JPanel();
-        txtPrestamosBoton = new javax.swing.JLabel();
-        panelAhorroBoton = new javax.swing.JPanel();
-        lblAhoros = new javax.swing.JLabel();
+        pnlInicioBoton = new javax.swing.JPanel();
+        lblInicio = new javax.swing.JLabel();
+        pnlPrestamoBoton = new javax.swing.JPanel();
+        lblPrestamo = new javax.swing.JLabel();
+        pnlAhorroBoton = new javax.swing.JPanel();
+        lblAhorro = new javax.swing.JLabel();
+        pnlPresupuestoBoton = new javax.swing.JPanel();
+        lblPresupuesto = new javax.swing.JLabel();
+        pnlMiembroBoton = new javax.swing.JPanel();
+        lblMiembro = new javax.swing.JLabel();
         pnlBottonPanel = new javax.swing.JPanel();
         lblVersion = new javax.swing.JLabel();
         lblFecha = new javax.swing.JLabel();
@@ -104,23 +174,60 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 .addGap(24, 24, 24))
         );
 
+        lblUsuarioLogeado.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblUsuarioLogeado.setForeground(new java.awt.Color(255, 255, 255));
+        lblUsuarioLogeado.setText("Bienvenido: ");
+
+        lblCerrarSeccion.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblCerrarSeccion.setForeground(new java.awt.Color(255, 255, 255));
+        lblCerrarSeccion.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/exit-white-24.png"))); // NOI18N
+        lblCerrarSeccion.setText("Cerrar Sesión");
+        lblCerrarSeccion.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lblCerrarSeccionMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lblCerrarSeccionMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lblCerrarSeccionMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                lblCerrarSeccionMousePressed(evt);
+            }
+        });
+
+        lblUsuarioIcono.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/circulo-de-usuario-64.png"))); // NOI18N
+
         javax.swing.GroupLayout pnlHeaderPanelLayout = new javax.swing.GroupLayout(pnlHeaderPanel);
         pnlHeaderPanel.setLayout(pnlHeaderPanelLayout);
         pnlHeaderPanelLayout.setHorizontalGroup(
             pnlHeaderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlHeaderPanelLayout.createSequentialGroup()
                 .addComponent(pnlLogo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 604, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 297, Short.MAX_VALUE)
+                .addComponent(lblUsuarioIcono)
+                .addGap(18, 18, 18)
+                .addGroup(pnlHeaderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblCerrarSeccion, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblUsuarioLogeado, javax.swing.GroupLayout.PREFERRED_SIZE, 279, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
         pnlHeaderPanelLayout.setVerticalGroup(
             pnlHeaderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlHeaderPanelLayout.createSequentialGroup()
-                .addGap(34, 34, 34)
-                .addComponent(pnlLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addGroup(pnlHeaderPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(pnlLogo, javax.swing.GroupLayout.PREFERRED_SIZE, 73, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(pnlHeaderPanelLayout.createSequentialGroup()
+                        .addComponent(lblUsuarioLogeado, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lblCerrarSeccion))
+                    .addComponent(lblUsuarioIcono))
+                .addContainerGap(12, Short.MAX_VALUE))
         );
 
-        pnbackground.add(pnlHeaderPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, -10, 1210, 110));
+        pnbackground.add(pnlHeaderPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1270, 110));
 
         pnlContenedor.setBackground(new java.awt.Color(244, 239, 230));
 
@@ -128,178 +235,234 @@ public class FrmPrincipal extends javax.swing.JFrame {
         pnlContenedor.setLayout(pnlContenedorLayout);
         pnlContenedorLayout.setHorizontalGroup(
             pnlContenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1040, Short.MAX_VALUE)
+            .addGap(0, 1070, Short.MAX_VALUE)
         );
         pnlContenedorLayout.setVerticalGroup(
             pnlContenedorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 530, Short.MAX_VALUE)
+            .addGap(0, 520, Short.MAX_VALUE)
         );
 
-        pnbackground.add(pnlContenedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 100, 1040, 530));
+        pnbackground.add(pnlContenedor, new org.netbeans.lib.awtextra.AbsoluteConstraints(200, 110, 1070, 520));
 
         pnlSidePanel.setBackground(new java.awt.Color(221, 238, 249));
 
-        panelInicioBoton.setBackground(new java.awt.Color(221, 238, 249));
-        panelInicioBoton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        panelInicioBoton.addMouseListener(new java.awt.event.MouseAdapter() {
+        pnlInicioBoton.setBackground(new java.awt.Color(221, 238, 249));
+        pnlInicioBoton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pnlInicioBoton.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                panelInicioBotonMouseClicked(evt);
-            }
-        });
-
-        txtInicio.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        txtInicio.setForeground(new java.awt.Color(0, 0, 0));
-        txtInicio.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        txtInicio.setText("Inicio");
-
-        javax.swing.GroupLayout panelInicioBotonLayout = new javax.swing.GroupLayout(panelInicioBoton);
-        panelInicioBoton.setLayout(panelInicioBotonLayout);
-        panelInicioBotonLayout.setHorizontalGroup(
-            panelInicioBotonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelInicioBotonLayout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(txtInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(36, 36, 36))
-        );
-        panelInicioBotonLayout.setVerticalGroup(
-            panelInicioBotonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelInicioBotonLayout.createSequentialGroup()
-                .addContainerGap(17, Short.MAX_VALUE)
-                .addComponent(txtInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(16, 16, 16))
-        );
-
-        panelMienbroBoton.setBackground(new java.awt.Color(221, 238, 249));
-        panelMienbroBoton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        panelMienbroBoton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                panelMienbroBotonMouseClicked(evt);
+                pnlInicioBotonMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                panelMienbroBotonMouseEntered(evt);
+                pnlInicioBotonMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                pnlInicioBotonMouseExited(evt);
+            }
+        });
+
+        lblInicio.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblInicio.setForeground(new java.awt.Color(0, 0, 0));
+        lblInicio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/inicio-24px.png"))); // NOI18N
+        lblInicio.setText("inicio");
+
+        javax.swing.GroupLayout pnlInicioBotonLayout = new javax.swing.GroupLayout(pnlInicioBoton);
+        pnlInicioBoton.setLayout(pnlInicioBotonLayout);
+        pnlInicioBotonLayout.setHorizontalGroup(
+            pnlInicioBotonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlInicioBotonLayout.createSequentialGroup()
+                .addGap(50, 50, 50)
+                .addComponent(lblInicio)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        pnlInicioBotonLayout.setVerticalGroup(
+            pnlInicioBotonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlInicioBotonLayout.createSequentialGroup()
+                .addContainerGap(16, Short.MAX_VALUE)
+                .addComponent(lblInicio)
+                .addGap(20, 20, 20))
+        );
+
+        pnlPrestamoBoton.setBackground(new java.awt.Color(221, 238, 249));
+        pnlPrestamoBoton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pnlPrestamoBoton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pnlPrestamoBotonMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                pnlPrestamoBotonMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                pnlPrestamoBotonMouseExited(evt);
+            }
+        });
+
+        lblPrestamo.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblPrestamo.setForeground(new java.awt.Color(0, 0, 0));
+        lblPrestamo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/prestamos-24px.png"))); // NOI18N
+        lblPrestamo.setText("Préstamo");
+
+        javax.swing.GroupLayout pnlPrestamoBotonLayout = new javax.swing.GroupLayout(pnlPrestamoBoton);
+        pnlPrestamoBoton.setLayout(pnlPrestamoBotonLayout);
+        pnlPrestamoBotonLayout.setHorizontalGroup(
+            pnlPrestamoBotonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlPrestamoBotonLayout.createSequentialGroup()
+                .addGap(44, 44, 44)
+                .addComponent(lblPrestamo, javax.swing.GroupLayout.PREFERRED_SIZE, 91, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        pnlPrestamoBotonLayout.setVerticalGroup(
+            pnlPrestamoBotonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlPrestamoBotonLayout.createSequentialGroup()
+                .addGap(19, 19, 19)
+                .addComponent(lblPrestamo)
+                .addContainerGap(27, Short.MAX_VALUE))
+        );
+
+        pnlAhorroBoton.setBackground(new java.awt.Color(221, 238, 249));
+        pnlAhorroBoton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pnlAhorroBoton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pnlAhorroBotonMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                pnlAhorroBotonMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                pnlAhorroBotonMouseExited(evt);
+            }
+        });
+
+        lblAhorro.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblAhorro.setForeground(new java.awt.Color(0, 0, 0));
+        lblAhorro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/Ahorro-24px.png"))); // NOI18N
+        lblAhorro.setText("Ahorro");
+
+        javax.swing.GroupLayout pnlAhorroBotonLayout = new javax.swing.GroupLayout(pnlAhorroBoton);
+        pnlAhorroBoton.setLayout(pnlAhorroBotonLayout);
+        pnlAhorroBotonLayout.setHorizontalGroup(
+            pnlAhorroBotonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlAhorroBotonLayout.createSequentialGroup()
+                .addGap(43, 43, 43)
+                .addComponent(lblAhorro)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        pnlAhorroBotonLayout.setVerticalGroup(
+            pnlAhorroBotonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlAhorroBotonLayout.createSequentialGroup()
+                .addContainerGap(24, Short.MAX_VALUE)
+                .addComponent(lblAhorro)
+                .addGap(22, 22, 22))
+        );
+
+        pnlPresupuestoBoton.setBackground(new java.awt.Color(221, 238, 249));
+        pnlPresupuestoBoton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pnlPresupuestoBoton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pnlPresupuestoBotonMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                pnlPresupuestoBotonMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                pnlPresupuestoBotonMouseExited(evt);
+            }
+        });
+
+        lblPresupuesto.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblPresupuesto.setForeground(new java.awt.Color(0, 0, 0));
+        lblPresupuesto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/presupuestos-24px.png"))); // NOI18N
+        lblPresupuesto.setText("Presupuesto");
+
+        javax.swing.GroupLayout pnlPresupuestoBotonLayout = new javax.swing.GroupLayout(pnlPresupuestoBoton);
+        pnlPresupuestoBoton.setLayout(pnlPresupuestoBotonLayout);
+        pnlPresupuestoBotonLayout.setHorizontalGroup(
+            pnlPresupuestoBotonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlPresupuestoBotonLayout.createSequentialGroup()
+                .addGap(44, 44, 44)
+                .addComponent(lblPresupuesto)
+                .addContainerGap(59, Short.MAX_VALUE))
+        );
+        pnlPresupuestoBotonLayout.setVerticalGroup(
+            pnlPresupuestoBotonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlPresupuestoBotonLayout.createSequentialGroup()
+                .addContainerGap(27, Short.MAX_VALUE)
+                .addComponent(lblPresupuesto)
+                .addGap(22, 22, 22))
+        );
+
+        pnlMiembroBoton.setBackground(new java.awt.Color(221, 238, 249));
+        pnlMiembroBoton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pnlMiembroBoton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pnlMiembroBotonMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                pnlMiembroBotonMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                pnlMiembroBotonMouseExited(evt);
             }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                panelMienbroBotonMousePressed(evt);
+                pnlMiembroBotonMousePressed(evt);
             }
             public void mouseReleased(java.awt.event.MouseEvent evt) {
-                panelMienbroBotonMouseReleased(evt);
+                pnlMiembroBotonMouseReleased(evt);
             }
         });
 
-        txtMiembroBoton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        txtMiembroBoton.setForeground(new java.awt.Color(0, 0, 0));
-        txtMiembroBoton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        txtMiembroBoton.setText("Miembros");
-        txtMiembroBoton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        lblMiembro.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        lblMiembro.setForeground(new java.awt.Color(0, 0, 0));
+        lblMiembro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/miembrosicon-24px.png"))); // NOI18N
+        lblMiembro.setText("Miembros");
 
-        javax.swing.GroupLayout panelMienbroBotonLayout = new javax.swing.GroupLayout(panelMienbroBoton);
-        panelMienbroBoton.setLayout(panelMienbroBotonLayout);
-        panelMienbroBotonLayout.setHorizontalGroup(
-            panelMienbroBotonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelMienbroBotonLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(txtMiembroBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 88, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(19, Short.MAX_VALUE))
-        );
-        panelMienbroBotonLayout.setVerticalGroup(
-            panelMienbroBotonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelMienbroBotonLayout.createSequentialGroup()
-                .addContainerGap(16, Short.MAX_VALUE)
-                .addComponent(txtMiembroBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(16, 16, 16))
-        );
-
-        panelPestamoBoton.setBackground(new java.awt.Color(221, 238, 249));
-        panelPestamoBoton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        panelPestamoBoton.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                panelPestamoBotonMouseClicked(evt);
-            }
-        });
-
-        txtPrestamosBoton.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        txtPrestamosBoton.setForeground(new java.awt.Color(0, 0, 0));
-        txtPrestamosBoton.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        txtPrestamosBoton.setText("Prestamos");
-        txtPrestamosBoton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        javax.swing.GroupLayout panelPestamoBotonLayout = new javax.swing.GroupLayout(panelPestamoBoton);
-        panelPestamoBoton.setLayout(panelPestamoBotonLayout);
-        panelPestamoBotonLayout.setHorizontalGroup(
-            panelPestamoBotonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelPestamoBotonLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
-                .addComponent(txtPrestamosBoton, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+        javax.swing.GroupLayout pnlMiembroBotonLayout = new javax.swing.GroupLayout(pnlMiembroBoton);
+        pnlMiembroBoton.setLayout(pnlMiembroBotonLayout);
+        pnlMiembroBotonLayout.setHorizontalGroup(
+            pnlMiembroBotonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlMiembroBotonLayout.createSequentialGroup()
+                .addGap(45, 45, 45)
+                .addComponent(lblMiembro)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
-        panelPestamoBotonLayout.setVerticalGroup(
-            panelPestamoBotonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelPestamoBotonLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(txtPrestamosBoton, javax.swing.GroupLayout.DEFAULT_SIZE, 46, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        panelAhorroBoton.setBackground(new java.awt.Color(221, 238, 249));
-        panelAhorroBoton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-
-        lblAhoros.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        lblAhoros.setForeground(new java.awt.Color(0, 0, 0));
-        lblAhoros.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lblAhoros.setText("Ahorros");
-
-        javax.swing.GroupLayout panelAhorroBotonLayout = new javax.swing.GroupLayout(panelAhorroBoton);
-        panelAhorroBoton.setLayout(panelAhorroBotonLayout);
-        panelAhorroBotonLayout.setHorizontalGroup(
-            panelAhorroBotonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelAhorroBotonLayout.createSequentialGroup()
-                .addGap(33, 33, 33)
-                .addComponent(lblAhoros, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-        );
-        panelAhorroBotonLayout.setVerticalGroup(
-            panelAhorroBotonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelAhorroBotonLayout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(lblAhoros, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(17, Short.MAX_VALUE))
+        pnlMiembroBotonLayout.setVerticalGroup(
+            pnlMiembroBotonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(lblMiembro, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 60, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout pnlSidePanelLayout = new javax.swing.GroupLayout(pnlSidePanel);
         pnlSidePanel.setLayout(pnlSidePanelLayout);
         pnlSidePanelLayout.setHorizontalGroup(
             pnlSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlSidePanelLayout.createSequentialGroup()
-                .addGap(29, 29, 29)
-                .addGroup(pnlSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(panelAhorroBoton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelPestamoBoton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelMienbroBoton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(panelInicioBoton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addContainerGap(16, Short.MAX_VALUE))
+            .addComponent(pnlMiembroBoton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlInicioBoton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlPrestamoBoton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlAhorroBoton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(pnlPresupuestoBoton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         pnlSidePanelLayout.setVerticalGroup(
             pnlSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlSidePanelLayout.createSequentialGroup()
-                .addContainerGap(80, Short.MAX_VALUE)
-                .addComponent(panelInicioBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(43, 43, 43)
-                .addComponent(panelMienbroBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(37, 37, 37)
-                .addComponent(panelPestamoBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(42, 42, 42)
-                .addComponent(panelAhorroBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(78, 78, 78))
+                .addContainerGap(38, Short.MAX_VALUE)
+                .addComponent(pnlInicioBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(pnlMiembroBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(pnlPrestamoBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(28, 28, 28)
+                .addComponent(pnlAhorroBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(26, 26, 26)
+                .addComponent(pnlPresupuestoBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(53, 53, 53))
         );
 
-        pnbackground.add(pnlSidePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, -1, 530));
+        pnbackground.add(pnlSidePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 200, 530));
 
         pnlBottonPanel.setBackground(new java.awt.Color(221, 238, 249));
         pnlBottonPanel.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED, null, new java.awt.Color(51, 51, 51)));
 
         lblVersion.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblVersion.setForeground(new java.awt.Color(0, 0, 0));
-        lblVersion.setText("Version:");
+        lblVersion.setText("Versión:");
 
         lblFecha.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblFecha.setForeground(new java.awt.Color(0, 0, 0));
@@ -316,23 +479,25 @@ public class FrmPrincipal extends javax.swing.JFrame {
                 .addComponent(lblFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(lblFechaActual, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 560, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 698, Short.MAX_VALUE)
                 .addComponent(lblVersion)
-                .addGap(132, 132, 132))
+                .addGap(54, 54, 54))
         );
         pnlBottonPanelLayout.setVerticalGroup(
             pnlBottonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlBottonPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(pnlBottonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblVersion, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, pnlBottonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(lblFecha)
-                        .addComponent(lblFechaActual)))
+                .addGroup(pnlBottonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlBottonPanelLayout.createSequentialGroup()
+                        .addGroup(pnlBottonPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(lblFecha)
+                            .addComponent(lblFechaActual))
+                        .addGap(0, 8, Short.MAX_VALUE))
+                    .addComponent(lblVersion, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 24, Short.MAX_VALUE))
                 .addContainerGap())
         );
 
-        pnbackground.add(pnlBottonPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 630, 1210, 40));
+        pnbackground.add(pnlBottonPanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 630, 1270, 40));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -350,56 +515,157 @@ public class FrmPrincipal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void panelMienbroBotonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelMienbroBotonMousePressed
+    private void pnlMiembroBotonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlMiembroBotonMousePressed
 
-        panelMienbroBoton.setBackground(new java.awt.Color(190,221,239));        // TODO add your handling code here:
-    }//GEN-LAST:event_panelMienbroBotonMousePressed
+        pnlMiembroBoton.setBackground(new java.awt.Color(190, 221, 239));        // TODO add your handling code here:
+    }//GEN-LAST:event_pnlMiembroBotonMousePressed
 
-    private void panelMienbroBotonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelMienbroBotonMouseReleased
+    private void pnlMiembroBotonMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlMiembroBotonMouseReleased
         // TODO add your handling code here:
-        panelMienbroBoton.setBackground(new java.awt.Color(221, 238, 249));
-    }//GEN-LAST:event_panelMienbroBotonMouseReleased
+        pnlMiembroBoton.setBackground(new java.awt.Color(221, 238, 249));
+    }//GEN-LAST:event_pnlMiembroBotonMouseReleased
 
-    private void panelInicioBotonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelInicioBotonMouseClicked
+    private void pnlInicioBotonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlInicioBotonMouseClicked
         // TODO add your handling code here:
+        seleccionarBoton(pnlInicioBoton);
         mostrarPanel(new PnlInicio());
-    }//GEN-LAST:event_panelInicioBotonMouseClicked
+    }//GEN-LAST:event_pnlInicioBotonMouseClicked
 
-    private void panelMienbroBotonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelMienbroBotonMouseClicked
+    private void pnlMiembroBotonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlMiembroBotonMouseClicked
         // TODO add your handling code here:
+        seleccionarBoton(pnlMiembroBoton);
         mostrarPanel(new PnlMiembros());
-    }//GEN-LAST:event_panelMienbroBotonMouseClicked
+    }//GEN-LAST:event_pnlMiembroBotonMouseClicked
 
-    private void panelPestamoBotonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelPestamoBotonMouseClicked
+    private void pnlPrestamoBotonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlPrestamoBotonMouseClicked
         // TODO add your handling code here:
+        seleccionarBoton(pnlPrestamoBoton);
         mostrarPanel(new PnlPrestamos());
-    }//GEN-LAST:event_panelPestamoBotonMouseClicked
+    }//GEN-LAST:event_pnlPrestamoBotonMouseClicked
 
-    private void panelMienbroBotonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_panelMienbroBotonMouseEntered
+    private void pnlMiembroBotonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlMiembroBotonMouseEntered
+        if (botonActivo != pnlMiembroBoton) {
+            pnlMiembroBoton.setBackground(new Color(190, 221, 239));
+        }
+    }//GEN-LAST:event_pnlMiembroBotonMouseEntered
+
+    private void pnlPrestamoBotonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlPrestamoBotonMouseEntered
+        if (botonActivo != pnlPrestamoBoton) {
+            pnlPrestamoBoton.setBackground(new Color(190, 221, 239));
+        }
+    }//GEN-LAST:event_pnlPrestamoBotonMouseEntered
+
+    private void pnlPresupuestoBotonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlPresupuestoBotonMouseClicked
         // TODO add your handling code here:
-        panelMienbroBoton.setBackground(new java.awt.Color(190,221,239));  
-    }//GEN-LAST:event_panelMienbroBotonMouseEntered
+        seleccionarBoton(pnlPresupuestoBoton);
+        mostrarPanel(new PnlPresupuesto());
+    }//GEN-LAST:event_pnlPresupuestoBotonMouseClicked
+
+    private void pnlInicioBotonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlInicioBotonMouseEntered
+        if (botonActivo != pnlInicioBoton) {
+            pnlInicioBoton.setBackground(new Color(190, 221, 239));
+        }
+    }//GEN-LAST:event_pnlInicioBotonMouseEntered
+
+    private void pnlInicioBotonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlInicioBotonMouseExited
+        if (botonActivo != pnlInicioBoton) {
+            pnlInicioBoton.setBackground(new Color(221, 238, 249));
+        }
+    }//GEN-LAST:event_pnlInicioBotonMouseExited
+
+    private void pnlMiembroBotonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlMiembroBotonMouseExited
+        if (botonActivo != pnlMiembroBoton) {
+            pnlMiembroBoton.setBackground(new Color(221, 238, 249));
+        }
+    }//GEN-LAST:event_pnlMiembroBotonMouseExited
+
+    private void pnlPresupuestoBotonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlPresupuestoBotonMouseEntered
+        if (botonActivo != pnlPresupuestoBoton) {
+            pnlPresupuestoBoton.setBackground(new Color(190, 221, 239));
+        }
+    }//GEN-LAST:event_pnlPresupuestoBotonMouseEntered
+
+    private void pnlPresupuestoBotonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlPresupuestoBotonMouseExited
+        if (botonActivo != pnlPresupuestoBoton) {
+            pnlPresupuestoBoton.setBackground(new Color(221, 238, 249));
+        }
+    }//GEN-LAST:event_pnlPresupuestoBotonMouseExited
+
+    private void pnlAhorroBotonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlAhorroBotonMouseEntered
+        if (botonActivo != pnlAhorroBoton) {
+            pnlAhorroBoton.setBackground(new Color(190, 221, 239));
+        }
+    }//GEN-LAST:event_pnlAhorroBotonMouseEntered
+
+    private void pnlAhorroBotonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlAhorroBotonMouseExited
+        if (botonActivo != pnlAhorroBoton) {
+            pnlAhorroBoton.setBackground(new Color(221, 238, 249));
+        }
+    }//GEN-LAST:event_pnlAhorroBotonMouseExited
+
+    private void pnlPrestamoBotonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlPrestamoBotonMouseExited
+        if (botonActivo != pnlPrestamoBoton) {
+            pnlPrestamoBoton.setBackground(new Color(221, 238, 249));
+        }
+    }//GEN-LAST:event_pnlPrestamoBotonMouseExited
+
+    private void pnlAhorroBotonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlAhorroBotonMouseClicked
+        seleccionarBoton(pnlAhorroBoton);
+        mostrarPanel(new PnlAhorros());
+    }//GEN-LAST:event_pnlAhorroBotonMouseClicked
+
+    private void lblCerrarSeccionMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCerrarSeccionMousePressed
+        // TODO add your handling code here:
+       
+    }//GEN-LAST:event_lblCerrarSeccionMousePressed
+
+    private void lblCerrarSeccionMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCerrarSeccionMouseEntered
+         lblCerrarSeccion.setForeground(Color.red);
+        lblCerrarSeccion.setIcon(new ImageIcon(getClass().getResource("/iconos/salida-red-24.png")));
+    }//GEN-LAST:event_lblCerrarSeccionMouseEntered
+
+    private void lblCerrarSeccionMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCerrarSeccionMouseExited
+         lblCerrarSeccion.setForeground(Color.white);
+        lblCerrarSeccion.setIcon(new ImageIcon(getClass().getResource("/iconos/exit-white-24.png")));
+    }//GEN-LAST:event_lblCerrarSeccionMouseExited
+
+    private void lblCerrarSeccionMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lblCerrarSeccionMouseClicked
+        int confirmacion = JOptionPane.showConfirmDialog(this,"¿Estas seguro que desea Cerrar sesion?","Confirmar Salida",JOptionPane.YES_NO_OPTION,JOptionPane.QUESTION_MESSAGE);
+        
+        if(confirmacion == JOptionPane.YES_OPTION){
+            FrmMainLogin ventanaLogin = new FrmMainLogin();
+            ventanaLogin.setVisible(true);
+            ventanaLogin.setLocationRelativeTo(null);
+            
+            this.dispose();
+        }
+    }//GEN-LAST:event_lblCerrarSeccionMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel lblAhoros;
+    private javax.swing.JLabel lblAhorro;
+    private javax.swing.JLabel lblCerrarSeccion;
     private javax.swing.JLabel lblFecha;
     private javax.swing.JLabel lblFechaActual;
+    private javax.swing.JLabel lblInicio;
+    private javax.swing.JLabel lblMiembro;
+    private javax.swing.JLabel lblPrestamo;
+    private javax.swing.JLabel lblPresupuesto;
+    private javax.swing.JLabel lblUsuarioIcono;
+    private javax.swing.JLabel lblUsuarioLogeado;
     private javax.swing.JLabel lblVersion;
-    private javax.swing.JPanel panelAhorroBoton;
-    private javax.swing.JPanel panelInicioBoton;
-    private javax.swing.JPanel panelMienbroBoton;
-    private javax.swing.JPanel panelPestamoBoton;
     private javax.swing.JPanel pnbackground;
+    private javax.swing.JPanel pnlAhorroBoton;
     private javax.swing.JPanel pnlBottonPanel;
     private javax.swing.JPanel pnlContenedor;
     private javax.swing.JPanel pnlHeaderPanel;
+    private javax.swing.JPanel pnlInicioBoton;
     private javax.swing.JPanel pnlLogo;
+    private javax.swing.JPanel pnlMiembroBoton;
+    private javax.swing.JPanel pnlPrestamoBoton;
+    private javax.swing.JPanel pnlPresupuestoBoton;
     private javax.swing.JPanel pnlSidePanel;
-    private javax.swing.JLabel txtInicio;
     private javax.swing.JLabel txtLogo;
-    private javax.swing.JLabel txtMiembroBoton;
-    private javax.swing.JLabel txtPrestamosBoton;
     private javax.swing.JLabel txtSistemadeCooperativa;
     // End of variables declaration//GEN-END:variables
 }

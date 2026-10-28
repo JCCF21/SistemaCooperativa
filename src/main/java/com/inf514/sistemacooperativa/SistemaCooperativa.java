@@ -10,20 +10,5 @@ public class SistemaCooperativa {
            pantallaLogin.setLocationRelativeTo(null);
            pantallaLogin.setVisible(true);   
         });
-//        java.awt.EventQueue.invokeLater(()-> {
-//            FrmPrincipal pantallaMiembro = new FrmPrincipal();
-//            pantallaMiembro.setVisible(true);
-//            pantallaMiembro.setLocationRelativeTo(null);
-//        });
-    }*/
-    public static void main(String[] args) {
-    java.awt.EventQueue.invokeLater(() -> {
-        javax.swing.JFrame ventana = new javax.swing.JFrame("Préstamos");
-        ventana.setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
-        ventana.setContentPane(new PnlPrestamos());
-        ventana.pack();
-        ventana.setLocationRelativeTo(null);
-        ventana.setVisible(true);
-    });
-}
+    }
 }

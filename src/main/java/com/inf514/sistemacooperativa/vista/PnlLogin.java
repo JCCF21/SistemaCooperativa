@@ -4,6 +4,12 @@
  */
 package com.inf514.sistemacooperativa.vista;
 
+import com.inf514.sistemacooperativa.dao.UsuarioDAO;
+import com.inf514.sistemacooperativa.modelo.Usuario;
+import java.awt.Color;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+
 /**
  *
  * @author jfria
@@ -28,12 +34,12 @@ public class PnlLogin extends javax.swing.JPanel {
 
         pnlBackgroundLogin = new javax.swing.JPanel();
         lblInicioDeSesion = new javax.swing.JLabel();
-        lblNombre = new javax.swing.JLabel();
-        txtNombre = new javax.swing.JTextField();
-        jSeparator1 = new javax.swing.JSeparator();
+        lblCedula = new javax.swing.JLabel();
+        txtCedula = new javax.swing.JTextField();
+        jSeparatorCedulaLogin = new javax.swing.JSeparator();
         lblContrasenia = new javax.swing.JLabel();
-        pwdContrasenia = new javax.swing.JPasswordField();
-        jSeparator2 = new javax.swing.JSeparator();
+        pwdPassword = new javax.swing.JPasswordField();
+        jSeparatorPasswordLogin = new javax.swing.JSeparator();
         pnlBotonIngresar = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         pnlBotonRegistar = new javax.swing.JPanel();
@@ -45,32 +51,54 @@ public class PnlLogin extends javax.swing.JPanel {
 
         lblInicioDeSesion.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lblInicioDeSesion.setForeground(new java.awt.Color(0, 0, 0));
-        lblInicioDeSesion.setText("Inicio de Sesion");
+        lblInicioDeSesion.setText("Inicio de Sesión");
 
-        lblNombre.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        lblNombre.setForeground(new java.awt.Color(0, 0, 0));
-        lblNombre.setText("Cedula");
+        lblCedula.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblCedula.setForeground(new java.awt.Color(0, 0, 0));
+        lblCedula.setText("Cédula");
 
-        txtNombre.setBackground(new java.awt.Color(244, 239, 230));
-        txtNombre.setText("Digite su Cedula sin guiones");
-        txtNombre.setBorder(null);
+        txtCedula.setBackground(new java.awt.Color(244, 239, 230));
+        txtCedula.setText("Digite su Cedula sin guiones");
+        txtCedula.setBorder(null);
+        txtCedula.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                txtCedulaMousePressed(evt);
+            }
+        });
 
-        jSeparator1.setBackground(new java.awt.Color(0, 0, 0));
-        jSeparator1.setForeground(new java.awt.Color(0, 0, 0));
+        jSeparatorCedulaLogin.setBackground(new java.awt.Color(0, 0, 0));
+        jSeparatorCedulaLogin.setForeground(new java.awt.Color(0, 0, 0));
 
         lblContrasenia.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
         lblContrasenia.setForeground(new java.awt.Color(0, 0, 0));
         lblContrasenia.setText("Contraseña:");
 
-        pwdContrasenia.setBackground(new java.awt.Color(244, 239, 230));
-        pwdContrasenia.setText("jPasswordField2");
-        pwdContrasenia.setBorder(null);
+        pwdPassword.setBackground(new java.awt.Color(244, 239, 230));
+        pwdPassword.setText("password");
+        pwdPassword.setBorder(null);
+        pwdPassword.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                pwdPasswordMousePressed(evt);
+            }
+        });
+        pwdPassword.addActionListener(this::pwdPasswordActionPerformed);
 
-        jSeparator2.setBackground(new java.awt.Color(0, 0, 0));
-        jSeparator2.setForeground(new java.awt.Color(0, 0, 0));
+        jSeparatorPasswordLogin.setBackground(new java.awt.Color(0, 0, 0));
+        jSeparatorPasswordLogin.setForeground(new java.awt.Color(0, 0, 0));
 
         pnlBotonIngresar.setBackground(new java.awt.Color(24, 75, 95));
         pnlBotonIngresar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pnlBotonIngresar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                pnlBotonIngresarMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                pnlBotonIngresarMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                pnlBotonIngresarMousePressed(evt);
+            }
+        });
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -98,6 +126,12 @@ public class PnlLogin extends javax.swing.JPanel {
         pnlBotonRegistar.setBackground(new java.awt.Color(24, 75, 95));
         pnlBotonRegistar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         pnlBotonRegistar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                pnlBotonRegistarMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                pnlBotonRegistarMouseExited(evt);
+            }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 pnlBotonRegistarMousePressed(evt);
             }
@@ -136,16 +170,16 @@ public class PnlLogin extends javax.swing.JPanel {
                 .addGap(159, 159, 159)
                 .addGroup(pnlBackgroundLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(lblInicioDeSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lblNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(lblContrasenia)
-                    .addComponent(txtNombre)
-                    .addComponent(jSeparator1)
+                    .addComponent(txtCedula)
+                    .addComponent(jSeparatorCedulaLogin)
                     .addGroup(pnlBackgroundLoginLayout.createSequentialGroup()
                         .addComponent(pnlBotonIngresar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(pnlBotonRegistar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jSeparator2, javax.swing.GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE)
-                    .addComponent(pwdContrasenia))
+                    .addComponent(jSeparatorPasswordLogin, javax.swing.GroupLayout.DEFAULT_SIZE, 295, Short.MAX_VALUE)
+                    .addComponent(pwdPassword))
                 .addGap(0, 196, Short.MAX_VALUE))
         );
         pnlBackgroundLoginLayout.setVerticalGroup(
@@ -154,17 +188,17 @@ public class PnlLogin extends javax.swing.JPanel {
                 .addGap(22, 22, 22)
                 .addComponent(lblInicioDeSesion, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(lblNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jSeparatorCedulaLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblContrasenia)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(pwdContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(pwdPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jSeparatorPasswordLogin, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(43, 43, 43)
                 .addGroup(pnlBackgroundLoginLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(pnlBotonIngresar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -187,19 +221,98 @@ public class PnlLogin extends javax.swing.JPanel {
         
     }//GEN-LAST:event_pnlBotonRegistarMousePressed
 
+    private void pnlBotonIngresarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlBotonIngresarMouseEntered
+        pnlBotonIngresar.setBackground(new Color(8, 60, 74));
+    }//GEN-LAST:event_pnlBotonIngresarMouseEntered
+
+    private void pnlBotonIngresarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlBotonIngresarMouseExited
+        // TODO add your handling code here:
+        pnlBotonIngresar.setBackground(new Color(24,75,95));
+    }//GEN-LAST:event_pnlBotonIngresarMouseExited
+
+    private void pnlBotonRegistarMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlBotonRegistarMouseEntered
+        // TODO add your handling code here:
+        pnlBotonRegistar.setBackground(new Color(8, 60, 74));
+    }//GEN-LAST:event_pnlBotonRegistarMouseEntered
+
+    private void pnlBotonRegistarMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlBotonRegistarMouseExited
+        // TODO add your handling code here:
+        pnlBotonRegistar.setBackground(new Color(24,75,95));
+    }//GEN-LAST:event_pnlBotonRegistarMouseExited
+
+    private void pwdPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pwdPasswordActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pwdPasswordActionPerformed
+
+    private void txtCedulaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtCedulaMousePressed
+        
+        if(txtCedula.getText().equals("Digite su Cedula sin guiones")){
+            txtCedula.setText("");
+            txtCedula.setForeground(Color.BLACK);
+        }
+        if(String.valueOf(pwdPassword.getPassword()).isEmpty()){
+            pwdPassword.setText("password");
+            pwdPassword.setForeground(Color.GRAY);
+        }
+    }//GEN-LAST:event_txtCedulaMousePressed
+
+    private void pwdPasswordMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pwdPasswordMousePressed
+        if(String.valueOf(pwdPassword.getPassword()).equals("password")){
+            pwdPassword.setText("");
+            txtCedula.setForeground(Color.BLACK);
+        }
+        if(txtCedula.getText().isEmpty()){
+            txtCedula.setText("Digite su Cedula sin guiones");
+            txtCedula.setForeground(Color.GRAY);
+        }
+    }//GEN-LAST:event_pwdPasswordMousePressed
+
+    private void pnlBotonIngresarMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlBotonIngresarMousePressed
+        String cedula = txtCedula.getText().toLowerCase().trim();
+        String password = new String(pwdPassword.getPassword()).trim();
+        
+        
+        if(cedula.trim().isEmpty()||cedula.equals("Digite su Cedula sin guiones")|| password.trim().isEmpty() || password.equals("password")){
+            JOptionPane.showMessageDialog(this,"Por favor, ingrese su cedula y contraseña.");
+            return;
+        }
+        try{
+            UsuarioDAO usuario = new UsuarioDAO();
+            Usuario usuarioEncontrado = usuario.buscarPorCedula(cedula);
+            
+            //verificar Credenciales
+            if(usuarioEncontrado != null && usuarioEncontrado.getContrasenia().equals(password)){
+               //cerrar login window y abrir ventana
+               FrmMainLogin ventanaLogin = (FrmMainLogin)SwingUtilities.getWindowAncestor(this);
+               ventanaLogin.dispose();
+               
+               //abriendo Main menu
+               FrmPrincipal ventanaPrincipal = new FrmPrincipal(usuarioEncontrado);
+               ventanaPrincipal.setVisible(true);
+               ventanaPrincipal.setLocationRelativeTo(null);
+            }else{
+                JOptionPane.showMessageDialog(this,"Cedula o Contraseña incorrecta","Error de Autenticacion",JOptionPane.ERROR_MESSAGE);
+            }
+                    
+        }catch(Exception e){
+            JOptionPane.showMessageDialog(this,"Error de Conexion: "+ e.getMessage());
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_pnlBotonIngresarMousePressed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparatorCedulaLogin;
+    private javax.swing.JSeparator jSeparatorPasswordLogin;
+    private javax.swing.JLabel lblCedula;
     private javax.swing.JLabel lblContrasenia;
     private javax.swing.JLabel lblInicioDeSesion;
-    private javax.swing.JLabel lblNombre;
     private javax.swing.JPanel pnlBackgroundLogin;
     private javax.swing.JPanel pnlBotonIngresar;
     private javax.swing.JPanel pnlBotonRegistar;
-    private javax.swing.JPasswordField pwdContrasenia;
-    private javax.swing.JTextField txtNombre;
+    private javax.swing.JPasswordField pwdPassword;
+    private javax.swing.JTextField txtCedula;
     // End of variables declaration//GEN-END:variables
 }
