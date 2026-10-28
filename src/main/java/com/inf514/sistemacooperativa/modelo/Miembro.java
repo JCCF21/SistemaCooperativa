@@ -5,12 +5,21 @@
 package com.inf514.sistemacooperativa.modelo;
 
 import java.util.Date;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author jfria
  */
+@Entity
+@Table(name= "miembros")
 public class Miembro {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String cedula;
     private String nombreCompleto;

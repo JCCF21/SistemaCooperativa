@@ -262,7 +262,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         lblInicio.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblInicio.setForeground(new java.awt.Color(0, 0, 0));
-        lblInicio.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/inicio-24px.png"))); // NOI18N
         lblInicio.setText("inicio");
 
         javax.swing.GroupLayout pnlInicioBotonLayout = new javax.swing.GroupLayout(pnlInicioBoton);
@@ -298,7 +297,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         lblPrestamo.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblPrestamo.setForeground(new java.awt.Color(0, 0, 0));
-        lblPrestamo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/prestamos-24px.png"))); // NOI18N
         lblPrestamo.setText("Préstamo");
 
         javax.swing.GroupLayout pnlPrestamoBotonLayout = new javax.swing.GroupLayout(pnlPrestamoBoton);
@@ -334,7 +332,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         lblAhorro.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblAhorro.setForeground(new java.awt.Color(0, 0, 0));
-        lblAhorro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/Ahorro-24px.png"))); // NOI18N
         lblAhorro.setText("Ahorro");
 
         javax.swing.GroupLayout pnlAhorroBotonLayout = new javax.swing.GroupLayout(pnlAhorroBoton);
@@ -370,7 +367,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         lblPresupuesto.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblPresupuesto.setForeground(new java.awt.Color(0, 0, 0));
-        lblPresupuesto.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/presupuestos-24px.png"))); // NOI18N
         lblPresupuesto.setText("Presupuesto");
 
         javax.swing.GroupLayout pnlPresupuestoBotonLayout = new javax.swing.GroupLayout(pnlPresupuestoBoton);
@@ -412,7 +408,6 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
         lblMiembro.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblMiembro.setForeground(new java.awt.Color(0, 0, 0));
-        lblMiembro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/miembrosicon-24px.png"))); // NOI18N
         lblMiembro.setText("Miembros");
 
         javax.swing.GroupLayout pnlMiembroBotonLayout = new javax.swing.GroupLayout(pnlMiembroBoton);
@@ -442,7 +437,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
         pnlSidePanelLayout.setVerticalGroup(
             pnlSidePanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlSidePanelLayout.createSequentialGroup()
-                .addContainerGap(38, Short.MAX_VALUE)
+                .addContainerGap(70, Short.MAX_VALUE)
                 .addComponent(pnlInicioBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(26, 26, 26)
                 .addComponent(pnlMiembroBoton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
