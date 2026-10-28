@@ -287,7 +287,7 @@ public class PnlLogin extends javax.swing.JPanel {
                ventanaLogin.dispose();
                
                //abriendo Main menu
-               FrmPrincipal ventanaPrincipal = new FrmPrincipal();
+               FrmPrincipal ventanaPrincipal = new FrmPrincipal(usuarioEncontrado);
                ventanaPrincipal.setVisible(true);
                ventanaPrincipal.setLocationRelativeTo(null);
             }else{
