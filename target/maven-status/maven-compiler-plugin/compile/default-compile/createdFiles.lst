@@ -1,5 +1,6 @@
 com\inf514\sistemacooperativa\vista\FrmPrincipal$3.class
 com\inf514\sistemacooperativa\vista\PnlPrestamos.class
+com\inf514\sistemacooperativa\Transacciones.class
 com\inf514\sistemacooperativa\vista\PnlRegistro$1.class
 com\inf514\sistemacooperativa\vista\PnlRegistro.class
 com\inf514\sistemacooperativa\vista\FrmPrincipal.class
@@ -7,6 +8,7 @@ com\inf514\sistemacooperativa\modelo\Miembro.class
 com\inf514\sistemacooperativa\vista\PnlMiembros.class
 com\inf514\sistemacooperativa\SistemaCooperativa.class
 com\inf514\sistemacooperativa\utilidades\ConfiguracionGlobal.class
+com\inf514\sistemacooperativa\vista\FrmTransacciones.class
 com\inf514\sistemacooperativa\vista\PnlInicio.class
 com\inf514\sistemacooperativa\vista\PnlLogin.class
 com\inf514\sistemacooperativa\dao\UsuarioDAO.class
