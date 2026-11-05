@@ -6,6 +6,8 @@ package com.inf514.sistemacooperativa.vista;
 
 
 import java.util.ArrayList;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 
 
 /**
@@ -99,29 +101,10 @@ public PnlPrestamos() {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null}
+
             },
             new String [] {
-                "ID prestamo", "ID Miembro", "Miembro", "Monto RD$", "Cuotas", "Fecha", "Estado"
+                "ID prestamo", "ID Miembro", "Miembro", "Monto RD$", "Cuotas", "Monto x cuota", "Fecha", "Estado"
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -427,12 +410,12 @@ for (Object[] solicitudExistente : solicitudesTemporales) {
 }
 
 
-double monto;
+BigDecimal monto;
 
 try {
-    monto = Double.parseDouble(montoTexto);
+    monto = new BigDecimal(montoTexto);
 
-    if (monto <= 0) {
+    if (monto.compareTo(BigDecimal.ZERO) <= 0) {
         javax.swing.JOptionPane.showMessageDialog(
             this, "El monto debe ser mayor que cero.");
         return;
@@ -444,12 +427,22 @@ try {
     return;
 }
 
+// Calcular monto por cuota
+int cantidadCuotas = Integer.parseInt(cuotas);
+
+BigDecimal montoPorCuota = monto.divide(
+    BigDecimal.valueOf(cantidadCuotas),
+    2,
+    RoundingMode.HALF_UP
+);
+
 Object[] solicitud = {
     idPrestamo,
     cedula,
     nombre,
     monto,
     cuotas,
+    montoPorCuota,
     fecha,
     estado
 };
@@ -498,10 +491,10 @@ if (fila == -1) {
     return;
 }
 
-jTable1.setValueAt("Aprobado", fila, 6);
+jTable1.setValueAt("Aprobado", fila, 7);
 
 if (fila < solicitudesTemporales.size()) {
-    solicitudesTemporales.get(fila)[6] = "Aprobado";
+    solicitudesTemporales.get(fila)[7] = "Aprobado";
 }
 
 javax.swing.JOptionPane.showMessageDialog(
@@ -521,10 +514,10 @@ if (fila == -1) {
     return;
 }
 
-jTable1.setValueAt("Rechazado", fila, 6);
+jTable1.setValueAt("Rechazado", fila, 7);
 
 if (fila < solicitudesTemporales.size()) {
-    solicitudesTemporales.get(fila)[6] = "Rechazado";
+    solicitudesTemporales.get(fila)[7] = "Rechazado";
 }
 
 javax.swing.JOptionPane.showMessageDialog(
