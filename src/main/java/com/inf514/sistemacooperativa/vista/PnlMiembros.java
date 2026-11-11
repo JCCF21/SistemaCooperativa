@@ -1,9 +1,9 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JPanel.java to edit this template
- */
-package com.inf514.sistemacooperativa.vista;
 
+package com.inf514.sistemacooperativa.vista;
+import com.inf514.sistemacooperativa.dao.MiembroDAO;
+import com.inf514.sistemacooperativa.modelo.Miembro;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
 /**
  *
  * @author jfria
@@ -15,8 +15,8 @@ public class PnlMiembros extends javax.swing.JPanel {
      */
     public PnlMiembros() {
         initComponents();
+        cargarTablaMiembros();
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -27,16 +27,13 @@ public class PnlMiembros extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        txtGestionDeMiembros = new javax.swing.JLabel();
-        panelNuevoMiembro = new javax.swing.JPanel();
+        lblGestionDeMiembros = new javax.swing.JLabel();
+        pnlNuevoMiembroBoton = new javax.swing.JPanel();
         txtNuevoMiembro = new javax.swing.JLabel();
         txtPlusIcon = new javax.swing.JLabel();
-        panelExportarListado = new javax.swing.JPanel();
-        txtPageicon = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        panelModificar = new javax.swing.JPanel();
+        pnlModificarBoton = new javax.swing.JPanel();
         txtModificar = new javax.swing.JLabel();
-        panelEliminar = new javax.swing.JPanel();
+        pnlEliminarBoton = new javax.swing.JPanel();
         txtEliminar = new javax.swing.JLabel();
         lblBuscarPorCedulaOID = new javax.swing.JLabel();
         txtBuscarporCedulaOID = new javax.swing.JTextField();
@@ -47,120 +44,128 @@ public class PnlMiembros extends javax.swing.JPanel {
         jScrollPaneTablaMiembros = new javax.swing.JScrollPane();
         tableMiembros = new javax.swing.JTable();
 
-        txtGestionDeMiembros.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
-        txtGestionDeMiembros.setForeground(new java.awt.Color(24, 75, 95));
-        txtGestionDeMiembros.setText("GESTION DE MIEMBROS");
+        setBackground(new java.awt.Color(244, 239, 230));
+        setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lblGestionDeMiembros.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
+        lblGestionDeMiembros.setForeground(new java.awt.Color(24, 75, 95));
+        lblGestionDeMiembros.setText("GESTION DE MIEMBROS");
+        add(lblGestionDeMiembros, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 10, -1, -1));
+
+        pnlNuevoMiembroBoton.setBackground(new java.awt.Color(24, 75, 95));
+        pnlNuevoMiembroBoton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pnlNuevoMiembroBoton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pnlNuevoMiembroBotonMouseClicked(evt);
+            }
+        });
 
         txtNuevoMiembro.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        txtNuevoMiembro.setForeground(new java.awt.Color(255, 255, 255));
         txtNuevoMiembro.setText(" Nuevo Miembro");
 
+        txtPlusIcon.setForeground(new java.awt.Color(255, 255, 255));
         txtPlusIcon.setText("➕");
 
-        javax.swing.GroupLayout panelNuevoMiembroLayout = new javax.swing.GroupLayout(panelNuevoMiembro);
-        panelNuevoMiembro.setLayout(panelNuevoMiembroLayout);
-        panelNuevoMiembroLayout.setHorizontalGroup(
-            panelNuevoMiembroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelNuevoMiembroLayout.createSequentialGroup()
+        javax.swing.GroupLayout pnlNuevoMiembroBotonLayout = new javax.swing.GroupLayout(pnlNuevoMiembroBoton);
+        pnlNuevoMiembroBoton.setLayout(pnlNuevoMiembroBotonLayout);
+        pnlNuevoMiembroBotonLayout.setHorizontalGroup(
+            pnlNuevoMiembroBotonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlNuevoMiembroBotonLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(txtPlusIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtPlusIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 14, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtNuevoMiembro, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(20, 20, 20))
+                .addComponent(txtNuevoMiembro)
+                .addGap(38, 38, 38))
         );
-        panelNuevoMiembroLayout.setVerticalGroup(
-            panelNuevoMiembroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelNuevoMiembroLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelNuevoMiembroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtNuevoMiembro, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
+        pnlNuevoMiembroBotonLayout.setVerticalGroup(
+            pnlNuevoMiembroBotonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlNuevoMiembroBotonLayout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addGroup(pnlNuevoMiembroBotonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtNuevoMiembro)
                     .addComponent(txtPlusIcon))
                 .addContainerGap())
         );
 
-        txtPageicon.setText("📄");
+        add(pnlNuevoMiembroBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 170, 140, 50));
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        jLabel1.setText("Exportar Listado");
-
-        javax.swing.GroupLayout panelExportarListadoLayout = new javax.swing.GroupLayout(panelExportarListado);
-        panelExportarListado.setLayout(panelExportarListadoLayout);
-        panelExportarListadoLayout.setHorizontalGroup(
-            panelExportarListadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelExportarListadoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(txtPageicon, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1)
-                .addContainerGap(48, Short.MAX_VALUE))
-        );
-        panelExportarListadoLayout.setVerticalGroup(
-            panelExportarListadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelExportarListadoLayout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(panelExportarListadoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(txtPageicon, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
-                    .addComponent(jLabel1))
-                .addContainerGap())
-        );
+        pnlModificarBoton.setBackground(new java.awt.Color(24, 75, 95));
+        pnlModificarBoton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         txtModificar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        txtModificar.setForeground(new java.awt.Color(255, 255, 255));
         txtModificar.setText("️  Modificar");
 
-        javax.swing.GroupLayout panelModificarLayout = new javax.swing.GroupLayout(panelModificar);
-        panelModificar.setLayout(panelModificarLayout);
-        panelModificarLayout.setHorizontalGroup(
-            panelModificarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelModificarLayout.createSequentialGroup()
-                .addContainerGap(23, Short.MAX_VALUE)
+        javax.swing.GroupLayout pnlModificarBotonLayout = new javax.swing.GroupLayout(pnlModificarBoton);
+        pnlModificarBoton.setLayout(pnlModificarBotonLayout);
+        pnlModificarBotonLayout.setHorizontalGroup(
+            pnlModificarBotonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlModificarBotonLayout.createSequentialGroup()
+                .addGap(39, 39, 39)
                 .addComponent(txtModificar)
-                .addGap(20, 20, 20))
+                .addContainerGap(42, Short.MAX_VALUE))
         );
-        panelModificarLayout.setVerticalGroup(
-            panelModificarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelModificarLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(txtModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 39, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        pnlModificarBotonLayout.setVerticalGroup(
+            pnlModificarBotonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlModificarBotonLayout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addComponent(txtModificar)
+                .addContainerGap(17, Short.MAX_VALUE))
         );
+
+        add(pnlModificarBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 260, 140, 50));
+
+        pnlEliminarBoton.setBackground(new java.awt.Color(24, 75, 95));
+        pnlEliminarBoton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
         txtEliminar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
+        txtEliminar.setForeground(new java.awt.Color(255, 255, 255));
         txtEliminar.setText("Eliminar");
 
-        javax.swing.GroupLayout panelEliminarLayout = new javax.swing.GroupLayout(panelEliminar);
-        panelEliminar.setLayout(panelEliminarLayout);
-        panelEliminarLayout.setHorizontalGroup(
-            panelEliminarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelEliminarLayout.createSequentialGroup()
-                .addContainerGap(29, Short.MAX_VALUE)
-                .addComponent(txtEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(19, 19, 19))
+        javax.swing.GroupLayout pnlEliminarBotonLayout = new javax.swing.GroupLayout(pnlEliminarBoton);
+        pnlEliminarBoton.setLayout(pnlEliminarBotonLayout);
+        pnlEliminarBotonLayout.setHorizontalGroup(
+            pnlEliminarBotonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlEliminarBotonLayout.createSequentialGroup()
+                .addContainerGap(54, Short.MAX_VALUE)
+                .addComponent(txtEliminar)
+                .addGap(42, 42, 42))
         );
-        panelEliminarLayout.setVerticalGroup(
-            panelEliminarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelEliminarLayout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(txtEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, 34, Short.MAX_VALUE)
-                .addContainerGap())
+        pnlEliminarBotonLayout.setVerticalGroup(
+            pnlEliminarBotonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(pnlEliminarBotonLayout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(txtEliminar)
+                .addContainerGap(15, Short.MAX_VALUE))
         );
+
+        add(pnlEliminarBoton, new org.netbeans.lib.awtextra.AbsoluteConstraints(870, 360, 140, -1));
 
         lblBuscarPorCedulaOID.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblBuscarPorCedulaOID.setForeground(new java.awt.Color(0, 0, 0));
         lblBuscarPorCedulaOID.setText("Buscar por cedula o ID");
+        add(lblBuscarPorCedulaOID, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, -1, -1));
 
         txtBuscarporCedulaOID.setText("🔍 Busqueda por cedula o ID");
         txtBuscarporCedulaOID.addActionListener(this::txtBuscarporCedulaOIDActionPerformed);
+        add(txtBuscarporCedulaOID, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 244, -1));
 
         lblEstado.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblEstado.setForeground(new java.awt.Color(0, 0, 0));
         lblEstado.setText("Estado");
+        add(lblEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 60, -1, -1));
 
         cbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Estado", "Activo", "Pendiente", "Inactivo" }));
+        add(cbEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 90, 222, -1));
 
         lblTipodeCuenta.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblTipodeCuenta.setForeground(new java.awt.Color(0, 0, 0));
         lblTipodeCuenta.setText("Tipo de Cuenta");
+        add(lblTipodeCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 60, -1, -1));
 
         cbTipoDeCuenta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tipo de Cuenta", "Ahorro", "Corriente", "Credito" }));
+        add(cbTipoDeCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 90, 256, -1));
 
         jScrollPaneTablaMiembros.setBackground(new java.awt.Color(244, 239, 230));
 
@@ -177,100 +182,85 @@ public class PnlMiembros extends javax.swing.JPanel {
         ));
         jScrollPaneTablaMiembros.setViewportView(tableMiembros);
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(txtGestionDeMiembros)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(45, 45, 45)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblEstado)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(206, 206, 206)
-                                .addComponent(panelNuevoMiembro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(18, 18, 18)
-                                .addComponent(panelExportarListado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(jScrollPaneTablaMiembros, javax.swing.GroupLayout.PREFERRED_SIZE, 839, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblBuscarPorCedulaOID)
-                                    .addComponent(txtBuscarporCedulaOID, javax.swing.GroupLayout.PREFERRED_SIZE, 244, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblTipodeCuenta)
-                                    .addComponent(cbTipoDeCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, 256, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(panelModificar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(panelEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(40, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(21, 21, 21)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(panelNuevoMiembro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtGestionDeMiembros)
-                    .addComponent(panelExportarListado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblTipodeCuenta)
-                    .addComponent(lblEstado)
-                    .addComponent(lblBuscarPorCedulaOID))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(cbTipoDeCuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cbEstado, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtBuscarporCedulaOID, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPaneTablaMiembros, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(49, 49, 49)
-                        .addComponent(panelModificar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(panelEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(20, Short.MAX_VALUE))
-        );
+        add(jScrollPaneTablaMiembros, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 150, 840, 359));
     }// </editor-fold>//GEN-END:initComponents
 
-    
-    
     private void txtBuscarporCedulaOIDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBuscarporCedulaOIDActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtBuscarporCedulaOIDActionPerformed
-    
+
+    private void cargarTablaMiembros() {
+        // 1. Definir los nombres de las columnas
+        String[] columnas = {"ID", "Cédula", "Nombre Completo", "Teléfono", "Ocupación", "Ingreso", "Estado"};
+        DefaultTableModel modelo = new DefaultTableModel(null, columnas) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false; // Evita que el usuario edite la tabla escribiendo encima
+            }
+        };
+
+        try {
+            // 2. Traer los datos desde MySQL usando el DAO
+            MiembroDAO dao = new MiembroDAO();
+            List<Miembro> listaMiembros = dao.obtenerMiembros();
+
+         
+            for (Miembro m : listaMiembros) {
+                Object[] fila = new Object[7];
+                fila[0] = m.getId();
+                fila[1] = m.getCedula();
+                fila[2] = m.getNombreCompleto();
+                fila[3] = m.getTelefono();
+                fila[4] = m.getOcupacion();
+                fila[5] = m.getIngresoMensual();
+                fila[6] = m.isActivo() ? "Activo" : "Inactivo";
+
+                modelo.addRow(fila);
+            }
+
+            // 4. Aplicar el modelo lleno a la tabla visual
+            tableMiembros.setModel(modelo);
+
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Error al cargar los miembros: " + e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
+    }
+    private void pnlNuevoMiembroBotonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlNuevoMiembroBotonMouseClicked
+        try {
+            // 1. Detectar la ventana principal (FrmPrincipal) para anclar el diálogo
+            java.awt.Window window = javax.swing.SwingUtilities.getWindowAncestor(this);
+            java.awt.Frame parentFrame = (window instanceof java.awt.Frame) ? (java.awt.Frame) window : null;
+
+            // 2. Crear la instancia de tu nueva ventana modal
+            DlgNuevoMiembro dialogNuevo = new DlgNuevoMiembro(parentFrame, true);
+
+            // 3. Centrarla en la pantalla y hacerla visible
+            dialogNuevo.setLocationRelativeTo(null);
+            dialogNuevo.setVisible(true);
+
+           cargarTablaMiembros();
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Error al abrir la ventana: " + e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_pnlNuevoMiembroBotonMouseClicked
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> cbEstado;
     private javax.swing.JComboBox<String> cbTipoDeCuenta;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPaneTablaMiembros;
     private javax.swing.JLabel lblBuscarPorCedulaOID;
     private javax.swing.JLabel lblEstado;
+    private javax.swing.JLabel lblGestionDeMiembros;
     private javax.swing.JLabel lblTipodeCuenta;
-    private javax.swing.JPanel panelEliminar;
-    private javax.swing.JPanel panelExportarListado;
-    private javax.swing.JPanel panelModificar;
-    private javax.swing.JPanel panelNuevoMiembro;
+    private javax.swing.JPanel pnlEliminarBoton;
+    private javax.swing.JPanel pnlModificarBoton;
+    private javax.swing.JPanel pnlNuevoMiembroBoton;
     private javax.swing.JTable tableMiembros;
     private javax.swing.JTextField txtBuscarporCedulaOID;
     private javax.swing.JLabel txtEliminar;
-    private javax.swing.JLabel txtGestionDeMiembros;
     private javax.swing.JLabel txtModificar;
     private javax.swing.JLabel txtNuevoMiembro;
-    private javax.swing.JLabel txtPageicon;
     private javax.swing.JLabel txtPlusIcon;
     // End of variables declaration//GEN-END:variables
 }
