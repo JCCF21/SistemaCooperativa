@@ -4,6 +4,15 @@
  */
 package com.inf514.sistemacooperativa.vista;
 
+import com.inf514.sistemacooperativa.dao.UsuarioDAO;
+import com.inf514.sistemacooperativa.modelo.Usuario;
+import java.awt.Color;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
+
 /**
  *
  * @author jfria
@@ -29,22 +38,28 @@ public class PnlRegistro extends javax.swing.JPanel {
         pnlBackgroundRegistro = new javax.swing.JPanel();
         lblRegistroNuevoUsuario = new javax.swing.JLabel();
         lblNombreCompleto = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
-        jLabel12 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
-        jLabel14 = new javax.swing.JLabel();
-        jLabel15 = new javax.swing.JLabel();
+        txtNombre = new javax.swing.JTextField();
+        jSeparatorNombreRegistro = new javax.swing.JSeparator();
         lblCedula = new javax.swing.JLabel();
-        txtApellido = new javax.swing.JTextField();
-        tfNombreCompleto = new javax.swing.JTextField();
-        jPasswordField1 = new javax.swing.JPasswordField();
-        jTextField3 = new javax.swing.JTextField();
+        txtCedula = new javax.swing.JTextField();
+        jSeparatorCedulaRegistro = new javax.swing.JSeparator();
+        lblFechaNacimiento = new javax.swing.JLabel();
+        txtFechaNacimiento = new javax.swing.JFormattedTextField();
+        jSeparatorFechaNacimientoRegistro = new javax.swing.JSeparator();
+        lblTelefono = new javax.swing.JLabel();
         txtTelefono = new javax.swing.JTextField();
-        txtCorreoElectronico = new javax.swing.JTextField();
+        jSeparatorTelefonoRegistro = new javax.swing.JSeparator();
+        lblCorreo = new javax.swing.JLabel();
+        txtCorreo = new javax.swing.JTextField();
+        jSeparatorEmailRegistro = new javax.swing.JSeparator();
+        lblContrasenia = new javax.swing.JLabel();
+        pwdPassword = new javax.swing.JPasswordField();
+        jSeparatorPasswordRegistro = new javax.swing.JSeparator();
+        lblRepetirContrasenia = new javax.swing.JLabel();
+        pwdRepitaPassword = new javax.swing.JPasswordField();
+        jSeparatorRepitaPasswordRegistro = new javax.swing.JSeparator();
         pnlRegistarBotton = new javax.swing.JPanel();
         txtRegistar = new javax.swing.JLabel();
-        jPasswordField2 = new javax.swing.JPasswordField();
         pnlBotonAtras = new javax.swing.JPanel();
         txtRegistar1 = new javax.swing.JLabel();
 
@@ -55,99 +70,185 @@ public class PnlRegistro extends javax.swing.JPanel {
         lblRegistroNuevoUsuario.setBackground(new java.awt.Color(255, 255, 255));
         lblRegistroNuevoUsuario.setFont(new java.awt.Font("Segoe UI", 1, 24)); // NOI18N
         lblRegistroNuevoUsuario.setForeground(new java.awt.Color(0, 0, 0));
-        lblRegistroNuevoUsuario.setText("Registro Nuevo usuario");
+        lblRegistroNuevoUsuario.setText("Registro Nuevo Usuario");
 
+        lblNombreCompleto.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblNombreCompleto.setForeground(new java.awt.Color(0, 0, 0));
         lblNombreCompleto.setText("Nombre Completo");
 
-        jLabel10.setForeground(new java.awt.Color(0, 0, 0));
+        txtNombre.setBackground(new java.awt.Color(244, 239, 230));
+        txtNombre.setText("ingrese su nombre completo");
+        txtNombre.setBorder(null);
+        txtNombre.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                txtNombreMousePressed(evt);
+            }
+        });
 
-        jLabel11.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel11.setText("Telefono:");
+        jSeparatorNombreRegistro.setForeground(new java.awt.Color(0, 0, 0));
 
-        jLabel12.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel12.setText("Correo Electronico:");
-
-        jLabel13.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel13.setText("Contrasenia:");
-
-        jLabel14.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel14.setText("Fecha de nacimiento");
-
-        jLabel15.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel15.setText("Repita Su Contrasenia");
-
+        lblCedula.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         lblCedula.setForeground(new java.awt.Color(0, 0, 0));
-        lblCedula.setText("Cedula");
+        lblCedula.setText("Cédula");
 
-        txtApellido.setText("digite su cedula sin guiones");
-        txtApellido.addActionListener(this::txtApellidoActionPerformed);
+        txtCedula.setBackground(new java.awt.Color(244, 239, 230));
+        txtCedula.setText("digite su cedula sin guiones");
+        txtCedula.setBorder(null);
+        txtCedula.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                txtCedulaMousePressed(evt);
+            }
+        });
+        txtCedula.addActionListener(this::txtCedulaActionPerformed);
 
-        tfNombreCompleto.setText("Nombre Completo");
+        jSeparatorCedulaRegistro.setForeground(new java.awt.Color(0, 0, 0));
 
-        jPasswordField1.setText("jPasswordField1");
+        lblFechaNacimiento.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblFechaNacimiento.setForeground(new java.awt.Color(0, 0, 0));
+        lblFechaNacimiento.setText("Fecha de Nacimiento");
 
-        jTextField3.setText("fecha de nacimiento");
-        jTextField3.addActionListener(this::jTextField3ActionPerformed);
+        txtFechaNacimiento.setBackground(new java.awt.Color(244, 239, 230));
+        txtFechaNacimiento.setBorder(null);
+        try {
+            txtFechaNacimiento.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.MaskFormatter("##/##/####")));
+        } catch (java.text.ParseException ex) {
+            ex.printStackTrace();
+        }
 
+        jSeparatorFechaNacimientoRegistro.setForeground(new java.awt.Color(0, 0, 0));
+
+        lblTelefono.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblTelefono.setForeground(new java.awt.Color(0, 0, 0));
+        lblTelefono.setText("Teléfono:");
+
+        txtTelefono.setBackground(new java.awt.Color(244, 239, 230));
         txtTelefono.setText("Telefono");
+        txtTelefono.setBorder(null);
+        txtTelefono.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                txtTelefonoMousePressed(evt);
+            }
+        });
         txtTelefono.addActionListener(this::txtTelefonoActionPerformed);
 
-        txtCorreoElectronico.setText("Corro Electronico");
+        jSeparatorTelefonoRegistro.setForeground(new java.awt.Color(0, 0, 0));
+
+        lblCorreo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblCorreo.setForeground(new java.awt.Color(0, 0, 0));
+        lblCorreo.setText("Correo Electronico:");
+
+        txtCorreo.setBackground(new java.awt.Color(244, 239, 230));
+        txtCorreo.setText("Correo Electronico");
+        txtCorreo.setBorder(null);
+        txtCorreo.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                txtCorreoMousePressed(evt);
+            }
+        });
+
+        jSeparatorEmailRegistro.setForeground(new java.awt.Color(0, 0, 0));
+
+        lblContrasenia.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblContrasenia.setForeground(new java.awt.Color(0, 0, 0));
+        lblContrasenia.setText("Contraseña:");
+
+        pwdPassword.setBackground(new java.awt.Color(244, 239, 230));
+        pwdPassword.setText("password");
+        pwdPassword.setBorder(null);
+        pwdPassword.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                pwdPasswordMousePressed(evt);
+            }
+        });
+
+        jSeparatorPasswordRegistro.setForeground(new java.awt.Color(0, 0, 0));
+
+        lblRepetirContrasenia.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        lblRepetirContrasenia.setForeground(new java.awt.Color(0, 0, 0));
+        lblRepetirContrasenia.setText("Repetir Contraseña");
+
+        pwdRepitaPassword.setBackground(new java.awt.Color(244, 239, 230));
+        pwdRepitaPassword.setText("password");
+        pwdRepitaPassword.setBorder(null);
+        pwdRepitaPassword.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                pwdRepitaPasswordMousePressed(evt);
+            }
+        });
+
+        jSeparatorRepitaPasswordRegistro.setForeground(new java.awt.Color(0, 0, 0));
 
         pnlRegistarBotton.setBackground(new java.awt.Color(24, 75, 95));
+        pnlRegistarBotton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pnlRegistarBotton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                pnlRegistarBottonMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                pnlRegistarBottonMouseExited(evt);
+            }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                pnlRegistarBottonMousePressed(evt);
+            }
+        });
+        pnlRegistarBotton.addPropertyChangeListener(this::pnlRegistarBottonPropertyChange);
 
         txtRegistar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        txtRegistar.setForeground(new java.awt.Color(0, 0, 0));
-        txtRegistar.setText("REGISTAR");
+        txtRegistar.setForeground(new java.awt.Color(255, 255, 255));
+        txtRegistar.setText("REGISTRAR");
 
         javax.swing.GroupLayout pnlRegistarBottonLayout = new javax.swing.GroupLayout(pnlRegistarBotton);
         pnlRegistarBotton.setLayout(pnlRegistarBottonLayout);
         pnlRegistarBottonLayout.setHorizontalGroup(
             pnlRegistarBottonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlRegistarBottonLayout.createSequentialGroup()
-                .addGap(44, 44, 44)
-                .addComponent(txtRegistar, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(26, Short.MAX_VALUE))
+                .addGap(30, 30, 30)
+                .addComponent(txtRegistar, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(34, Short.MAX_VALUE))
         );
         pnlRegistarBottonLayout.setVerticalGroup(
             pnlRegistarBottonLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlRegistarBottonLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
-                .addComponent(txtRegistar)
-                .addContainerGap(16, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlRegistarBottonLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(txtRegistar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
-
-        jPasswordField2.setText("jPasswordField1");
 
         pnlBotonAtras.setBackground(new java.awt.Color(24, 75, 95));
         pnlBotonAtras.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         pnlBotonAtras.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                pnlBotonAtrasMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                pnlBotonAtrasMouseExited(evt);
+            }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 pnlBotonAtrasMousePressed(evt);
             }
         });
 
         txtRegistar1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        txtRegistar1.setForeground(new java.awt.Color(0, 0, 0));
+        txtRegistar1.setForeground(new java.awt.Color(255, 255, 255));
         txtRegistar1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        txtRegistar1.setText("Atras");
+        txtRegistar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/iconos/back-white-atras.png"))); // NOI18N
+        txtRegistar1.setText("ATRÁS");
 
         javax.swing.GroupLayout pnlBotonAtrasLayout = new javax.swing.GroupLayout(pnlBotonAtras);
         pnlBotonAtras.setLayout(pnlBotonAtrasLayout);
         pnlBotonAtrasLayout.setHorizontalGroup(
             pnlBotonAtrasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlBotonAtrasLayout.createSequentialGroup()
-                .addContainerGap(36, Short.MAX_VALUE)
+            .addGroup(pnlBotonAtrasLayout.createSequentialGroup()
+                .addGap(35, 35, 35)
                 .addComponent(txtRegistar1, javax.swing.GroupLayout.PREFERRED_SIZE, 79, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(34, 34, 34))
+                .addContainerGap(36, Short.MAX_VALUE))
         );
         pnlBotonAtrasLayout.setVerticalGroup(
             pnlBotonAtrasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pnlBotonAtrasLayout.createSequentialGroup()
-                .addGap(20, 20, 20)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pnlBotonAtrasLayout.createSequentialGroup()
+                .addContainerGap(21, Short.MAX_VALUE)
                 .addComponent(txtRegistar1)
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addGap(15, 15, 15))
         );
 
         javax.swing.GroupLayout pnlBackgroundRegistroLayout = new javax.swing.GroupLayout(pnlBackgroundRegistro);
@@ -155,100 +256,102 @@ public class PnlRegistro extends javax.swing.JPanel {
         pnlBackgroundRegistroLayout.setHorizontalGroup(
             pnlBackgroundRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlBackgroundRegistroLayout.createSequentialGroup()
-                .addGap(34, 34, 34)
+                .addGap(56, 56, 56)
                 .addGroup(pnlBackgroundRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(pnlBackgroundRegistroLayout.createSequentialGroup()
-                        .addGroup(pnlBackgroundRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel14)
-                            .addComponent(jLabel10))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(pnlBackgroundRegistroLayout.createSequentialGroup()
-                        .addGroup(pnlBackgroundRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(pnlBackgroundRegistroLayout.createSequentialGroup()
-                                .addGap(116, 116, 116)
-                                .addGroup(pnlBackgroundRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel12)
-                                    .addComponent(lblRegistroNuevoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(pnlBackgroundRegistroLayout.createSequentialGroup()
-                                .addGroup(pnlBackgroundRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(105, 105, 105)
-                                .addGroup(pnlBackgroundRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel13, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(txtCorreoElectronico, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel15)
-                                    .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(pnlBackgroundRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(lblNombreCompleto)
-                                .addComponent(jLabel11)
-                                .addComponent(txtTelefono, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)
-                                .addComponent(jTextField3)
-                                .addComponent(tfNombreCompleto)))
-                        .addContainerGap(111, Short.MAX_VALUE))))
+                    .addComponent(pnlBotonAtras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblNombreCompleto)
+                    .addComponent(jSeparatorNombreRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblFechaNacimiento)
+                    .addComponent(lblTelefono)
+                    .addGroup(pnlBackgroundRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(jSeparatorTelefonoRegistro, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtTelefono, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jSeparatorFechaNacimientoRegistro, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtFechaNacimiento, javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jSeparatorCedulaRegistro, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 200, Short.MAX_VALUE)))
+                .addGap(126, 126, 126)
+                .addGroup(pnlBackgroundRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(pnlBackgroundRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblCorreo)
+                        .addComponent(jSeparatorEmailRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblContrasenia, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pwdPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jSeparatorPasswordRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(lblRepetirContrasenia)
+                        .addComponent(pwdRepitaPassword, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jSeparatorRepitaPasswordRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(pnlRegistarBotton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
             .addGroup(pnlBackgroundRegistroLayout.createSequentialGroup()
-                .addGap(115, 115, 115)
-                .addComponent(pnlRegistarBotton, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(50, 50, 50)
-                .addComponent(pnlBotonAtras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                .addGap(170, 170, 170)
+                .addComponent(lblRegistroNuevoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 324, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         pnlBackgroundRegistroLayout.setVerticalGroup(
             pnlBackgroundRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(pnlBackgroundRegistroLayout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(10, 10, 10)
                 .addComponent(lblRegistroNuevoUsuario, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(22, 22, 22)
-                .addGroup(pnlBackgroundRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblNombreCompleto)
-                    .addComponent(jLabel12))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(pnlBackgroundRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(tfNombreCompleto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtCorreoElectronico, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(pnlBackgroundRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel13)
-                    .addComponent(lblCedula))
+                    .addComponent(lblNombreCompleto)
+                    .addComponent(lblCorreo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlBackgroundRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jPasswordField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(txtApellido, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(pnlBackgroundRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel14)
-                    .addComponent(jLabel15))
+                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(pnlBackgroundRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jSeparatorNombreRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSeparatorEmailRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(pnlBackgroundRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(pnlBackgroundRegistroLayout.createSequentialGroup()
+                        .addGap(9, 9, 9)
+                        .addComponent(lblCedula))
                     .addGroup(pnlBackgroundRegistroLayout.createSequentialGroup()
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jPasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(1, 1, 1)
-                        .addComponent(jLabel11)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel10))
-                    .addGroup(pnlBackgroundRegistroLayout.createSequentialGroup()
-                        .addGap(4, 4, 4)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                        .addComponent(lblContrasenia)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlBackgroundRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(pwdPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtCedula, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlBackgroundRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jSeparatorCedulaRegistro, javax.swing.GroupLayout.DEFAULT_SIZE, 10, Short.MAX_VALUE)
+                    .addComponent(jSeparatorPasswordRegistro))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(pnlBackgroundRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lblFechaNacimiento)
+                    .addComponent(lblRepetirContrasenia))
+                .addGap(14, 14, 14)
+                .addGroup(pnlBackgroundRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(pwdRepitaPassword, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtFechaNacimiento, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(2, 2, 2)
                 .addGroup(pnlBackgroundRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(pnlRegistarBotton, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(pnlBotonAtras, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(47, 47, 47))
+                    .addComponent(jSeparatorFechaNacimientoRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSeparatorRepitaPasswordRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblTelefono)
+                .addGap(9, 9, 9)
+                .addComponent(txtTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jSeparatorTelefonoRegistro, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(12, 12, 12)
+                .addGroup(pnlBackgroundRegistroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(pnlRegistarBotton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(pnlBotonAtras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(29, Short.MAX_VALUE))
         );
 
-        add(pnlBackgroundRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        add(pnlBackgroundRegistro, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 670, 440));
     }// </editor-fold>//GEN-END:initComponents
 
-    private void txtApellidoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtApellidoActionPerformed
+    private void txtCedulaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCedulaActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtApellidoActionPerformed
-
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_txtCedulaActionPerformed
 
     private void txtTelefonoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtTelefonoActionPerformed
         // TODO add your handling code here:
@@ -260,26 +363,311 @@ public class PnlRegistro extends javax.swing.JPanel {
         ventanaPadre.mostrarPanel(new PnlLogin());
     }//GEN-LAST:event_pnlBotonAtrasMousePressed
 
+    private void pnlRegistarBottonPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_pnlRegistarBottonPropertyChange
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pnlRegistarBottonPropertyChange
+
+    private void pnlRegistarBottonMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlRegistarBottonMousePressed
+        // TODO add your handling code here:
+        String cedula = txtCedula.getText();
+        String nombre = txtNombre.getText();
+        String telefono = txtTelefono.getText();
+        String correo = txtCorreo.getText();
+
+        String contrasenia = new String(pwdPassword.getPassword()).trim();
+        String repitaContrasenia = new String(pwdRepitaPassword.getPassword()).trim();
+        
+        
+        //validacion de campos y expreciones regulares regex
+        
+        if(nombre.isEmpty() || nombre.equals("ingrese su nombre completo")){
+            JOptionPane.showMessageDialog(this,"Por favor, ingrese su nombre completo.");
+            return;
+        }
+        
+        if(cedula.isEmpty() || cedula.equals("digite su cedula sin guiones")|| !cedula.matches("\\d{11}")){
+            JOptionPane.showMessageDialog(this,"Por favor, ingrese su numero de Cedula valida de 11 digitos sin guiones.");
+            return;
+        }
+        if(telefono.isEmpty() || telefono.equals("Telefono")||!telefono.matches("\\d{10}")){
+            JOptionPane.showMessageDialog(this,"Por favor, ingrese su numero telefonico de 10 digitos sin guiones.");
+            return;
+        }
+        if(correo.isEmpty() || correo.equals("Correo Electronico")|| !correo.matches("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$")){
+            JOptionPane.showMessageDialog(this,"Por favor, ingrese un correo electronico valido (ejemplo: usuario@dominio.com).");
+            return;
+        }
+        if(contrasenia.isEmpty() || contrasenia.equals("password")){
+            JOptionPane.showMessageDialog(this,"Por favor, ingrese su contraseña deseada.");
+            return;
+        }
+         if(!contrasenia.equals(repitaContrasenia)){
+            JOptionPane.showMessageDialog(this,"Las contraseña no coinciden. Verifiquelas e intente de nuevo.");
+            return;
+        }
+        
+        
+        
+        
+         //validacion de fecha
+        LocalDate fechaNacimiento = null;
+        String fechaTexto = txtFechaNacimiento.getText();
+        
+
+         try{
+           DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+           fechaNacimiento = LocalDate.parse(fechaTexto, formatter);
+           
+           if(fechaNacimiento.isAfter(LocalDate.now())){
+               JOptionPane.showMessageDialog(this, "La fecha no puede estar en el futuro. ");
+              return;
+           }
+           int edad = java.time.Period.between(fechaNacimiento,LocalDate.now()).getYears();
+           if(edad < 18){
+               JOptionPane.showMessageDialog(this, "El usuario debe tener al menos 18 años para ser registrado en la cooperativa. ");
+              return;
+           }
+           if(edad > 85){
+               JOptionPane.showMessageDialog(this, "Lo sentimos. La edad ingresada: "+edad+" años supera el maximo permitido para ser registrado en la cooperativa. ");
+              return;
+           }
+           
+       }catch(DateTimeParseException e){
+           JOptionPane.showMessageDialog(this, "Por favor, ingrese una fecha real (dia/Mes/Año). ");
+              return;
+       }
+         
+         //regirtrar usuario
+        try {
+            Usuario nuevoUsuario = new Usuario(cedula, nombre, telefono, correo, contrasenia, fechaNacimiento);
+            UsuarioDAO usuarioDAO = new UsuarioDAO();
+            usuarioDAO.guardarUsuario(nuevoUsuario);
+
+            JOptionPane.showMessageDialog(this, "Usuario Registrado con exito!. ");
+            FrmMainLogin ventanaPadre = (FrmMainLogin) SwingUtilities.getWindowAncestor(this);
+            ventanaPadre.mostrarPanel(new PnlLogin());
+        } catch (Exception e) {
+
+        }
+       
+    }//GEN-LAST:event_pnlRegistarBottonMousePressed
+
+    private void txtNombreMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtNombreMousePressed
+        if (txtNombre.getText().equals("ingrese su nombre completo")) {
+            txtNombre.setText("");
+            txtNombre.setForeground(Color.BLACK);
+        }
+        if (txtCedula.getText().equals("")) {
+            txtCedula.setText("digite su cedula sin guiones");
+            txtCedula.setForeground(Color.GRAY);
+        }
+        if (txtTelefono.getText().equals("")) {
+            txtTelefono.setText("Telefono");
+            txtTelefono.setForeground(Color.gray);
+        }
+        if (txtCorreo.getText().equals("")) {
+            txtCorreo.setText("Correo Electronico");
+            txtCorreo.setForeground(Color.gray);
+        }
+        if (String.valueOf(pwdPassword.getPassword()).isEmpty()) {
+            pwdPassword.setText("password");
+            pwdPassword.setForeground(Color.GRAY);
+        }
+        if (String.valueOf(pwdRepitaPassword.getPassword()).isEmpty()) {
+            pwdRepitaPassword.setText("password");
+            pwdRepitaPassword.setForeground(Color.GRAY);
+        }
+    }//GEN-LAST:event_txtNombreMousePressed
+
+    private void txtCedulaMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtCedulaMousePressed
+        // TODO add your handling code here:
+        if (txtCedula.getText().equals("digite su cedula sin guiones")) {
+            txtCedula.setText("");
+            txtCedula.setForeground(Color.BLACK);
+        }
+        if (txtNombre.getText().equals("")) {
+            txtNombre.setText("ingrese su nombre completo");
+            txtNombre.setForeground(Color.GRAY);
+        }
+        if (txtTelefono.getText().equals("")) {
+            txtTelefono.setText("Telefono");
+            txtTelefono.setForeground(Color.gray);
+        }
+        if (txtCorreo.getText().equals("")) {
+            txtCorreo.setText("Correo Electronico");
+            txtCorreo.setForeground(Color.gray);
+        }
+        if (String.valueOf(pwdPassword.getPassword()).isEmpty()) {
+            pwdPassword.setText("password");
+            pwdPassword.setForeground(Color.GRAY);
+        }
+        if (String.valueOf(pwdRepitaPassword.getPassword()).isEmpty()) {
+            pwdRepitaPassword.setText("password");
+            pwdRepitaPassword.setForeground(Color.GRAY);
+        }
+
+    }//GEN-LAST:event_txtCedulaMousePressed
+
+    private void txtTelefonoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtTelefonoMousePressed
+        // TODO add your handling code here:
+        if (txtTelefono.getText().equals("Telefono")) {
+            txtTelefono.setText("");
+            txtTelefono.setForeground(Color.BLACK);
+        }
+        if (txtNombre.getText().equals("")) {
+            txtNombre.setText("ingrese su nombre completo");
+            txtNombre.setForeground(Color.GRAY);
+        }
+        if (txtCedula.getText().equals("")) {
+            txtCedula.setText("digite su cedula sin guiones");
+            txtCedula.setForeground(Color.GRAY);
+        }
+        if (txtCorreo.getText().equals("")) {
+            txtCorreo.setText("Correo Electronico");
+            txtCorreo.setForeground(Color.gray);
+        }
+        if (String.valueOf(pwdPassword.getPassword()).isEmpty()) {
+            pwdPassword.setText("password");
+            pwdPassword.setForeground(Color.GRAY);
+        }
+        if (String.valueOf(pwdRepitaPassword.getPassword()).isEmpty()) {
+            pwdRepitaPassword.setText("password");
+            pwdRepitaPassword.setForeground(Color.GRAY);
+        }
+    }//GEN-LAST:event_txtTelefonoMousePressed
+
+    private void txtCorreoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtCorreoMousePressed
+        if (txtCorreo.getText().equals("Correo Electronico")) {
+            txtCorreo.setText("");
+            txtCorreo.setForeground(Color.gray);
+        }
+
+        if (txtNombre.getText().equals("")) {
+            txtNombre.setText("ingrese su nombre completo");
+            txtNombre.setForeground(Color.GRAY);
+        }
+        if (txtCedula.getText().equals("")) {
+            txtCedula.setText("digite su cedula sin guiones");
+            txtCedula.setForeground(Color.GRAY);
+        }
+        if (txtTelefono.getText().equals("")) {
+            txtTelefono.setText("Telefono");
+            txtTelefono.setForeground(Color.GRAY);
+        }
+        if (String.valueOf(pwdPassword.getPassword()).isEmpty()) {
+            pwdPassword.setText("password");
+            pwdPassword.setForeground(Color.GRAY);
+        }
+        if (String.valueOf(pwdRepitaPassword.getPassword()).isEmpty()) {
+            pwdRepitaPassword.setText("password");
+            pwdRepitaPassword.setForeground(Color.GRAY);
+        }
+
+    }//GEN-LAST:event_txtCorreoMousePressed
+
+    private void pwdPasswordMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pwdPasswordMousePressed
+        // TODO add your handling code here:
+        if (String.valueOf(pwdPassword.getPassword()).equals("password")) {
+            pwdPassword.setText("");
+            pwdPassword.setForeground(Color.BLACK);
+        }
+
+        if (txtNombre.getText().equals("")) {
+            txtNombre.setText("ingrese su nombre completo");
+            txtNombre.setForeground(Color.GRAY);
+        }
+        if (txtCedula.getText().equals("")) {
+            txtCedula.setText("digite su cedula sin guiones");
+            txtCedula.setForeground(Color.GRAY);
+        }
+        if (txtTelefono.getText().equals("")) {
+            txtTelefono.setText("Telefono");
+            txtTelefono.setForeground(Color.GRAY);
+        }
+        if (txtCorreo.getText().equals("")) {
+            txtCorreo.setText("Correo Electronico");
+            txtCorreo.setForeground(Color.gray);
+        }
+        if (String.valueOf(pwdRepitaPassword.getPassword()).isEmpty()) {
+            pwdRepitaPassword.setText("password");
+            pwdRepitaPassword.setForeground(Color.GRAY);
+        }
+
+    }//GEN-LAST:event_pwdPasswordMousePressed
+
+    private void pwdRepitaPasswordMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pwdRepitaPasswordMousePressed
+        // TODO add your handling code here:
+        if (String.valueOf(pwdRepitaPassword.getPassword()).equals("password")) {
+            pwdRepitaPassword.setText("");
+            pwdRepitaPassword.setForeground(Color.BLACK);
+        }
+
+        if (txtNombre.getText().equals("")) {
+            txtNombre.setText("ingrese su nombre completo");
+            txtNombre.setForeground(Color.GRAY);
+        }
+        if (txtCedula.getText().equals("")) {
+            txtCedula.setText("digite su cedula sin guiones");
+            txtCedula.setForeground(Color.GRAY);
+        }
+        if (txtTelefono.getText().equals("")) {
+            txtTelefono.setText("Telefono");
+            txtTelefono.setForeground(Color.GRAY);
+        }
+        if (txtCorreo.getText().equals("")) {
+            txtCorreo.setText("Correo Electronico");
+            txtCorreo.setForeground(Color.gray);
+        }
+        if (String.valueOf(pwdPassword.getPassword()).isEmpty()) {
+            pwdPassword.setText("password");
+            pwdPassword.setForeground(Color.GRAY);
+        }
+    }//GEN-LAST:event_pwdRepitaPasswordMousePressed
+
+    private void pnlRegistarBottonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlRegistarBottonMouseEntered
+        pnlRegistarBotton.setBackground(new Color(8, 60, 74));
+    }//GEN-LAST:event_pnlRegistarBottonMouseEntered
+
+    private void pnlRegistarBottonMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlRegistarBottonMouseExited
+        // TODO add your handling code here:
+        pnlRegistarBotton.setBackground(new Color(24, 75, 95));
+    }//GEN-LAST:event_pnlRegistarBottonMouseExited
+
+    private void pnlBotonAtrasMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlBotonAtrasMouseEntered
+        // TODO add your handling code here:
+        pnlBotonAtras.setBackground(new Color(8, 60, 74));
+    }//GEN-LAST:event_pnlBotonAtrasMouseEntered
+
+    private void pnlBotonAtrasMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlBotonAtrasMouseExited
+        pnlBotonAtras.setBackground(new Color(24, 75, 95));
+    }//GEN-LAST:event_pnlBotonAtrasMouseExited
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel14;
-    private javax.swing.JLabel jLabel15;
-    private javax.swing.JPasswordField jPasswordField1;
-    private javax.swing.JPasswordField jPasswordField2;
-    private javax.swing.JTextField jTextField3;
+    private javax.swing.JSeparator jSeparatorCedulaRegistro;
+    private javax.swing.JSeparator jSeparatorEmailRegistro;
+    private javax.swing.JSeparator jSeparatorFechaNacimientoRegistro;
+    private javax.swing.JSeparator jSeparatorNombreRegistro;
+    private javax.swing.JSeparator jSeparatorPasswordRegistro;
+    private javax.swing.JSeparator jSeparatorRepitaPasswordRegistro;
+    private javax.swing.JSeparator jSeparatorTelefonoRegistro;
     private javax.swing.JLabel lblCedula;
+    private javax.swing.JLabel lblContrasenia;
+    private javax.swing.JLabel lblCorreo;
+    private javax.swing.JLabel lblFechaNacimiento;
     private javax.swing.JLabel lblNombreCompleto;
     private javax.swing.JLabel lblRegistroNuevoUsuario;
+    private javax.swing.JLabel lblRepetirContrasenia;
+    private javax.swing.JLabel lblTelefono;
     private javax.swing.JPanel pnlBackgroundRegistro;
     private javax.swing.JPanel pnlBotonAtras;
     private javax.swing.JPanel pnlRegistarBotton;
-    private javax.swing.JTextField tfNombreCompleto;
-    private javax.swing.JTextField txtApellido;
-    private javax.swing.JTextField txtCorreoElectronico;
+    private javax.swing.JPasswordField pwdPassword;
+    private javax.swing.JPasswordField pwdRepitaPassword;
+    private javax.swing.JTextField txtCedula;
+    private javax.swing.JTextField txtCorreo;
+    private javax.swing.JFormattedTextField txtFechaNacimiento;
+    private javax.swing.JTextField txtNombre;
     private javax.swing.JLabel txtRegistar;
     private javax.swing.JLabel txtRegistar1;
     private javax.swing.JTextField txtTelefono;

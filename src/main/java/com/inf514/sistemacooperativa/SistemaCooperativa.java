@@ -10,10 +10,5 @@ public class SistemaCooperativa {
            pantallaLogin.setLocationRelativeTo(null);
            pantallaLogin.setVisible(true);   
         });
-//        java.awt.EventQueue.invokeLater(()-> {
-//            FrmPrincipal pantallaMiembro = new FrmPrincipal();
-//            pantallaMiembro.setVisible(true);
-//            pantallaMiembro.setLocationRelativeTo(null);
-//        });
     }
 }
