@@ -7,7 +7,7 @@ public class Transacciones {
 
     private int idTransaccion;
     private int idCuenta;
-    private String tipo; //  "DEPÓSITO", "RETIRO"...
+    private String tipo; // "DEPÓSITO", "RETIRO"...
     private double monto;
     private String fecha;
     private String descripcion;
@@ -92,16 +92,15 @@ public class Transacciones {
         this.idAdmin = idAdmin;
     }
 
-    // --- Método adicional para apoyo en reportes o consola ---
+    // --- Método toString  ---
     @Override
     public String toString() {
-        return "Transacción [" +
-                "ID=" + idTransaccion +
-                ", Cuenta=" + idCuenta +
-                ", Tipo='" + tipo + '\'' +
-                ", Monto=" + monto +
-                ", Fecha='" + fecha + '\'' +
-                ", Descripción='" + descripcion + '\'' +
-                ']';
+        return "Transacción:\n" +
+                "• ID: " + idTransaccion + "\n" +
+                "• Cuenta: " + idCuenta + "\n" +
+                "• Tipo: " + tipo + "\n" +
+                "• Monto: " + monto + "\n" +
+                "• Fecha: " + fecha + "\n" +
+                "• Descripción: " + descripcion;
     }
 }
