@@ -4,7 +4,8 @@
  */
 package com.inf514.sistemacooperativa.vista;
 
-import com.inf514.sistemacooperativa.Transacciones;
+import com.inf514.sistemacooperativa.modelo.Transacciones;
+
 
 /**
  *
@@ -197,40 +198,50 @@ public class FrmTransacciones extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-try {
-         int idTransac = Integer.parseInt(idtransaccion.getText().trim());
-         int idCta = Integer.parseInt(idcuenta.getText().trim());
-         String tip = tipo.getSelectedItem().toString();
-         double mnt = Double.parseDouble(monto.getText().trim());
-         String desc = descripcion.getText().trim();
+                                     
+        try {
+            int idTransac = Integer.parseInt(idtransaccion.getText().trim());
+            int idCta = Integer.parseInt(idcuenta.getText().trim());
+            String tip = tipo.getSelectedItem().toString().toUpperCase(); // Normalizamos a mayúsculas
+            double mnt = Double.parseDouble(monto.getText().trim());
+            String desc = descripcion.getText().trim();
 
-         Integer idAdm = null;
-         if (!idadmin.getText().trim().isEmpty()) {
-             idAdm = Integer.parseInt(idadmin.getText().trim());
-         }
+            Integer idAdm = null;
+            if (!idadmin.getText().trim().isEmpty()) {
+                idAdm = Integer.valueOf(idadmin.getText().trim());
+            }
 
-         Transacciones nuevaTransaccion = new Transacciones(
-             idTransac, idCta, tip, mnt, null, desc, idAdm
-         );
+            //  Crear el objeto con los datos del formulario
+            Transacciones nuevaTransaccion = new Transacciones(
+                idTransac, idCta, tip, mnt, null, desc, idAdm
+            );
 
-         AreaResultado.setText(nuevaTransaccion.toString());
+            //  Instanciar el DAO para guardar y validar en la base de datos de XAMPP
+            com.inf514.sistemacooperativa.dao.TransaccionDAO dao = new com.inf514.sistemacooperativa.dao.TransaccionDAO();
+            dao.guardarTransaccion(nuevaTransaccion); // Aquí dentro se valida si hay fondos si es "RETIRO"
 
-         javax.swing.JOptionPane.showMessageDialog(this, 
-             "¡Transacción registrada con éxito!", 
-             "Éxito", 
-             javax.swing.JOptionPane.INFORMATION_MESSAGE);
+            //  Mostrar éxito en el Área de Resultado y en una ventana emergente
+            AreaResultado.setText(nuevaTransaccion.toString() + "\n\n[Estado: ¡Registrado y guardado en la BD con éxito!]");
 
-     } catch (NumberFormatException e) {
-         javax.swing.JOptionPane.showMessageDialog(this, 
-             "Por favor, verifique que los campos numéricos (ID, Monto) sean válidos.", 
-             "Error de formato", 
-             javax.swing.JOptionPane.ERROR_MESSAGE);
-     } catch (IllegalArgumentException e) {
-         javax.swing.JOptionPane.showMessageDialog(this, 
-             e.getMessage(), 
-             "Error de validación", 
-             javax.swing.JOptionPane.WARNING_MESSAGE);
-     }        // TODO add your handling code here:
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                "¡Transacción registrada y validada con éxito!", 
+                "Éxito", 
+                javax.swing.JOptionPane.INFORMATION_MESSAGE);
+
+      } catch (NumberFormatException e) {
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                "Por favor, verifique que los campos numéricos (ID, Cuenta, Monto) sean válidos.", 
+                "Error de formato", 
+                javax.swing.JOptionPane.ERROR_MESSAGE);
+        } catch (Exception e) {
+            // Aquí atrapa el error de fondos insuficientes lanzado por el DAO
+            javax.swing.JOptionPane.showMessageDialog(this, 
+                e.getMessage(), 
+                "Acción Denegada / Error", 
+                javax.swing.JOptionPane.WARNING_MESSAGE);
+        }
+ 
+    
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
@@ -240,7 +251,7 @@ tipo.setSelectedIndex(0); // Esto selecciona la primera opción por defecto al l
 monto.setText("");
 descripcion.setText("");
 idadmin.setText("");
-AreaResultado.setText("");       // TODO add your handling code here:
+AreaResultado.setText("");       
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void tipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipoActionPerformed

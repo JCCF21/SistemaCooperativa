@@ -1,19 +1,51 @@
-package com.inf514.sistemacooperativa;
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
+package com.inf514.sistemacooperativa.modelo;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
-public class Transacciones {
+/**
+ *
+ * @author Usuario
+ */
+@Entity
+@Table(name = "transacciones") // Nombre exacto de mi tabla (XAMPP)
+public class Transacciones implements Serializable {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY) // Si el ID es autoincrementable en la base de datos
+    @Column(name = "id_transaccion")
     private int idTransaccion;
+
+    @Column(name = "id_cuenta")
     private int idCuenta;
+
+    @Column(name = "tipo")
     private String tipo; // "DEPÓSITO", "RETIRO"...
+
+    @Column(name = "monto")
     private double monto;
+
+    @Column(name = "fecha")
     private String fecha;
+
+    @Column(name = "descripcion")
     private String descripcion;
+
+    @Column(name = "id_admin")
     private Integer idAdmin;
 
-    // Constructor vacío
+    // Constructor vacío 
     public Transacciones() {
         // Asignamos la fecha actual por defecto al crear el objeto
         this.fecha = LocalDate.now().format(DateTimeFormatter.ofPattern("yyyy-MM-dd"));
@@ -95,7 +127,7 @@ public class Transacciones {
     // --- Método toString  ---
     @Override
     public String toString() {
-        return "Transacción:\n" +
+        return "Transacción:" +
                 "• ID: " + idTransaccion + "\n" +
                 "• Cuenta: " + idCuenta + "\n" +
                 "• Tipo: " + tipo + "\n" +
