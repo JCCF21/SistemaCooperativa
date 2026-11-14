@@ -5,6 +5,7 @@
 package com.inf514.sistemacooperativa.vista;
 
 import com.inf514.sistemacooperativa.modelo.Transacciones;
+import javax.swing.table.DefaultTableModel;
 
 
 /**
@@ -15,12 +16,23 @@ public class FrmTransacciones extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmTransacciones.class.getName());
 
+    private DefaultTableModel modeloTabla;
     /**
      * Creates new form FrmTransacciones
      */
     public FrmTransacciones() {
         initComponents();
-    }
+        configurarTabla(); 
+   }
+    
+private void configurarTabla() {
+    String[] columnas = {"ID Transacción", "ID Cuenta", "Tipo", "Monto (RD$)", "Descripción", "ID Admin", "Fecha"};
+    modeloTabla = new DefaultTableModel(null, columnas);
+    tablaTransacciones.setModel(modeloTabla);
+    
+    // --- LÍNEA EXTRA PARA AJUSTAR EL ANCHO DE LAS COLUMNAS ---
+    tablaTransacciones.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_ALL_COLUMNS);
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -46,7 +58,7 @@ public class FrmTransacciones extends javax.swing.JFrame {
         descripcion = new javax.swing.JTextField();
         idadmin = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
-        AreaResultado = new javax.swing.JTextArea();
+        tablaTransacciones = new javax.swing.JTable();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         tipo = new javax.swing.JComboBox<>();
@@ -105,10 +117,36 @@ public class FrmTransacciones extends javax.swing.JFrame {
 
         jLabel7.setText("IdAdmin");
 
-        AreaResultado.setEditable(false);
-        AreaResultado.setColumns(20);
-        AreaResultado.setRows(5);
-        jScrollPane1.setViewportView(AreaResultado);
+        idtransaccion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                idtransaccionKeyTyped(evt);
+            }
+        });
+
+        idcuenta.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                idcuentaKeyTyped(evt);
+            }
+        });
+
+        idadmin.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                idadminKeyTyped(evt);
+            }
+        });
+
+        tablaTransacciones.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(tablaTransacciones);
 
         jButton1.setText("Registrar");
         jButton1.addActionListener(this::jButton1ActionPerformed);
@@ -129,10 +167,10 @@ public class FrmTransacciones extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addComponent(jLabel3)
-                    .addComponent(jLabel4)
                     .addComponent(jLabel5)
                     .addComponent(jLabel6)
-                    .addComponent(jLabel7))
+                    .addComponent(jLabel7)
+                    .addComponent(jLabel4))
                 .addGap(51, 51, 51)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(idadmin)
@@ -140,65 +178,62 @@ public class FrmTransacciones extends javax.swing.JFrame {
                     .addComponent(monto)
                     .addComponent(idcuenta)
                     .addComponent(idtransaccion)
-                    .addComponent(tipo, 0, 112, Short.MAX_VALUE))
-                .addGap(14, 14, 14)
+                    .addComponent(tipo, 0, 109, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jButton1)
-                        .addGap(39, 39, 39)
-                        .addComponent(jButton2)
-                        .addGap(14, 14, 14))
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 433, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(33, 33, 33)
+                        .addComponent(jButton2))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 574, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(38, 38, 38)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(idtransaccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(idtransaccion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel2))
+                        .addGap(30, 30, 30)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(idcuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel3))
                         .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(tipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4))
+                        .addGap(29, 29, 29)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel3)
-                            .addComponent(idcuenta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(monto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel5))
+                        .addGap(29, 29, 29)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(descripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel6))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel4)
-                            .addComponent(tipo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(25, 25, 25)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(monto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(23, 23, 23)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel6)
-                            .addComponent(descripcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(idadmin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel7))
+                        .addGap(3, 3, 3))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel7)
-                            .addComponent(idadmin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 7, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jButton1)
-                            .addComponent(jButton2))
-                        .addContainerGap())))
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 294, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-                                     
+                                                             
         try {
             int idTransac = Integer.parseInt(idtransaccion.getText().trim());
             int idCta = Integer.parseInt(idcuenta.getText().trim());
@@ -211,17 +246,23 @@ public class FrmTransacciones extends javax.swing.JFrame {
                 idAdm = Integer.valueOf(idadmin.getText().trim());
             }
 
-            //  Crear el objeto con los datos del formulario
+            // Crear el objeto con los datos del formulario
             Transacciones nuevaTransaccion = new Transacciones(
                 idTransac, idCta, tip, mnt, null, desc, idAdm
             );
 
-            //  Instanciar el DAO para guardar y validar en la base de datos de XAMPP
+            // Instanciar el DAO para guardar y validar en la base de datos de XAMPP
             com.inf514.sistemacooperativa.dao.TransaccionDAO dao = new com.inf514.sistemacooperativa.dao.TransaccionDAO();
             dao.guardarTransaccion(nuevaTransaccion); // Aquí dentro se valida si hay fondos si es "RETIRO"
+            
+            // --- PASO 2: OBTENER FECHA ACTUAL E INCLUIRLA EN LA TABLA ---
+            java.text.SimpleDateFormat formatoFecha = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm");
+            String fechaActual = formatoFecha.format(new java.util.Date());
 
-            //  Mostrar éxito en el Área de Resultado y en una ventana emergente
-            AreaResultado.setText(nuevaTransaccion.toString() + "\n\n[Estado: ¡Registrado y guardado en la BD con éxito!]");
+            // Agregamos la fila a la tabla incluyendo la fecha al final
+            Object[] nuevaFila = {idTransac, idCta, tip, mnt, desc, idAdm, fechaActual};
+            modeloTabla.addRow(nuevaFila);
+            // -----------------------------------------------------------
 
             javax.swing.JOptionPane.showMessageDialog(this, 
                 "¡Transacción registrada y validada con éxito!", 
@@ -240,7 +281,6 @@ public class FrmTransacciones extends javax.swing.JFrame {
                 "Acción Denegada / Error", 
                 javax.swing.JOptionPane.WARNING_MESSAGE);
         }
- 
     
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -250,13 +290,38 @@ idcuenta.setText("");
 tipo.setSelectedIndex(0); // Esto selecciona la primera opción por defecto al limpiar
 monto.setText("");
 descripcion.setText("");
-idadmin.setText("");
-AreaResultado.setText("");       
+idadmin.setText("");     
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void tipoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tipoActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_tipoActionPerformed
+
+    private void idadminKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_idadminKeyTyped
+        // Si ya hay 3 caracteres escritos, bloquea cualquier tecla adicional (excepto borrar)
+        if (idadmin.getText().length() >= 3 && evt.getKeyChar() != java.awt.event.KeyEvent.VK_BACK_SPACE) {
+            evt.consume(); // Cancela la tecla presionada
+        }
+           // TODO add your handling code here:
+    }//GEN-LAST:event_idadminKeyTyped
+
+    private void idcuentaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_idcuentaKeyTyped
+                               
+        // Si ya hay 3 caracteres, bloquea cualquier otra tecla 
+        if (idcuenta.getText().length() >= 3 && evt.getKeyChar() != java.awt.event.KeyEvent.VK_BACK_SPACE) {
+            evt.consume(); 
+        }
+           // TODO add your handling code here:
+    }//GEN-LAST:event_idcuentaKeyTyped
+
+    private void idtransaccionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_idtransaccionKeyTyped
+                                     
+        // Si ya hay 3 caracteres, bloquea cualquier otra tecla 
+        if (idtransaccion.getText().length() >= 3 && evt.getKeyChar() != java.awt.event.KeyEvent.VK_BACK_SPACE) {
+            evt.consume(); 
+        }
+          // TODO add your handling code here:
+    }//GEN-LAST:event_idtransaccionKeyTyped
 
     /**
      * @param args the command line arguments
@@ -284,7 +349,6 @@ AreaResultado.setText("");
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextArea AreaResultado;
     private javax.swing.JTextField descripcion;
     private javax.swing.JTextField idadmin;
     private javax.swing.JTextField idcuenta;
@@ -302,6 +366,7 @@ AreaResultado.setText("");
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTextField monto;
+    private javax.swing.JTable tablaTransacciones;
     private javax.swing.JComboBox<String> tipo;
     // End of variables declaration//GEN-END:variables
 }
