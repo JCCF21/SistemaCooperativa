@@ -39,8 +39,6 @@ public class PnlMiembros extends javax.swing.JPanel {
         txtBuscarporCedulaOID = new javax.swing.JTextField();
         lblEstado = new javax.swing.JLabel();
         cbEstado = new javax.swing.JComboBox<>();
-        lblTipodeCuenta = new javax.swing.JLabel();
-        cbTipoDeCuenta = new javax.swing.JComboBox<>();
         jScrollPaneTablaMiembros = new javax.swing.JScrollPane();
         tableMiembros = new javax.swing.JTable();
 
@@ -92,6 +90,11 @@ public class PnlMiembros extends javax.swing.JPanel {
 
         pnlModificarBoton.setBackground(new java.awt.Color(24, 75, 95));
         pnlModificarBoton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pnlModificarBoton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pnlModificarBotonMouseClicked(evt);
+            }
+        });
 
         txtModificar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtModificar.setForeground(new java.awt.Color(255, 255, 255));
@@ -118,6 +121,11 @@ public class PnlMiembros extends javax.swing.JPanel {
 
         pnlEliminarBoton.setBackground(new java.awt.Color(24, 75, 95));
         pnlEliminarBoton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pnlEliminarBoton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                pnlEliminarBotonMouseClicked(evt);
+            }
+        });
 
         txtEliminar.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         txtEliminar.setForeground(new java.awt.Color(255, 255, 255));
@@ -148,24 +156,27 @@ public class PnlMiembros extends javax.swing.JPanel {
         add(lblBuscarPorCedulaOID, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 60, -1, -1));
 
         txtBuscarporCedulaOID.setText("🔍 Busqueda por cedula o ID");
+        txtBuscarporCedulaOID.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                txtBuscarporCedulaOIDMousePressed(evt);
+            }
+        });
         txtBuscarporCedulaOID.addActionListener(this::txtBuscarporCedulaOIDActionPerformed);
+        txtBuscarporCedulaOID.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txtBuscarporCedulaOIDKeyReleased(evt);
+            }
+        });
         add(txtBuscarporCedulaOID, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 90, 244, -1));
 
         lblEstado.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         lblEstado.setForeground(new java.awt.Color(0, 0, 0));
         lblEstado.setText("Estado");
-        add(lblEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 60, -1, -1));
+        add(lblEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 60, -1, -1));
 
-        cbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Estado", "Activo", "Pendiente", "Inactivo" }));
-        add(cbEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 90, 222, -1));
-
-        lblTipodeCuenta.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-        lblTipodeCuenta.setForeground(new java.awt.Color(0, 0, 0));
-        lblTipodeCuenta.setText("Tipo de Cuenta");
-        add(lblTipodeCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 60, -1, -1));
-
-        cbTipoDeCuenta.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Tipo de Cuenta", "Ahorro", "Corriente", "Credito" }));
-        add(cbTipoDeCuenta, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 90, 256, -1));
+        cbEstado.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Estado", "Activo", "Inactivo" }));
+        cbEstado.addActionListener(this::cbEstadoActionPerformed);
+        add(cbEstado, new org.netbeans.lib.awtextra.AbsoluteConstraints(360, 90, 222, -1));
 
         jScrollPaneTablaMiembros.setBackground(new java.awt.Color(244, 239, 230));
 
@@ -244,15 +255,185 @@ public class PnlMiembros extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_pnlNuevoMiembroBotonMouseClicked
 
+    private void txtBuscarporCedulaOIDKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtBuscarporCedulaOIDKeyReleased
+       String textoBusqueda = txtBuscarporCedulaOID.getText().trim();
+        
+        // Si el usuario borra todo o deja el placeholder, recargamos la tabla completa
+        if (textoBusqueda.isEmpty() || textoBusqueda.equals("🔍 Busqueda por cedula o ID")) {
+            cargarTablaMiembros();
+            return;
+        }
+
+        // Definimos las columnas de la tabla (igual que en cargarTablaMiembros)
+        String[] columnas = {"ID", "Cédula", "Nombre Completo", "Teléfono", "Ocupación", "Ingreso", "Estado"};
+        javax.swing.table.DefaultTableModel modelo = new javax.swing.table.DefaultTableModel(null, columnas) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        try {
+            // Usamos el método buscarPorCedula de tu DAO
+            com.inf514.sistemacooperativa.dao.MiembroDAO dao = new com.inf514.sistemacooperativa.dao.MiembroDAO();
+            java.util.List<com.inf514.sistemacooperativa.modelo.Miembro> listaFiltrada = dao.buscarPorCedula(textoBusqueda);
+
+            // Llenamos la tabla con los resultados encontrados
+            for (com.inf514.sistemacooperativa.modelo.Miembro m : listaFiltrada) {
+                Object[] fila = new Object[7];
+                fila[0] = m.getId();
+                fila[1] = m.getCedula();
+                fila[2] = m.getNombreCompleto();
+                fila[3] = m.getTelefono();
+                fila[4] = m.getOcupacion();
+                fila[5] = m.getIngresoMensual();
+                fila[6] = m.isActivo() ? "Activo" : "Inactivo";
+                modelo.addRow(fila);
+            }
+            
+            tableMiembros.setModel(modelo);
+
+        } catch (Exception e) {
+            System.out.println("Error al filtrar: " + e.getMessage());
+        }
+    }//GEN-LAST:event_txtBuscarporCedulaOIDKeyReleased
+
+    private void txtBuscarporCedulaOIDMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtBuscarporCedulaOIDMousePressed
+        if (txtBuscarporCedulaOID.getText().equals("🔍 Busqueda por cedula o ID")) {
+            txtBuscarporCedulaOID.setText("");
+            txtBuscarporCedulaOID.setForeground(java.awt.Color.BLACK);
+        }
+    }//GEN-LAST:event_txtBuscarporCedulaOIDMousePressed
+
+    private void pnlModificarBotonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlModificarBotonMouseClicked
+        try {
+        // 1. Validar que seleccionó a alguien en la tabla
+        int filaSeleccionada = tableMiembros.getSelectedRow();
+        if (filaSeleccionada == -1) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Por favor, seleccione un socio de la tabla primero.", "Aviso", javax.swing.JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
+        // 2. Extraer el ID de la tabla (Columna 0)
+        int idSocio = (int) tableMiembros.getValueAt(filaSeleccionada, 0);
+
+        // 3. Buscar todos sus datos completos en la BD
+        com.inf514.sistemacooperativa.dao.MiembroDAO dao = new com.inf514.sistemacooperativa.dao.MiembroDAO();
+        com.inf514.sistemacooperativa.modelo.Miembro miembroAEditar = dao.buscarPorId(idSocio);
+
+        // 4. Abrir la ventana inyectándole los datos (Usando tu NUEVO constructor de edición)
+        if (miembroAEditar != null) {
+            java.awt.Window window = javax.swing.SwingUtilities.getWindowAncestor(this);
+            java.awt.Frame parentFrame = (window instanceof java.awt.Frame) ? (java.awt.Frame) window : null;
+
+            DlgNuevoMiembro dialogModificar = new DlgNuevoMiembro(parentFrame, true, miembroAEditar);
+            dialogModificar.setLocationRelativeTo(null);
+            dialogModificar.setVisible(true);
+
+            // 5. Recargar la tabla automáticamente por si cambiaste algún dato
+            cargarTablaMiembros(); 
+        }
+
+    } catch (Exception e) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Error al cargar datos para modificar: " + e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+    }
+    }//GEN-LAST:event_pnlModificarBotonMouseClicked
+
+    private void pnlEliminarBotonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlEliminarBotonMouseClicked
+        try {
+        // 1. Detectar qué fila seleccionó el usuario en la tabla
+        int filaSeleccionada = tableMiembros.getSelectedRow();
+        
+        if (filaSeleccionada == -1) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Por favor, seleccione un socio de la tabla primero.", "Aviso", javax.swing.JOptionPane.WARNING_MESSAGE);
+            return; // Detenemos la ejecución si no eligió a nadie
+        }
+
+        // 2. Extraer el ID y el Nombre de esa fila específica 
+        int idSocio = (int) tableMiembros.getValueAt(filaSeleccionada, 0);
+        String nombreSocio = (String) tableMiembros.getValueAt(filaSeleccionada, 2);
+
+        // 3. Pedir confirmación por seguridad
+        int respuesta = javax.swing.JOptionPane.showConfirmDialog(this, 
+                "¿Está seguro que desea dar de baja al socio:\n" + nombreSocio + "?", 
+                "Confirmar Eliminación", 
+                javax.swing.JOptionPane.YES_NO_OPTION, 
+                javax.swing.JOptionPane.WARNING_MESSAGE);
+
+        // 4. Si el usuario confirma, procedemos a desactivarlo
+        if (respuesta == javax.swing.JOptionPane.YES_OPTION) {
+            com.inf514.sistemacooperativa.dao.MiembroDAO dao = new com.inf514.sistemacooperativa.dao.MiembroDAO();
+            dao.cambiarEstado(idSocio, false); // false = inactivo
+
+            // 5. Avisar al usuario y recargar la tabla visualmente
+            javax.swing.JOptionPane.showMessageDialog(this, "Socio dado de baja exitosamente.", "Éxito", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+            cargarTablaMiembros(); 
+        }
+
+    } catch (Exception e) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Error al intentar eliminar: " + e.getMessage(), "Error Crítico", javax.swing.JOptionPane.ERROR_MESSAGE);
+    }
+    }//GEN-LAST:event_pnlEliminarBotonMouseClicked
+
+    private void cbEstadoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cbEstadoActionPerformed
+        // TODO add your handling code here                                       
+        String estadoSeleccionado = cbEstado.getSelectedItem().toString();
+        
+        // 1. Definir el modelo de la tabla
+        String[] columnas = {"ID", "Cédula", "Nombre Completo", "Teléfono", "Ocupación", "Ingreso", "Estado"};
+        javax.swing.table.DefaultTableModel modelo = new javax.swing.table.DefaultTableModel(null, columnas) {
+            @Override
+            public boolean isCellEditable(int row, int column) {
+                return false;
+            }
+        };
+
+        try {
+            // 2. Traer todos los miembros de la base de datos
+            com.inf514.sistemacooperativa.dao.MiembroDAO dao = new com.inf514.sistemacooperativa.dao.MiembroDAO();
+            java.util.List<com.inf514.sistemacooperativa.modelo.Miembro> listaCompleta = dao.obtenerMiembros();
+
+            // 3. Filtrar según la selección del ComboBox
+            for (com.inf514.sistemacooperativa.modelo.Miembro m : listaCompleta) {
+                boolean mostrar = false;
+                
+                if (estadoSeleccionado.equals("Estado")) {
+                    mostrar = true; // Opción por defecto: mostrar todos
+                } else if (estadoSeleccionado.equals("Activo") && m.isActivo()) {
+                    mostrar = true;
+                } else if (estadoSeleccionado.equals("Inactivo") && !m.isActivo()) {
+                    mostrar = true;
+                }
+                // Nota: Tu modelo (boolean) no tiene estado "Pendiente", así que esa opción quedará vacía lógicamente.
+
+                // 4. Si pasa el filtro, agregarlo a la tabla visual
+                if (mostrar) {
+                    Object[] fila = new Object[7];
+                    fila[0] = m.getId();
+                    fila[1] = m.getCedula();
+                    fila[2] = m.getNombreCompleto();
+                    fila[3] = m.getTelefono();
+                    fila[4] = m.getOcupacion();
+                    fila[5] = m.getIngresoMensual();
+                    fila[6] = m.isActivo() ? "Activo" : "Inactivo";
+                    modelo.addRow(fila);
+                }
+            }
+            
+            tableMiembros.setModel(modelo);
+
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Error al filtrar por estado: " + e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_cbEstadoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> cbEstado;
-    private javax.swing.JComboBox<String> cbTipoDeCuenta;
     private javax.swing.JScrollPane jScrollPaneTablaMiembros;
     private javax.swing.JLabel lblBuscarPorCedulaOID;
     private javax.swing.JLabel lblEstado;
     private javax.swing.JLabel lblGestionDeMiembros;
-    private javax.swing.JLabel lblTipodeCuenta;
     private javax.swing.JPanel pnlEliminarBoton;
     private javax.swing.JPanel pnlModificarBoton;
     private javax.swing.JPanel pnlNuevoMiembroBoton;

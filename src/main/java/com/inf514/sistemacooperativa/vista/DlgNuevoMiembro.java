@@ -14,6 +14,8 @@ import javax.swing.JOptionPane;
 public class DlgNuevoMiembro extends javax.swing.JDialog {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(DlgNuevoMiembro.class.getName());
+    private boolean modoEdicion = false;
+    private int idMiembroEdicion = -1;
 
     /**
      * Creates new form DlgNuevoMiembro
@@ -21,6 +23,44 @@ public class DlgNuevoMiembro extends javax.swing.JDialog {
     public DlgNuevoMiembro(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+    }
+    // Nuevo constructor para MODO EDICIÓN
+    public DlgNuevoMiembro(java.awt.Frame parent, boolean modal, Miembro m) {
+        super(parent, modal);
+        initComponents();
+        
+        this.modoEdicion = true;
+        this.idMiembroEdicion = m.getId();
+        
+        this.setTitle("Modificar Socio");
+        
+        // Llenar los campos con los datos del miembro
+        txtNombre.setText(m.getNombreCompleto());
+        txtNombre.setForeground(Color.BLACK);
+        
+        txtCedula.setText(m.getCedula());
+        txtCedula.setForeground(Color.BLACK);
+        
+        txtTelefono.setText(m.getTelefono());
+        txtTelefono.setForeground(Color.BLACK);
+        
+        txtCorreo.setText(m.getCorreo());
+        txtCorreo.setForeground(Color.BLACK);
+        
+        txtDireccion.setText(m.getDireccion());
+        txtDireccion.setForeground(Color.BLACK);
+        
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        txtFechaNacimiento.setText(m.getFechaNacimiento().format(formatter));
+        
+        txtOcupacion.setText(m.getOcupacion());
+        txtOcupacion.setForeground(Color.BLACK);
+        
+        txtIngresosMensuales.setText(String.valueOf(m.getIngresoMensual()));
+        txtIngresosMensuales.setForeground(Color.BLACK);
+        
+        txtBeneficiario.setText(m.getBeneficiario());
+        txtBeneficiario.setForeground(Color.BLACK);
     }
 
     /**
@@ -608,14 +648,22 @@ public class DlgNuevoMiembro extends javax.swing.JDialog {
             // Como usaste un MaskFormatter, la fecha viene con formato estricto
             LocalDate fechaNac = LocalDate.parse(textoFecha, formatter);
 
-            // 4. Instanciar y Guardar (Ahora usa la variable beneficiario real)
-            Miembro nuevoMiembro = new Miembro(cedula, nombre, telefono, correo, direccion, fechaNac, ocupacion, ingreso, beneficiario, true);
+            // 4. Instanciar el Miembro
+            Miembro miembroFormulario = new Miembro(cedula, nombre, telefono, correo, direccion, fechaNac, ocupacion, ingreso, beneficiario, true);
             MiembroDAO dao = new MiembroDAO();
-            dao.guardar(nuevoMiembro);
-
-            // 5. Cierre exitoso
-            JOptionPane.showMessageDialog(this, "Socio registrado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
-            this.dispose();
+            
+            // Si estamos editando, le ponemos su ID original y usamos el método de actualizar
+            if (modoEdicion) {
+                miembroFormulario.setId(idMiembroEdicion); 
+                dao.modificar(miembroFormulario);
+                JOptionPane.showMessageDialog(this, "Socio actualizado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                // Si es nuevo, lo guardamos normal
+                dao.guardar(miembroFormulario);
+                JOptionPane.showMessageDialog(this, "Socio registrado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+            }
+            
+            this.dispose(); // 5. Cerramos la ventana
 
         } catch (java.time.format.DateTimeParseException ex) {
             JOptionPane.showMessageDialog(this, "Formato de fecha inválido. Ingrese una fecha real.", "Error", JOptionPane.ERROR_MESSAGE);

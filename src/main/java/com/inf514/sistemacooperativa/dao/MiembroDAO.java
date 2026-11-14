@@ -69,6 +69,14 @@ public class MiembroDAO {
             em.close();
         }
     }
+    public Miembro buscarPorId(int id) {
+        EntityManager em = emf.createEntityManager();
+        try {
+            return em.find(Miembro.class, id);
+        } finally {
+            em.close();
+        }
+    }
     public void cambiarEstado(int id, boolean nuevoEstado) {
         EntityManager em = emf.createEntityManager();
         try {
