@@ -1,40 +1,73 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package com.inf514.sistemacooperativa.modelo;
 
-import java.util.Date;
+import java.time.LocalDate;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 
 /**
  *
  * @author jfria
  */
+@Entity
+@Table(name= "miembros")
 public class Miembro {
+    
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    
+    @Column(unique = true, nullable = false, length = 15)
     private String cedula;
+    
+    @Column(name = "nombre_completo", nullable = false, length = 100)
     private String nombreCompleto;
+    
+    @Column(length = 15)
     private String telefono;
+    
+    @Column(length = 100)
     private String correo;
+    
+    @Column(length = 250)
     private String direccion;
-    private Date fechaNacimiento;
+    
+    @Column(name = "fecha_nacimiento" )
+    private LocalDate fechaNacimiento; // Cambiado a LocalDate
+    
+    @Column(length = 100)
+    private String ocupacion;
+    
+    @Column(name = "ingreso_mensual")
+    private double ingresoMensual;
+    
+    @Column(length = 100)
+    private String beneficiario; // Agregado para coincidir con el registro
+    
+    @Column(nullable = false)
     private boolean activo;
     
     public Miembro(){
         
     }
 
-    public Miembro(int id, String cedula, String nombreCompleto, String telefono, String correo, String direccion, Date fechaNacimiento, boolean activo) {
-        this.id = id;
+    // CONSTRUCTOR SIN ID (Exactamente el que necesita tu ventana DlgNuevoMiembro)
+    public Miembro(String cedula, String nombreCompleto, String telefono, String correo, String direccion, LocalDate fechaNacimiento, String ocupacion, double ingresoMensual, String beneficiario, boolean activo) {
         this.cedula = cedula;
         this.nombreCompleto = nombreCompleto;
         this.telefono = telefono;
         this.correo = correo;
         this.direccion = direccion;
         this.fechaNacimiento = fechaNacimiento;
+        this.ocupacion = ocupacion;
+        this.ingresoMensual = ingresoMensual;
+        this.beneficiario = beneficiario;
         this.activo = activo;
     }
-
+    
     public int getId() {
         return id;
     }
@@ -83,11 +116,11 @@ public class Miembro {
         this.direccion = direccion;
     }
 
-    public Date getFechaNacimiento() {
+    public LocalDate getFechaNacimiento() {
         return fechaNacimiento;
     }
 
-    public void setFechaNacimiento(Date fechaNacimiento) {
+    public void setFechaNacimiento(LocalDate fechaNacimiento) {
         this.fechaNacimiento = fechaNacimiento;
     }
 
@@ -97,6 +130,30 @@ public class Miembro {
 
     public void setActivo(boolean activo) {
         this.activo = activo;
+    }
+
+    public String getOcupacion() {
+        return ocupacion;
+    }
+
+    public void setOcupacion(String ocupacion) {
+        this.ocupacion = ocupacion;
+    }
+
+    public double getIngresoMensual() {
+        return ingresoMensual;
+    }
+
+    public void setIngresoMensual(double ingresoMensual) {
+        this.ingresoMensual = ingresoMensual;
+    }
+
+    public String getBeneficiario() {
+        return beneficiario;
+    }
+
+    public void setBeneficiario(String beneficiario) {
+        this.beneficiario = beneficiario;
     }
             
 }
