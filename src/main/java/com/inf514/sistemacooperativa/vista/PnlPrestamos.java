@@ -188,7 +188,6 @@ private void colorearEstados() {
         btnRechazar = new javax.swing.JButton();
         PnlBuscador = new javax.swing.JPanel();
         txtBuscarPrestamo = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
         btnModificar = new javax.swing.JButton();
 
         jPanel1.setBackground(new java.awt.Color(244, 239, 230));
@@ -286,7 +285,7 @@ private void colorearEstados() {
         btnNuevaSolicitud.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnNuevaSolicitud.setForeground(new java.awt.Color(255, 255, 255));
         btnNuevaSolicitud.setText("Nueva solicitud");
-        btnNuevaSolicitud.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnNuevaSolicitud.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnNuevaSolicitud.setFocusPainted(false);
         btnNuevaSolicitud.setIconTextGap(8);
         btnNuevaSolicitud.setPreferredSize(new java.awt.Dimension(170, 40));
@@ -296,7 +295,7 @@ private void colorearEstados() {
         btnAprobar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnAprobar.setForeground(new java.awt.Color(255, 255, 255));
         btnAprobar.setText("Aprobar");
-        btnAprobar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAprobar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnAprobar.setFocusPainted(false);
         btnAprobar.setIconTextGap(8);
         btnAprobar.setPreferredSize(new java.awt.Dimension(170, 40));
@@ -306,7 +305,7 @@ private void colorearEstados() {
         btnRechazar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnRechazar.setForeground(new java.awt.Color(255, 255, 255));
         btnRechazar.setText("Rechazar");
-        btnRechazar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnRechazar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnRechazar.setFocusPainted(false);
         btnRechazar.setIconTextGap(8);
         btnRechazar.setPreferredSize(new java.awt.Dimension(170, 40));
@@ -326,23 +325,15 @@ private void colorearEstados() {
             }
         });
 
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icono de lupa azul petróleo.png"))); // NOI18N
-
         javax.swing.GroupLayout PnlBuscadorLayout = new javax.swing.GroupLayout(PnlBuscador);
         PnlBuscador.setLayout(PnlBuscadorLayout);
         PnlBuscadorLayout.setHorizontalGroup(
             PnlBuscadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(PnlBuscadorLayout.createSequentialGroup()
-                .addComponent(txtBuscarPrestamo, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jLabel2)
-                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(txtBuscarPrestamo, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         PnlBuscadorLayout.setVerticalGroup(
             PnlBuscadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(txtBuscarPrestamo)
-            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+            .addComponent(txtBuscarPrestamo, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
         );
 
         btnModificar.setBackground(new java.awt.Color(206, 146, 52));
@@ -350,7 +341,7 @@ private void colorearEstados() {
         btnModificar.setForeground(new java.awt.Color(255, 255, 255));
         btnModificar.setText("Modificar");
         btnModificar.setToolTipText("Modificar solicitud de préstamo");
-        btnModificar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnModificar.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnModificar.setFocusPainted(false);
         btnModificar.setIconTextGap(8);
         btnModificar.setPreferredSize(new java.awt.Dimension(170, 40));
@@ -365,6 +356,9 @@ private void colorearEstados() {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(PnlBuscador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(28, 28, 28)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -376,10 +370,7 @@ private void colorearEstados() {
                                     .addComponent(btnRechazar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btnAprobar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(PnlBuscador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -598,7 +589,6 @@ try {
     private javax.swing.JButton btnNuevaSolicitud;
     private javax.swing.JButton btnRechazar;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;

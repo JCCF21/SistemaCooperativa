@@ -23,6 +23,8 @@ public class DlgNuevoMiembro extends javax.swing.JDialog {
     public DlgNuevoMiembro(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        chkActivo.setSelected(true);
+        chkActivo.setEnabled(false);
     }
     // Nuevo constructor para MODO EDICIÓN
     public DlgNuevoMiembro(java.awt.Frame parent, boolean modal, Miembro m) {
@@ -61,6 +63,9 @@ public class DlgNuevoMiembro extends javax.swing.JDialog {
         
         txtBeneficiario.setText(m.getBeneficiario());
         txtBeneficiario.setForeground(Color.BLACK);
+        
+        chkActivo.setSelected(m.isActivo());
+        chkActivo.setEnabled(true); // En modo edición sí puedes activar o desactivar
     }
 
     /**
@@ -103,6 +108,7 @@ public class DlgNuevoMiembro extends javax.swing.JDialog {
         lblBeneficiario = new javax.swing.JLabel();
         txtBeneficiario = new javax.swing.JTextField();
         jSeparatorBeneficiario = new javax.swing.JSeparator();
+        chkActivo = new javax.swing.JCheckBox();
         pnlGuardarBoton = new javax.swing.JPanel();
         lblGuardar = new javax.swing.JLabel();
         pnlCancelarBoton = new javax.swing.JPanel();
@@ -339,6 +345,13 @@ public class DlgNuevoMiembro extends javax.swing.JDialog {
 
         jSeparatorBeneficiario.setForeground(new java.awt.Color(0, 0, 0));
 
+        chkActivo.setBackground(new java.awt.Color(244, 239, 230));
+        chkActivo.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        chkActivo.setForeground(new java.awt.Color(0, 0, 0));
+        chkActivo.setSelected(true);
+        chkActivo.setText("Activar Socio");
+        chkActivo.addActionListener(this::chkActivoActionPerformed);
+
         javax.swing.GroupLayout pnlDatosFinacieroLayout = new javax.swing.GroupLayout(pnlDatosFinaciero);
         pnlDatosFinaciero.setLayout(pnlDatosFinacieroLayout);
         pnlDatosFinacieroLayout.setHorizontalGroup(
@@ -364,7 +377,8 @@ public class DlgNuevoMiembro extends javax.swing.JDialog {
                             .addGroup(pnlDatosFinacieroLayout.createSequentialGroup()
                                 .addGroup(pnlDatosFinacieroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addComponent(txtBeneficiario, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jSeparatorBeneficiario, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jSeparatorBeneficiario, javax.swing.GroupLayout.PREFERRED_SIZE, 258, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(chkActivo))
                                 .addContainerGap())))))
         );
         pnlDatosFinacieroLayout.setVerticalGroup(
@@ -385,7 +399,9 @@ public class DlgNuevoMiembro extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblIngresos)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(txtIngresosMensuales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(pnlDatosFinacieroLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txtIngresosMensuales, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(chkActivo))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jSeparatorIngresos, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(24, Short.MAX_VALUE))
@@ -648,13 +664,17 @@ public class DlgNuevoMiembro extends javax.swing.JDialog {
             // Como usaste un MaskFormatter, la fecha viene con formato estricto
             LocalDate fechaNac = LocalDate.parse(textoFecha, formatter);
 
-            // 4. Instanciar el Miembro
-            Miembro miembroFormulario = new Miembro(cedula, nombre, telefono, correo, direccion, fechaNac, ocupacion, ingreso, beneficiario, true);
-            MiembroDAO dao = new MiembroDAO();
-            
+           // 4. Instanciar el Miembro usando el estado del CheckBox
+            boolean estadoActivo = chkActivo.isSelected();
+            Miembro miembroFormulario = new Miembro(
+                    cedula, nombre, telefono, correo, direccion,
+                    fechaNac, ocupacion, ingreso, beneficiario, estadoActivo
+            );
+            MiembroDAO dao = new MiembroDAO(); // <-- Esta línea faltaba
+
             // Si estamos editando, le ponemos su ID original y usamos el método de actualizar
             if (modoEdicion) {
-                miembroFormulario.setId(idMiembroEdicion); 
+                miembroFormulario.setId(idMiembroEdicion);
                 dao.modificar(miembroFormulario);
                 JOptionPane.showMessageDialog(this, "Socio actualizado exitosamente.", "Éxito", JOptionPane.INFORMATION_MESSAGE);
             } else {
@@ -690,6 +710,10 @@ public class DlgNuevoMiembro extends javax.swing.JDialog {
     private void txtBeneficiarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtBeneficiarioActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtBeneficiarioActionPerformed
+
+    private void chkActivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkActivoActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chkActivoActionPerformed
 
     /**
      * @param args the command line arguments
@@ -729,6 +753,7 @@ public class DlgNuevoMiembro extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JCheckBox chkActivo;
     private javax.swing.JSeparator jSeparatorBeneficiario;
     private javax.swing.JSeparator jSeparatorCedula;
     private javax.swing.JSeparator jSeparatorEmail;

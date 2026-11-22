@@ -53,9 +53,12 @@ public class DlgNuevoPrestamo extends javax.swing.JDialog {
     public void changedUpdate(DocumentEvent e) {
         calcularPrestamo();
     }
-});
+    });
     
     
+    }
+    public DlgNuevoPrestamo(java.awt.Frame parent, boolean modal, Prestamo prestamo) {
+        this(parent, modal);
     }
     private void calcularPrestamo() {
 
@@ -192,7 +195,6 @@ public class DlgNuevoPrestamo extends javax.swing.JDialog {
 
         btnBuscarMiembro.setBackground(new java.awt.Color(74, 122, 150));
         btnBuscarMiembro.setForeground(new java.awt.Color(255, 255, 255));
-        btnBuscarMiembro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/lupa_24px.png"))); // NOI18N
         btnBuscarMiembro.setToolTipText("Buscar Miembro");
         btnBuscarMiembro.setInheritsPopupMenu(true);
         btnBuscarMiembro.addActionListener(this::btnBuscarMiembroActionPerformed);

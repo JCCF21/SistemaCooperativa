@@ -453,6 +453,7 @@
                                           <Group type="103" groupAlignment="0" attributes="0">
                                               <Component id="txtBeneficiario" min="-2" pref="258" max="-2" attributes="0"/>
                                               <Component id="jSeparatorBeneficiario" min="-2" pref="258" max="-2" attributes="0"/>
+                                              <Component id="chkActivo" min="-2" max="-2" attributes="0"/>
                                           </Group>
                                           <EmptySpace max="-2" attributes="0"/>
                                       </Group>
@@ -483,7 +484,10 @@
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="lblIngresos" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="txtIngresosMensuales" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="txtIngresosMensuales" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="chkActivo" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Component id="jSeparatorIngresos" min="-2" pref="16" max="-2" attributes="0"/>
                           <EmptySpace pref="24" max="32767" attributes="0"/>
@@ -590,6 +594,24 @@
                       <Color blue="0" green="0" red="0" type="rgb"/>
                     </Property>
                   </Properties>
+                </Component>
+                <Component class="javax.swing.JCheckBox" name="chkActivo">
+                  <Properties>
+                    <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="e6" green="ef" red="f4" type="rgb"/>
+                    </Property>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+                      <Font name="Segoe UI" size="14" style="1"/>
+                    </Property>
+                    <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+                      <Color blue="0" green="0" red="0" type="rgb"/>
+                    </Property>
+                    <Property name="selected" type="boolean" value="true"/>
+                    <Property name="text" type="java.lang.String" value="Activar Socio"/>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="chkActivoActionPerformed"/>
+                  </Events>
                 </Component>
               </SubComponents>
             </Container>
