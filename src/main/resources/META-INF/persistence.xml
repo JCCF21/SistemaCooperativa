@@ -11,7 +11,7 @@
         
         <class>com.inf514.sistemacooperativa.modelo.Usuario</class>
         <class>com.inf514.sistemacooperativa.modelo.Miembro</class>
-
+        <class>com.inf514.sistemacooperativa.modelo.CuentaAhorro</class>
         <properties>
        <!--Configuracion de la conexion de la base de datos  -->
             <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/cooperativadb?useSSL=false&amp;serverTimezone=UTC"/>
