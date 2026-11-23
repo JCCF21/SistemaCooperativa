@@ -20,13 +20,14 @@ public class FrmPrincipal extends javax.swing.JFrame {
 
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(FrmPrincipal.class.getName());
     private JPanel botonActivo;
+    private Usuario usuarioActual;
 
     /**
      * Creates new form ResgirterMainScreen
      */
     public FrmPrincipal(Usuario usuario) {
         initComponents();
-
+        this.usuarioActual = usuario;
         botonActivo = pnlInicioBoton;
         seleccionarBoton(pnlInicioBoton);
         mostrarPanel(new PnlInicio());
@@ -553,7 +554,7 @@ public class FrmPrincipal extends javax.swing.JFrame {
     private void pnlPresupuestoBotonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlPresupuestoBotonMouseClicked
         // TODO add your handling code here:
         seleccionarBoton(pnlPresupuestoBoton);
-        mostrarPanel(new PnlPresupuesto());
+        mostrarPanel(new PnlPresupuesto(usuarioActual));
     }//GEN-LAST:event_pnlPresupuestoBotonMouseClicked
 
     private void pnlInicioBotonMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pnlInicioBotonMouseEntered
