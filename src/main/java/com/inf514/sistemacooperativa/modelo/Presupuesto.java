@@ -33,6 +33,11 @@ public class Presupuesto {
     @JoinColumn(name = "usuario_id", nullable = false)
     private Usuario usuario;
 
+    // Miembro al que se le suma este presupuesto (o gasto)
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "miembro_id")
+    private Miembro miembro;
+
     @Column(nullable = false, length = 100)
     private String nombre;
 
@@ -59,13 +64,19 @@ public class Presupuesto {
     }
 
     public Presupuesto(Usuario usuario, String nombre, String descripcion,
-            BigDecimal montoTotal, Date fechaInicio, Date fechaFin) {
+                       BigDecimal montoTotal, Date fechaInicio, Date fechaFin) {
         this.usuario = usuario;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.montoTotal = montoTotal;
         this.fechaInicio = fechaInicio;
         this.fechaFin = fechaFin;
+    }
+
+    public Presupuesto(Usuario usuario, Miembro miembro, String nombre, String descripcion,
+                       BigDecimal montoTotal, Date fechaInicio, Date fechaFin) {
+        this(usuario, nombre, descripcion, montoTotal, fechaInicio, fechaFin);
+        this.miembro = miembro;
     }
 
     // ---- Lógica de negocio ----
@@ -102,6 +113,14 @@ public class Presupuesto {
 
     public void setUsuario(Usuario usuario) {
         this.usuario = usuario;
+    }
+
+    public Miembro getMiembro() {
+        return miembro;
+    }
+
+    public void setMiembro(Miembro miembro) {
+        this.miembro = miembro;
     }
 
     public String getNombre() {
