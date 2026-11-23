@@ -1,6 +1,5 @@
 package com.inf514.sistemacooperativa.vista;
 
-import com.inf514.sistemacooperativa.dao.MiembroDAO;
 import com.inf514.sistemacooperativa.dao.PresupuestoDAO;
 import com.inf514.sistemacooperativa.modelo.Miembro;
 import com.inf514.sistemacooperativa.modelo.Presupuesto;
@@ -19,15 +18,17 @@ import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTabbedPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.ListSelectionModel;
@@ -36,8 +37,17 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
- * Panel de gestión de presupuestos del usuario que inició sesión.
+ * Panel de presupuesto de los miembros de la cooperativa.
  * Se construye por código (no usa .form de NetBeans).
+ *
+ * Reglas:
+ *  - Aporte inicial de cada miembro = % de su ingreso mensual
+ *    (7% si < 30,000; 9% de 30,000 a 70,000; 12% si > 70,000).
+ *  - Presupuesto actual (C) = aporte + presupuestos adicionales registrados en las barras de arriba.
+ *  - Presupuesto con interés = C * (1 + i)^t, con i = 8% anual y t = 1 año.
+ *  - "Presupuestado" suma el presupuesto con interés de todos los miembros activos.
+ *  - "Disponible" suma solo el 40% de C (sin interés) menos lo gastado.
+ *
  * autor@EAdon
  */
 public class PnlPresupuesto extends JPanel {
@@ -45,38 +55,42 @@ public class PnlPresupuesto extends JPanel {
     private static final Color COLOR_OSCURO = new Color(24, 75, 95);
     private static final Color COLOR_CLARO = new Color(221, 238, 249);
     private static final String FORMATO_FECHA = "dd/MM/yyyy";
-
-    // Interés: I = C * i * t, con i = 8% anual, t = 1 año, capitalización anual
-    private static final BigDecimal TASA_INTERES = new BigDecimal("0.08");
     private static final int ANIOS = 1;
+
+    // Índices de columnas de la tabla de miembros
+    private static final int COL_NOMBRE = 2;
 
     private final Usuario usuario;
     private final PresupuestoDAO dao = new PresupuestoDAO();
-    private final MiembroDAO miembroDAO = new MiembroDAO();
     private final DecimalFormat formatoMoneda = new DecimalFormat("#,##0.00");
-
-    // id del presupuesto en edición (0 = nuevo)
-    private int idEnEdicion = 0;
 
     private JTextField txtNombre;
     private JTextField txtDescripcion;
     private JTextField txtMonto;
     private JTextField txtFechaInicio;
     private JTextField txtFechaFin;
-    private JTable tabla;
-    private DefaultTableModel modeloTabla;
     private JLabel lblTotalPresupuestado;
     private JLabel lblTotalGastado;
     private JLabel lblTotalDisponible;
-    private JLabel lblModo;
     private JTable tablaMiembros;
     private DefaultTableModel modeloMiembros;
     private JLabel lblTotalMiembros;
 
+    /** Cálculo de presupuesto de un miembro. */
+    private static class ResumenMiembro {
+        Miembro miembro;
+        BigDecimal ingreso;
+        BigDecimal porcentaje;
+        BigDecimal aporte;
+        BigDecimal actual;
+        BigDecimal conInteres;
+        BigDecimal gastado;
+        BigDecimal disponible;
+    }
+
     public PnlPresupuesto(Usuario usuario) {
         this.usuario = usuario;
         construirInterfaz();
-        cargarTabla();
         cargarMiembros();
     }
 
@@ -89,11 +103,7 @@ public class PnlPresupuesto extends JPanel {
         setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
 
         add(crearPanelFormulario(), BorderLayout.NORTH);
-        JTabbedPane pestanias = new JTabbedPane();
-        pestanias.setFont(new Font("Segoe UI", Font.BOLD, 13));
-        pestanias.addTab("Presupuestos", crearPanelTabla());
-        pestanias.addTab("Miembros y proyección", crearPanelMiembros());
-        add(pestanias, BorderLayout.CENTER);
+        add(crearPanelMiembros(), BorderLayout.CENTER);
         add(crearPanelResumen(), BorderLayout.SOUTH);
     }
 
@@ -112,7 +122,7 @@ public class PnlPresupuesto extends JPanel {
         c.gridx = 0; c.gridy = 0; c.gridwidth = 2; c.weightx = 0;
         panel.add(titulo, c);
 
-        lblModo = new JLabel("Nuevo presupuesto");
+        JLabel lblModo = new JLabel("Agregar presupuesto a un miembro registrado");
         lblModo.setFont(new Font("Segoe UI", Font.ITALIC, 13));
         c.gridx = 2; c.gridy = 0; c.gridwidth = 2;
         panel.add(lblModo, c);
@@ -124,9 +134,9 @@ public class PnlPresupuesto extends JPanel {
         txtFechaInicio = new JTextField(10);
         txtFechaFin = new JTextField(10);
 
-        agregarCampo(panel, c, 1, 0, "Nombre:", txtNombre);
+        agregarCampo(panel, c, 1, 0, "Nombre del miembro:", txtNombre);
         agregarCampo(panel, c, 1, 2, "Descripción:", txtDescripcion);
-        agregarCampo(panel, c, 2, 0, "Monto total (RD$):", txtMonto);
+        agregarCampo(panel, c, 2, 0, "Monto (RD$):", txtMonto);
         agregarCampo(panel, c, 2, 2, "Fecha inicio (dd/MM/yyyy):", txtFechaInicio);
         agregarCampo(panel, c, 3, 2, "Fecha fin (dd/MM/yyyy):", txtFechaFin);
 
@@ -172,31 +182,9 @@ public class PnlPresupuesto extends JPanel {
         return b;
     }
 
-    private JScrollPane crearPanelTabla() {
-        String[] columnas = {"ID", "Nombre", "Descripción", "Total", "Gastado", "Disponible", "Inicio", "Fin"};
-        modeloTabla = new DefaultTableModel(null, columnas) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                return false;
-            }
-        };
-        tabla = new JTable(modeloTabla);
-        tabla.setRowHeight(24);
-        tabla.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
-        tabla.getTableHeader().setReorderingAllowed(false);
-        tabla.getTableHeader().setBackground(COLOR_OSCURO);
-        tabla.getTableHeader().setForeground(Color.WHITE);
-        tabla.getSelectionModel().addListSelectionListener(e -> {
-            if (!e.getValueIsAdjusting()) {
-                cargarSeleccionEnFormulario();
-            }
-        });
-        return new JScrollPane(tabla);
-    }
-
     private JPanel crearPanelMiembros() {
-        String[] columnas = {"ID", "Cédula", "Nombre Completo", "Ocupación", "Estado",
-                "Presupuesto actual", "Presupuesto con interés (8%)"};
+        String[] columnas = {"ID", "Cédula", "Nombre Completo", "Estado", "Ingreso mensual",
+                "% aporte", "Presupuesto actual", "Presupuesto con interés (8%)", "Disponible (40%)"};
         modeloMiembros = new DefaultTableModel(null, columnas) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -205,17 +193,32 @@ public class PnlPresupuesto extends JPanel {
         };
         tablaMiembros = new JTable(modeloMiembros);
         tablaMiembros.setRowHeight(24);
+        tablaMiembros.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
         tablaMiembros.getTableHeader().setReorderingAllowed(false);
         tablaMiembros.getTableHeader().setBackground(COLOR_OSCURO);
         tablaMiembros.getTableHeader().setForeground(Color.WHITE);
 
-        // Las dos columnas de dinero (a la derecha de la tabla) alineadas a la derecha
+        // Al seleccionar un miembro, su nombre pasa a la barra de arriba
+        tablaMiembros.getSelectionModel().addListSelectionListener(e -> {
+            if (!e.getValueIsAdjusting()) {
+                int fila = tablaMiembros.getSelectedRow();
+                if (fila != -1) {
+                    Object nombre = modeloMiembros.getValueAt(fila, COL_NOMBRE);
+                    txtNombre.setText(nombre == null ? "" : nombre.toString());
+                }
+            }
+        });
+
+        // Columnas numéricas (ingreso, %, presupuestos, disponible) alineadas a la derecha
         DefaultTableCellRenderer derecha = new DefaultTableCellRenderer();
         derecha.setHorizontalAlignment(SwingConstants.RIGHT);
-        tablaMiembros.getColumnModel().getColumn(5).setCellRenderer(derecha);
-        tablaMiembros.getColumnModel().getColumn(6).setCellRenderer(derecha);
+        for (int col = 4; col <= 8; col++) {
+            tablaMiembros.getColumnModel().getColumn(col).setCellRenderer(derecha);
+        }
 
-        JLabel nota = new JLabel("  Interés: I = C · i · t  (i = 8% anual, t = 1 año, capitalización anual)");
+        JLabel nota = new JLabel("<html>&nbsp;Aporte: 7% del ingreso mensual si es menor de 30,000; 9% de 30,000 a 70,000; "
+                + "12% si supera 70,000.<br>&nbsp;Interés: I = C · i · t  (i = 8% anual, t = 1 año, capitalización anual)"
+                + "  ·  Disponible = 40% del presupuesto actual (sin interés) − gastos</html>");
         nota.setFont(new Font("Segoe UI", Font.ITALIC, 12));
 
         lblTotalMiembros = new JLabel();
@@ -247,69 +250,18 @@ public class PnlPresupuesto extends JPanel {
     }
 
     // ------------------------------------------------------------------
-    // Datos
+    // Cálculos
     // ------------------------------------------------------------------
-    private void cargarTabla() {
-        modeloTabla.setRowCount(0);
-        SimpleDateFormat sdf = new SimpleDateFormat(FORMATO_FECHA);
-        BigDecimal total = BigDecimal.ZERO;
-        BigDecimal gastado = BigDecimal.ZERO;
 
-        List<Presupuesto> lista = dao.listarPorUsuario(usuario.getId());
-        for (Presupuesto p : lista) {
-            modeloTabla.addRow(new Object[]{
-                    p.getId(),
-                    p.getNombre(),
-                    p.getDescripcion(),
-                    formatoMoneda.format(p.getMontoTotal()),
-                    formatoMoneda.format(p.getMontoGastado()),
-                    formatoMoneda.format(p.getMontoDisponible()),
-                    p.getFechaInicio() != null ? sdf.format(p.getFechaInicio()) : "",
-                    p.getFechaFin() != null ? sdf.format(p.getFechaFin()) : ""
-            });
-            total = total.add(p.getMontoTotal());
-            gastado = gastado.add(p.getMontoGastado());
+    /** Porcentaje de aporte según el ingreso mensual. */
+    private BigDecimal porcentajeAporte(BigDecimal ingreso) {
+        if (ingreso.compareTo(ConfiguracionGlobal.SALARIO_LIMITE_BAJO) < 0) {
+            return ConfiguracionGlobal.APORTE_SALARIO_BAJO;      // < 30,000
         }
-
-        lblTotalPresupuestado.setText("Presupuestado: RD$ " + formatoMoneda.format(total));
-        lblTotalGastado.setText("Gastado: RD$ " + formatoMoneda.format(gastado));
-        lblTotalDisponible.setText("Disponible: RD$ " + formatoMoneda.format(total.subtract(gastado)));
-    }
-
-    private void cargarMiembros() {
-        modeloMiembros.setRowCount(0);
-        BigDecimal totalActual = BigDecimal.ZERO;
-        BigDecimal totalConInteres = BigDecimal.ZERO;
-        try {
-            List<Miembro> miembros = miembroDAO.obtenerMiembros();
-            for (Miembro m : miembros) {
-                BigDecimal actual = presupuestoActual(m);
-                BigDecimal conInteres = calcularConInteres(actual);
-                modeloMiembros.addRow(new Object[]{
-                        m.getId(),
-                        m.getCedula(),
-                        m.getNombreCompleto(),
-                        m.getOcupacion(),
-                        m.isActivo() ? "Activo" : "Inactivo",
-                        "RD$ " + formatoMoneda.format(actual),
-                        "RD$ " + formatoMoneda.format(conInteres)
-                });
-                totalActual = totalActual.add(actual);
-                totalConInteres = totalConInteres.add(conInteres);
-            }
-        } catch (Exception ex) {
-            error("No se pudieron cargar los miembros: " + ex.getMessage());
+        if (ingreso.compareTo(ConfiguracionGlobal.SALARIO_LIMITE_ALTO) <= 0) {
+            return ConfiguracionGlobal.APORTE_SALARIO_MEDIO;     // 30,000 a 70,000
         }
-        lblTotalMiembros.setText("Total actual: RD$ " + formatoMoneda.format(totalActual)
-                + "   |   Total con interés: RD$ " + formatoMoneda.format(totalConInteres));
-    }
-
-    /**
-     * Presupuesto actual (C) de un miembro: cada miembro ingresa con un monto fijo.
-     * Cuando exista la sección de aportes, aquí se sumarán los aportes del miembro.
-     */
-    private BigDecimal presupuestoActual(Miembro m) {
-        return ConfiguracionGlobal.PRESUPUESTO_INICIAL_MIEMBRO;
+        return ConfiguracionGlobal.APORTE_SALARIO_ALTO;          // > 70,000
     }
 
     /**
@@ -317,64 +269,142 @@ public class PnlPresupuesto extends JPanel {
      * Con capitalización anual el monto es C * (1 + i)^t (para t = 1 año equivale a C + C*i).
      */
     private BigDecimal calcularConInteres(BigDecimal capital) {
-        BigDecimal factor = BigDecimal.ONE.add(TASA_INTERES).pow(ANIOS);
+        BigDecimal factor = BigDecimal.ONE.add(ConfiguracionGlobal.TASA_INTERES).pow(ANIOS);
         return capital.multiply(factor).setScale(2, RoundingMode.HALF_UP);
     }
 
-    private void cargarSeleccionEnFormulario() {
-        int fila = tabla.getSelectedRow();
-        if (fila == -1) {
-            return;
+    private ResumenMiembro resumenDe(Miembro m, BigDecimal extras, BigDecimal gastado) {
+        ResumenMiembro r = new ResumenMiembro();
+        r.miembro = m;
+        r.ingreso = m.getIngresoMensual() == null ? BigDecimal.ZERO : m.getIngresoMensual();
+        r.porcentaje = porcentajeAporte(r.ingreso);
+        r.aporte = r.ingreso.multiply(r.porcentaje).setScale(2, RoundingMode.HALF_UP);
+        r.actual = r.aporte.add(extras);
+        r.conInteres = calcularConInteres(r.actual);
+        r.gastado = gastado;
+        r.disponible = r.actual.multiply(ConfiguracionGlobal.PORCENTAJE_DISPONIBLE)
+                .setScale(2, RoundingMode.HALF_UP).subtract(gastado);
+        return r;
+    }
+
+    /** Calcula el presupuesto de todos los miembros registrados. */
+    private List<ResumenMiembro> calcularResumenes() {
+        Map<Integer, BigDecimal> extras = new HashMap<>();
+        Map<Integer, BigDecimal> gastos = new HashMap<>();
+        for (Presupuesto p : dao.listarPresupuestosDeMiembros()) {
+            int id = p.getMiembro().getId();
+            extras.merge(id, p.getMontoTotal(), BigDecimal::add);
+            gastos.merge(id, p.getMontoGastado(), BigDecimal::add);
         }
-        int id = (int) modeloTabla.getValueAt(fila, 0);
-        Presupuesto p = dao.buscarPorId(id);
-        if (p == null) {
-            return;
+        List<ResumenMiembro> lista = new ArrayList<>();
+        for (Miembro m : dao.listarMiembros()) {
+            lista.add(resumenDe(m,
+                    extras.getOrDefault(m.getId(), BigDecimal.ZERO),
+                    gastos.getOrDefault(m.getId(), BigDecimal.ZERO)));
         }
-        SimpleDateFormat sdf = new SimpleDateFormat(FORMATO_FECHA);
-        idEnEdicion = p.getId();
-        txtNombre.setText(p.getNombre());
-        txtDescripcion.setText(p.getDescripcion() == null ? "" : p.getDescripcion());
-        txtMonto.setText(p.getMontoTotal().toPlainString());
-        txtFechaInicio.setText(p.getFechaInicio() != null ? sdf.format(p.getFechaInicio()) : "");
-        txtFechaFin.setText(p.getFechaFin() != null ? sdf.format(p.getFechaFin()) : "");
-        lblModo.setText("Editando: " + p.getNombre());
+        return lista;
+    }
+
+    // ------------------------------------------------------------------
+    // Datos
+    // ------------------------------------------------------------------
+    private void cargarMiembros() {
+        modeloMiembros.setRowCount(0);
+        BigDecimal totalActual = BigDecimal.ZERO;
+        BigDecimal totalConInteres = BigDecimal.ZERO;
+        BigDecimal totalGastado = BigDecimal.ZERO;
+        BigDecimal totalDisponible = BigDecimal.ZERO;
+        try {
+            for (ResumenMiembro r : calcularResumenes()) {
+                Miembro m = r.miembro;
+                modeloMiembros.addRow(new Object[]{
+                        m.getId(),
+                        m.getCedula(),
+                        m.getNombreCompleto(),
+                        m.isActivo() ? "Activo" : "Inactivo",
+                        "RD$ " + formatoMoneda.format(r.ingreso),
+                        r.porcentaje.movePointRight(2).intValue() + "%",
+                        "RD$ " + formatoMoneda.format(r.actual),
+                        "RD$ " + formatoMoneda.format(r.conInteres),
+                        "RD$ " + formatoMoneda.format(r.disponible)
+                });
+                // Solo los miembros activos suman a los totales
+                if (m.isActivo()) {
+                    totalActual = totalActual.add(r.actual);
+                    totalConInteres = totalConInteres.add(r.conInteres);
+                    totalGastado = totalGastado.add(r.gastado);
+                    totalDisponible = totalDisponible.add(r.disponible);
+                }
+            }
+        } catch (Exception ex) {
+            error("No se pudieron cargar los miembros: " + ex.getMessage());
+        }
+
+        lblTotalMiembros.setText("Total actual: RD$ " + formatoMoneda.format(totalActual)
+                + "   |   Total con interés: RD$ " + formatoMoneda.format(totalConInteres));
+        lblTotalPresupuestado.setText("Presupuestado: RD$ " + formatoMoneda.format(totalConInteres));
+        lblTotalGastado.setText("Gastado: RD$ " + formatoMoneda.format(totalGastado));
+        lblTotalDisponible.setText("Disponible: RD$ " + formatoMoneda.format(totalDisponible));
     }
 
     private void limpiarFormulario() {
-        idEnEdicion = 0;
         txtNombre.setText("");
         txtDescripcion.setText("");
         txtMonto.setText("");
         txtFechaInicio.setText("");
         txtFechaFin.setText("");
-        lblModo.setText("Nuevo presupuesto");
-        tabla.clearSelection();
+        tablaMiembros.clearSelection();
         txtNombre.requestFocus();
+    }
+
+    /**
+     * Busca en los miembros registrados a la persona escrita en la barra "Nombre del miembro".
+     * Si no existe (o está inactiva) muestra un aviso y devuelve null.
+     */
+    private Miembro obtenerMiembroDelFormulario() {
+        String nombre = txtNombre.getText().trim();
+        if (nombre.isEmpty()) {
+            aviso("Escriba el nombre del miembro.");
+            return null;
+        }
+        try {
+            Miembro m = dao.buscarMiembroPorNombre(nombre);
+            if (m == null) {
+                aviso("La persona \"" + nombre + "\" no se encuentra entre los miembros registrados.");
+                return null;
+            }
+            if (!m.isActivo()) {
+                aviso("El miembro \"" + m.getNombreCompleto() + "\" está inactivo.");
+                return null;
+            }
+            return m;
+        } catch (Exception ex) {
+            error("No se pudo consultar los miembros: " + ex.getMessage());
+            return null;
+        }
     }
 
     // ------------------------------------------------------------------
     // Acciones
     // ------------------------------------------------------------------
     private void guardar() {
-        String nombre = txtNombre.getText().trim();
-        String descripcion = txtDescripcion.getText().trim();
-        String montoTxt = txtMonto.getText().trim().replace(",", "");
-
-        if (nombre.isEmpty()) {
-            aviso("El nombre del presupuesto es obligatorio.");
+        Miembro miembro = obtenerMiembroDelFormulario();
+        if (miembro == null) {
             return;
         }
+
+        String descripcion = txtDescripcion.getText().trim();
+        String montoTxt = txtMonto.getText().trim().replace(",", "");
 
         BigDecimal monto;
         try {
             monto = new BigDecimal(montoTxt);
         } catch (NumberFormatException ex) {
-            aviso("Ingrese un monto total válido (ej. 25000.50).");
+            aviso("Ingrese un monto válido (ej. 25000.50).");
             return;
         }
         if (monto.signum() <= 0) {
-            aviso("El monto total debe ser mayor que cero.");
+            aviso("El monto debe ser mayor que cero.");
             return;
         }
 
@@ -393,104 +423,101 @@ public class PnlPresupuesto extends JPanel {
         }
 
         try {
-            if (idEnEdicion == 0) {
-                Presupuesto nuevo = new Presupuesto(usuario, nombre,
-                        descripcion.isEmpty() ? null : descripcion, monto, inicio, fin);
-                dao.guardarPresupuesto(nuevo);
-                info("Presupuesto creado correctamente.");
-            } else {
-                Presupuesto existente = dao.buscarPorId(idEnEdicion);
-                if (existente == null) {
-                    aviso("El presupuesto ya no existe.");
-                    limpiarFormulario();
-                    cargarTabla();
-                    return;
-                }
-                if (monto.compareTo(existente.getMontoGastado()) < 0) {
-                    aviso("El monto total no puede ser menor a lo ya gastado (RD$ "
-                            + formatoMoneda.format(existente.getMontoGastado()) + ").");
-                    return;
-                }
-                existente.setNombre(nombre);
-                existente.setDescripcion(descripcion.isEmpty() ? null : descripcion);
-                existente.setMontoTotal(monto);
-                existente.setFechaInicio(inicio);
-                existente.setFechaFin(fin);
-                dao.guardarPresupuesto(existente);
-                info("Presupuesto actualizado correctamente.");
-            }
+            Presupuesto nuevo = new Presupuesto(usuario, miembro,
+                    limitar("Presupuesto - " + miembro.getNombreCompleto(), 100),
+                    descripcion.isEmpty() ? null : descripcion, monto, inicio, fin);
+            dao.guardarPresupuesto(nuevo);
+            info("Presupuesto agregado a " + miembro.getNombreCompleto() + ".");
             limpiarFormulario();
-            cargarTabla();
+            cargarMiembros();
         } catch (Exception ex) {
             error("No se pudo guardar el presupuesto: " + ex.getMessage());
         }
     }
 
     private void registrarGasto() {
-        int fila = tabla.getSelectedRow();
-        if (fila == -1) {
-            aviso("Seleccione un presupuesto de la tabla primero.");
+        Miembro miembro = obtenerMiembroDelFormulario();
+        if (miembro == null) {
             return;
-        }
-        int id = (int) modeloTabla.getValueAt(fila, 0);
-        Presupuesto p = dao.buscarPorId(id);
-        if (p == null) {
-            aviso("El presupuesto ya no existe.");
-            cargarTabla();
-            return;
-        }
-
-        String entrada = JOptionPane.showInputDialog(this,
-                "Disponible: RD$ " + formatoMoneda.format(p.getMontoDisponible())
-                        + "\nMonto del gasto a registrar:",
-                "Registrar gasto - " + p.getNombre(), JOptionPane.QUESTION_MESSAGE);
-        if (entrada == null) {
-            return; // canceló
         }
 
         try {
+            ResumenMiembro resumen = null;
+            for (ResumenMiembro r : calcularResumenes()) {
+                if (r.miembro.getId() == miembro.getId()) {
+                    resumen = r;
+                    break;
+                }
+            }
+            if (resumen == null) {
+                aviso("La persona \"" + miembro.getNombreCompleto() + "\" no se encuentra entre los miembros registrados.");
+                return;
+            }
+
+            String entrada = JOptionPane.showInputDialog(this,
+                    "Disponible de " + miembro.getNombreCompleto() + ": RD$ "
+                            + formatoMoneda.format(resumen.disponible)
+                            + "\nMonto del gasto a registrar:",
+                    "Registrar gasto", JOptionPane.QUESTION_MESSAGE);
+            if (entrada == null) {
+                return; // canceló
+            }
+
             BigDecimal gasto = new BigDecimal(entrada.trim().replace(",", ""));
-            p.registrarGasto(gasto); // valida > 0 y que no exceda lo disponible
-            dao.guardarPresupuesto(p);
+            if (gasto.signum() <= 0) {
+                aviso("El monto debe ser mayor que cero.");
+                return;
+            }
+            if (gasto.compareTo(resumen.disponible) > 0) {
+                aviso("El gasto excede el presupuesto disponible.");
+                return;
+            }
+
+            String descripcion = txtDescripcion.getText().trim();
+            Presupuesto registro = new Presupuesto(usuario, miembro,
+                    limitar("Gasto - " + miembro.getNombreCompleto(), 100),
+                    descripcion.isEmpty() ? null : descripcion, BigDecimal.ZERO, null, null);
+            registro.setMontoGastado(gasto);
+            dao.guardarPresupuesto(registro);
             info("Gasto registrado correctamente.");
             limpiarFormulario();
-            cargarTabla();
+            cargarMiembros();
         } catch (NumberFormatException ex) {
             aviso("Ingrese un monto válido.");
-        } catch (IllegalArgumentException | IllegalStateException ex) {
-            aviso(ex.getMessage());
         } catch (Exception ex) {
             error("No se pudo registrar el gasto: " + ex.getMessage());
         }
     }
 
     private void eliminar() {
-        int fila = tabla.getSelectedRow();
-        if (fila == -1) {
-            aviso("Seleccione un presupuesto de la tabla primero.");
+        Miembro miembro = obtenerMiembroDelFormulario();
+        if (miembro == null) {
             return;
         }
-        int id = (int) modeloTabla.getValueAt(fila, 0);
-        String nombre = String.valueOf(modeloTabla.getValueAt(fila, 1));
-
         int r = JOptionPane.showConfirmDialog(this,
-                "¿Está seguro que desea eliminar el presupuesto:\n" + nombre + "?",
+                "¿Eliminar los presupuestos agregados y los gastos registrados de:\n"
+                        + miembro.getNombreCompleto() + "?\n"
+                        + "(Su aporte base según el ingreso mensual no se elimina.)",
                 "Confirmar eliminación", JOptionPane.YES_NO_OPTION, JOptionPane.WARNING_MESSAGE);
         if (r != JOptionPane.YES_OPTION) {
             return;
         }
         try {
-            dao.eliminarPresupuesto(id);
+            dao.eliminarPresupuestosDeMiembro(miembro.getId());
             limpiarFormulario();
-            cargarTabla();
+            cargarMiembros();
         } catch (Exception ex) {
-            error("No se pudo eliminar el presupuesto: " + ex.getMessage());
+            error("No se pudo eliminar: " + ex.getMessage());
         }
     }
 
     // ------------------------------------------------------------------
     // Utilidades
     // ------------------------------------------------------------------
+    private String limitar(String texto, int max) {
+        return texto.length() <= max ? texto : texto.substring(0, max);
+    }
+
     private Date parsearFecha(String texto) throws ParseException {
         texto = texto.trim();
         if (texto.isEmpty()) {

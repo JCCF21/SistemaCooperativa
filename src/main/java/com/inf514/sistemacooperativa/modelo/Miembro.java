@@ -4,7 +4,9 @@
  */
 package com.inf514.sistemacooperativa.modelo;
 
+import java.math.BigDecimal;
 import java.util.Date;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -28,9 +30,13 @@ public class Miembro {
     private String direccion;
     private Date fechaNacimiento;
     private boolean activo;
-    
+
+    // Ingreso (salario) mensual; define el porcentaje de aporte al presupuesto
+    @Column(precision = 15, scale = 2)
+    private BigDecimal ingresoMensual;
+
     public Miembro(){
-        
+
     }
 
     public Miembro(int id, String cedula, String nombreCompleto, String telefono, String correo, String direccion, Date fechaNacimiento, boolean activo) {
@@ -107,5 +113,13 @@ public class Miembro {
     public void setActivo(boolean activo) {
         this.activo = activo;
     }
-            
+
+    public BigDecimal getIngresoMensual() {
+        return ingresoMensual;
+    }
+
+    public void setIngresoMensual(BigDecimal ingresoMensual) {
+        this.ingresoMensual = ingresoMensual;
+    }
+
 }
