@@ -4,10 +4,22 @@
  */
 package com.inf514.sistemacooperativa.vista;
 
-
-import java.util.ArrayList;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
+import com.inf514.sistemacooperativa.dao.PrestamoDAO;
+import com.inf514.sistemacooperativa.modelo.Prestamo;
+import java.util.List;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.JOptionPane;
+import javax.swing.RowFilter;
+import javax.swing.table.TableRowSorter;
+import javax.swing.event.DocumentListener;
+import javax.swing.event.DocumentEvent;
+import java.util.regex.Pattern;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
+import javax.swing.JTable;
+import javax.swing.JLabel;
+import javax.swing.table.DefaultTableCellRenderer;
 
 
 /**
@@ -17,46 +29,144 @@ import java.math.RoundingMode;
 public class PnlPrestamos extends javax.swing.JPanel {
     
     
-private ArrayList<Object[]> solicitudesTemporales = new ArrayList<>();
-
-private ArrayList<String[]> miembrosTemporales = new ArrayList<>();
-
-
-
-    /**
-     * Creates new form PnlPrestamos
-     */
-    //public PnlPrestamos() {
-    //    initComponents();
-    //}
+private final PrestamoDAO prestamoDAO = new PrestamoDAO();
 
 
 public PnlPrestamos() {
+    
+    
     initComponents();
+    cargarPrestamos();
+    configurarBuscador();
+    colorearEstados();
 
-    jComboBox1.setModel(
-        new javax.swing.DefaultComboBoxModel<>(
-            new String[]{
-                "En espera",
-                "Aprobado",
-                "Rechazado"
-            }
-        )
-    );
-    //vvvv
-
-    jComboBox2.setModel(
-        new javax.swing.DefaultComboBoxModel<>(
-            new String[]{
-                "6",
-                "12",
-                "24",
-                "36"
-            }
-        )
-    );
+   
 }
+private void cargarPrestamos() {
 
+    DefaultTableModel modelo =
+            (DefaultTableModel) tblPrestamos.getModel();
+
+    modelo.setRowCount(0);
+
+    List<Prestamo> prestamos = prestamoDAO.obtenerPrestamos();
+
+    for (Prestamo p : prestamos) {
+
+        modelo.addRow(new Object[]{
+            p.getId(),
+            p.getMiembro().getCedula(),
+            p.getMiembro().getNombreCompleto(),
+            p.getMontoSolicitado(),
+            p.getCantidadCuotas(),
+            p.getTasaInteres(),
+            p.getInteresTotal(),
+            p.getTotalPagar(),
+            p.getCuotaMensual(),
+            p.getFechaSolicitud(),
+            p.getEstado()
+        });
+    }
+}
+private void configurarBuscador() {
+
+    DefaultTableModel modelo =
+            (DefaultTableModel) tblPrestamos.getModel();
+
+    TableRowSorter<DefaultTableModel> sorter =
+            new TableRowSorter<>(modelo);
+
+    tblPrestamos.setRowSorter(sorter);
+
+    txtBuscarPrestamo.getDocument().addDocumentListener(
+            new DocumentListener() {
+
+        private void filtrar() {
+
+            String texto = txtBuscarPrestamo.getText().trim();
+
+            if (texto.isEmpty()
+                    || texto.equals("Buscar por Nombre, ID o cédula...")) {
+
+                sorter.setRowFilter(null);
+
+            } else {
+
+                sorter.setRowFilter(
+                        RowFilter.regexFilter(
+                                "(?i)" + Pattern.quote(texto),
+                                0, 1, 2
+                        )
+                );
+            }
+        }
+
+        @Override
+        public void insertUpdate(DocumentEvent e) {
+            filtrar();
+        }
+
+        @Override
+        public void removeUpdate(DocumentEvent e) {
+            filtrar();
+        }
+
+        @Override
+        public void changedUpdate(DocumentEvent e) {
+            filtrar();
+        }
+    });
+}
+private void colorearEstados() {
+
+    tblPrestamos.getColumnModel().getColumn(10)
+            .setCellRenderer(new DefaultTableCellRenderer() {
+
+        @Override
+        public Component getTableCellRendererComponent(
+                JTable table, Object value,
+                boolean isSelected, boolean hasFocus,
+                int row, int column) {
+
+            super.getTableCellRendererComponent(
+                    table, value, isSelected,
+                    hasFocus, row, column);
+
+            setHorizontalAlignment(JLabel.CENTER);
+            setFont(table.getFont().deriveFont(Font.BOLD));
+
+            setBackground(table.getBackground());
+            setForeground(table.getForeground());
+
+            String estado = String.valueOf(value);
+
+            switch (estado) {
+
+                case "Aprobado":
+                    setBackground(new Color(213, 238, 220));
+                    setForeground(new Color(33, 107, 53));
+                    break;
+
+                case "Rechazado":
+                    setBackground(new Color(248, 215, 218));
+                    setForeground(new Color(161, 36, 48));
+                    break;
+
+                case "En espera":
+                    setBackground(new Color(255, 240, 194));
+                    setForeground(new Color(137, 102, 0));
+                    break;
+            }
+
+            if (isSelected) {
+                setBackground(table.getSelectionBackground());
+                setForeground(table.getSelectionForeground());
+            }
+
+            return this;
+        }
+    });
+}
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -67,59 +177,68 @@ public PnlPrestamos() {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel9 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tblPrestamos = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton5 = new javax.swing.JButton();
-        jLabel8 = new javax.swing.JLabel();
-        jButton4 = new javax.swing.JButton();
-        jButton6 = new javax.swing.JButton();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jLabel6 = new javax.swing.JLabel();
-        jLabel7 = new javax.swing.JLabel();
-        jComboBox2 = new javax.swing.JComboBox<>();
-        jTextField6 = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jTextField4 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        btnNuevaSolicitud = new javax.swing.JButton();
+        btnAprobar = new javax.swing.JButton();
+        btnRechazar = new javax.swing.JButton();
+        PnlBuscador = new javax.swing.JPanel();
+        txtBuscarPrestamo = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-
-        jLabel9.setText("Tabla de solicitudes");
+        btnModificar = new javax.swing.JButton();
 
         jPanel1.setBackground(new java.awt.Color(244, 239, 230));
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblPrestamos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "ID prestamo", "ID Miembro", "Miembro", "Monto RD$", "Cuotas", "Monto x cuota", "Fecha", "Estado"
+                "ID prestamo", "Cedula", "Miembro", "Monto RD$", "Cuotas", "Tasa (%)", "Interes (RD$)", "Total a Pagar", "Cuota Mensual", "Fecha", "Estado"
             }
-        ));
-        jScrollPane1.setViewportView(jTable1);
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tblPrestamos.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_OFF);
+        jScrollPane1.setViewportView(tblPrestamos);
+        if (tblPrestamos.getColumnModel().getColumnCount() > 0) {
+            tblPrestamos.getColumnModel().getColumn(0).setPreferredWidth(85);
+            tblPrestamos.getColumnModel().getColumn(1).setPreferredWidth(120);
+            tblPrestamos.getColumnModel().getColumn(2).setPreferredWidth(200);
+            tblPrestamos.getColumnModel().getColumn(3).setPreferredWidth(100);
+            tblPrestamos.getColumnModel().getColumn(4).setPreferredWidth(55);
+            tblPrestamos.getColumnModel().getColumn(5).setPreferredWidth(70);
+            tblPrestamos.getColumnModel().getColumn(6).setPreferredWidth(100);
+            tblPrestamos.getColumnModel().getColumn(7).setPreferredWidth(120);
+            tblPrestamos.getColumnModel().getColumn(8).setPreferredWidth(120);
+            tblPrestamos.getColumnModel().getColumn(9).setPreferredWidth(100);
+            tblPrestamos.getColumnModel().getColumn(10).setPreferredWidth(100);
+        }
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 696, Short.MAX_VALUE)
-                .addContainerGap())
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 863, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 497, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 351, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         jPanel2.setBackground(new java.awt.Color(24, 75, 95));
@@ -163,433 +282,328 @@ public PnlPrestamos() {
                 .addContainerGap(8, Short.MAX_VALUE))
         );
 
-        jPanel4.setBackground(new java.awt.Color(221, 238, 249));
-        jPanel4.setForeground(new java.awt.Color(24, 75, 95));
+        btnNuevaSolicitud.setBackground(new java.awt.Color(24, 75, 95));
+        btnNuevaSolicitud.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnNuevaSolicitud.setForeground(new java.awt.Color(255, 255, 255));
+        btnNuevaSolicitud.setText("Nueva solicitud");
+        btnNuevaSolicitud.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnNuevaSolicitud.setFocusPainted(false);
+        btnNuevaSolicitud.setIconTextGap(8);
+        btnNuevaSolicitud.setPreferredSize(new java.awt.Dimension(170, 40));
+        btnNuevaSolicitud.addActionListener(this::btnNuevaSolicitudActionPerformed);
 
-        jButton1.setBackground(new java.awt.Color(224, 228, 231));
-        jButton1.setForeground(new java.awt.Color(44, 74, 94));
-        jButton1.setText("Limpiar");
-        jButton1.addActionListener(this::jButton1ActionPerformed);
+        btnAprobar.setBackground(new java.awt.Color(46, 139, 111));
+        btnAprobar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnAprobar.setForeground(new java.awt.Color(255, 255, 255));
+        btnAprobar.setText("Aprobar");
+        btnAprobar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnAprobar.setFocusPainted(false);
+        btnAprobar.setIconTextGap(8);
+        btnAprobar.setPreferredSize(new java.awt.Dimension(170, 40));
+        btnAprobar.addActionListener(this::btnAprobarActionPerformed);
 
-        jButton3.setBackground(new java.awt.Color(46, 139, 111));
-        jButton3.setText("Aprobar");
-        jButton3.addActionListener(this::jButton3ActionPerformed);
+        btnRechazar.setBackground(new java.awt.Color(196, 77, 77));
+        btnRechazar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnRechazar.setForeground(new java.awt.Color(255, 255, 255));
+        btnRechazar.setText("Rechazar");
+        btnRechazar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnRechazar.setFocusPainted(false);
+        btnRechazar.setIconTextGap(8);
+        btnRechazar.setPreferredSize(new java.awt.Dimension(170, 40));
+        btnRechazar.addActionListener(this::btnRechazarActionPerformed);
 
-        jButton5.setBackground(new java.awt.Color(74, 122, 150));
-        jButton5.setForeground(new java.awt.Color(255, 255, 255));
-        jButton5.setText("Buscar miembro");
-        jButton5.addActionListener(this::jButton5ActionPerformed);
+        PnlBuscador.setBackground(new java.awt.Color(255, 255, 255));
 
-        jLabel8.setForeground(new java.awt.Color(24, 75, 95));
-        jLabel8.setText("Estado");
+        txtBuscarPrestamo.setForeground(new java.awt.Color(153, 153, 153));
+        txtBuscarPrestamo.setText("Buscar por Nombre, ID o cédula...");
+        txtBuscarPrestamo.setBorder(null);
+        txtBuscarPrestamo.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusGained(java.awt.event.FocusEvent evt) {
+                txtBuscarPrestamoFocusGained(evt);
+            }
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                txtBuscarPrestamoFocusLost(evt);
+            }
+        });
 
-        jButton4.setBackground(new java.awt.Color(192, 80, 77));
-        jButton4.setText("Rechazar");
-        jButton4.addActionListener(this::jButton4ActionPerformed);
+        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Icono de lupa azul petróleo.png"))); // NOI18N
 
-        jButton6.setBackground(new java.awt.Color(46, 139, 111));
-        jButton6.setText("Guardar solicitud");
-        jButton6.addActionListener(this::jButton6ActionPerformed);
-
-        jComboBox1.setForeground(new java.awt.Color(44, 74, 94));
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-
-        jLabel6.setForeground(new java.awt.Color(24, 75, 95));
-        jLabel6.setText("Cantidad de cuotas");
-
-        jLabel7.setForeground(new java.awt.Color(24, 75, 95));
-        jLabel7.setText("Fecha de solicitud");
-
-        jComboBox2.setForeground(new java.awt.Color(44, 74, 94));
-        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
-        jComboBox2.addActionListener(this::jComboBox2ActionPerformed);
-
-        jTextField6.addActionListener(this::jTextField6ActionPerformed);
-
-        jLabel5.setForeground(new java.awt.Color(24, 75, 95));
-        jLabel5.setText("Monto solicitado");
-
-        jLabel4.setForeground(new java.awt.Color(24, 75, 95));
-        jLabel4.setText("Nombre del miembro");
-
-        jLabel3.setForeground(new java.awt.Color(24, 75, 95));
-        jLabel3.setText("Cedula del miembro");
-
-        jTextField4.addActionListener(this::jTextField4ActionPerformed);
-
-        jTextField3.addActionListener(this::jTextField3ActionPerformed);
-
-        jTextField2.addActionListener(this::jTextField2ActionPerformed);
-
-        jLabel2.setForeground(new java.awt.Color(24, 75, 95));
-        jLabel2.setText("ID del prestamo");
-
-        jTextField1.addActionListener(this::jTextField1ActionPerformed);
-
-        javax.swing.GroupLayout jPanel4Layout = new javax.swing.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel4Layout.createSequentialGroup()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel5)
-                            .addComponent(jLabel7)
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel6)
-                                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(18, 18, 18)
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel4Layout.createSequentialGroup()
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jButton5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(jButton6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
-                    .addGroup(jPanel4Layout.createSequentialGroup()
-                        .addGap(87, 87, 87)
-                        .addComponent(jButton1)))
-                .addContainerGap(43, Short.MAX_VALUE))
+        javax.swing.GroupLayout PnlBuscadorLayout = new javax.swing.GroupLayout(PnlBuscador);
+        PnlBuscador.setLayout(PnlBuscadorLayout);
+        PnlBuscadorLayout.setHorizontalGroup(
+            PnlBuscadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(PnlBuscadorLayout.createSequentialGroup()
+                .addComponent(txtBuscarPrestamo, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel2)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel4Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel2)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(17, 17, 17)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel7)
-                    .addComponent(jTextField6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 16, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 32, 32)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton5)
-                    .addComponent(jButton6))
-                .addGap(28, 28, 28)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
-                .addGap(32, 32, 32)
-                .addComponent(jButton1)
-                .addContainerGap(90, Short.MAX_VALUE))
+        PnlBuscadorLayout.setVerticalGroup(
+            PnlBuscadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(txtBuscarPrestamo)
+            .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
         );
+
+        btnModificar.setBackground(new java.awt.Color(206, 146, 52));
+        btnModificar.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnModificar.setForeground(new java.awt.Color(255, 255, 255));
+        btnModificar.setText("Modificar");
+        btnModificar.setToolTipText("Modificar solicitud de préstamo");
+        btnModificar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnModificar.setFocusPainted(false);
+        btnModificar.setIconTextGap(8);
+        btnModificar.setPreferredSize(new java.awt.Dimension(170, 40));
+        btnModificar.addActionListener(this::btnModificarActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 117, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(312, 312, 312))))
             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(btnNuevaSolicitud, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(btnRechazar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnAprobar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(PnlBuscador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(PnlBuscador, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 357, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(jLabel9, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(13, 13, 13)
+                        .addComponent(btnNuevaSolicitud, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnAprobar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addComponent(btnRechazar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    private void txtBuscarPrestamoFocusGained(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBuscarPrestamoFocusGained
+        if (txtBuscarPrestamo.getText().equals("Buscar por Nombre, ID o cédula...")) {
+    txtBuscarPrestamo.setText("");
+    txtBuscarPrestamo.setForeground(java.awt.Color.BLACK);
+}
+    }//GEN-LAST:event_txtBuscarPrestamoFocusGained
 
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    private void txtBuscarPrestamoFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_txtBuscarPrestamoFocusLost
+        if (txtBuscarPrestamo.getText().trim().isEmpty()) {
+    txtBuscarPrestamo.setText("Buscar por Nombre, ID o cédula...");
+    txtBuscarPrestamo.setForeground(java.awt.Color.GRAY);
+}
+    }//GEN-LAST:event_txtBuscarPrestamoFocusLost
 
-    private void jComboBox2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jComboBox2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jComboBox2ActionPerformed
+    private void btnNuevaSolicitudActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevaSolicitudActionPerformed
+       java.awt.Frame padre = (java.awt.Frame)
+        javax.swing.SwingUtilities.getWindowAncestor(this);
 
-    private void jTextField6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField6ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField6ActionPerformed
+DlgNuevoPrestamo dialogo = new DlgNuevoPrestamo(padre, true);
 
-    private void jTextField4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField4ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField4ActionPerformed
+dialogo.setLocationRelativeTo(this);
+dialogo.setVisible(true);
+cargarPrestamos();
+    }//GEN-LAST:event_btnNuevaSolicitudActionPerformed
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    private void btnAprobarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAprobarActionPerformed
+        int fila = tblPrestamos.getSelectedRow();
 
-    private void jButton6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton6ActionPerformed
-        // TODO add your handling code here:
-        
-        
-String idPrestamo = jTextField1.getText().trim();
-String cedula = jTextField2.getText().trim();
-String nombre = jTextField3.getText().trim();
-String montoTexto = jTextField4.getText().trim();
-String fecha = jTextField6.getText().trim();
-
-String cuotas = jComboBox2.getSelectedItem().toString();
-String estado = jComboBox1.getSelectedItem().toString();
-
-
-if (idPrestamo.isEmpty() || cedula.isEmpty()
-        || nombre.isEmpty() || montoTexto.isEmpty()
-        || fecha.isEmpty()) {
-
-    javax.swing.JOptionPane.showMessageDialog(
-        this, "Completa todos los campos.");
-
+if (fila == -1) {
+    JOptionPane.showMessageDialog(this,
+            "Seleccione una solicitud de préstamo.");
     return;
 }
 
+int filaModelo = tblPrestamos.convertRowIndexToModel(fila);
 
-for (Object[] solicitudExistente : solicitudesTemporales) {
-    if (solicitudExistente[0].toString()
-            .equalsIgnoreCase(idPrestamo)) {
+int id = (int) tblPrestamos.getModel().getValueAt(filaModelo, 0);
 
-        javax.swing.JOptionPane.showMessageDialog(
-            this, "Ese ID de préstamo ya existe.");
+String estado = tblPrestamos.getModel()
+        .getValueAt(filaModelo, 10).toString();
 
-        return;
-    }
-}
-
-
-BigDecimal monto;
-
-try {
-    monto = new BigDecimal(montoTexto);
-
-    if (monto.compareTo(BigDecimal.ZERO) <= 0) {
-        javax.swing.JOptionPane.showMessageDialog(
-            this, "El monto debe ser mayor que cero.");
-        return;
-    }
-
-} catch (NumberFormatException e) {
-    javax.swing.JOptionPane.showMessageDialog(
-        this, "Introduce un monto válido.");
+if (!estado.equals("En espera")) {
+    JOptionPane.showMessageDialog(this,
+            "Solo se pueden aprobar solicitudes en espera.");
     return;
 }
 
-// Calcular monto por cuota
-int cantidadCuotas = Integer.parseInt(cuotas);
-
-BigDecimal montoPorCuota = monto.divide(
-    BigDecimal.valueOf(cantidadCuotas),
-    2,
-    RoundingMode.HALF_UP
+int confirmacion = JOptionPane.showConfirmDialog(
+        this,
+        "¿Está seguro de aprobar esta solicitud?",
+        "Confirmar aprobación",
+        JOptionPane.YES_NO_OPTION
 );
 
-Object[] solicitud = {
-    idPrestamo,
-    cedula,
-    nombre,
-    monto,
-    cuotas,
-    montoPorCuota,
-    fecha,
-    estado
-};
+if (confirmacion == JOptionPane.YES_OPTION) {
 
-solicitudesTemporales.add(solicitud);
+    try {
+        if (prestamoDAO.cambiarEstado(id, "Aprobado")) {
 
+            cargarPrestamos();
 
-javax.swing.table.DefaultTableModel modelo =
-    (javax.swing.table.DefaultTableModel) jTable1.getModel();
+            JOptionPane.showMessageDialog(this,
+                    "Préstamo aprobado correctamente.");
 
-modelo.addRow(solicitud);
+        } else {
+            cargarPrestamos();
 
-javax.swing.JOptionPane.showMessageDialog(
-    this, "Solicitud guardada correctamente.");
+            JOptionPane.showMessageDialog(this,
+                    "No se pudo aprobar la solicitud.");
+        }
 
-
-
-    }//GEN-LAST:event_jButton6ActionPerformed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        
-        
-jTextField1.setText("");
-jTextField2.setText("");
-jTextField3.setText("");
-jTextField4.setText("");
-jTextField6.setText("");
-
-jComboBox1.setSelectedIndex(0);
-jComboBox2.setSelectedIndex(0);
-
-jTextField1.requestFocus();
-
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-        
-        
-int fila = jTable1.getSelectedRow();
-
-if (fila == -1) {
-    javax.swing.JOptionPane.showMessageDialog(
-        this, "Selecciona una solicitud de la tabla.");
-    return;
-}
-
-jTable1.setValueAt("Aprobado", fila, 7);
-
-if (fila < solicitudesTemporales.size()) {
-    solicitudesTemporales.get(fila)[7] = "Aprobado";
-}
-
-javax.swing.JOptionPane.showMessageDialog(
-    this, "Solicitud aprobada correctamente.");
-
-    }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
-        
-        
-int fila = jTable1.getSelectedRow();
-
-if (fila == -1) {
-    javax.swing.JOptionPane.showMessageDialog(
-        this, "Selecciona una solicitud de la tabla.");
-    return;
-}
-
-jTable1.setValueAt("Rechazado", fila, 7);
-
-if (fila < solicitudesTemporales.size()) {
-    solicitudesTemporales.get(fila)[7] = "Rechazado";
-}
-
-javax.swing.JOptionPane.showMessageDialog(
-    this, "Solicitud rechazada correctamente.");
-
-    }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-        
-        
-String cedulaBuscada = jTextField2.getText().trim();
-
-if (cedulaBuscada.isEmpty()) {
-    javax.swing.JOptionPane.showMessageDialog(
-        this, "Introduce la cédula del miembro.");
-    return;
-}
-
-boolean encontrado = false;
-
-for (String[] miembro : miembrosTemporales) {
-
-    if (miembro[0].equals(cedulaBuscada)) {
-
-        jTextField3.setText(miembro[1]);
-
-        encontrado = true;
-        break;
+    } catch (RuntimeException e) {
+        JOptionPane.showMessageDialog(this,
+                "Error al aprobar: " + e.getMessage());
     }
 }
+    }//GEN-LAST:event_btnAprobarActionPerformed
 
-if (encontrado) {
-    javax.swing.JOptionPane.showMessageDialog(
-        this, "Miembro encontrado.");
-} else {
-    jTextField3.setText("");
+    private void btnRechazarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRechazarActionPerformed
+       int fila = tblPrestamos.getSelectedRow();
 
-    javax.swing.JOptionPane.showMessageDialog(
-        this, "No se encontró ningún miembro con esa cédula.");
+if (fila == -1) {
+    JOptionPane.showMessageDialog(this,
+            "Seleccione una solicitud de préstamo.");
+    return;
 }
 
-    }//GEN-LAST:event_jButton5ActionPerformed
+int filaModelo = tblPrestamos.convertRowIndexToModel(fila);
+
+int id = (int) tblPrestamos.getModel().getValueAt(filaModelo, 0);
+
+String estado = tblPrestamos.getModel()
+        .getValueAt(filaModelo, 10).toString();
+
+if (!estado.equals("En espera")) {
+    JOptionPane.showMessageDialog(this,
+            "Solo se pueden rechazar solicitudes en espera.");
+    return;
+}
+
+int confirmacion = JOptionPane.showConfirmDialog(
+        this,
+        "¿Está seguro de rechazar esta solicitud?",
+        "Confirmar rechazo",
+        JOptionPane.YES_NO_OPTION
+);
+
+if (confirmacion == JOptionPane.YES_OPTION) {
+
+    try {
+        if (prestamoDAO.cambiarEstado(id, "Rechazado")) {
+
+            cargarPrestamos();
+
+            JOptionPane.showMessageDialog(this,
+                    "Préstamo rechazado correctamente.");
+
+        } else {
+            cargarPrestamos();
+
+            JOptionPane.showMessageDialog(this,
+                    "No se pudo rechazar la solicitud.");
+        }
+
+    } catch (RuntimeException e) {
+        JOptionPane.showMessageDialog(this,
+                "Error al rechazar: " + e.getMessage());
+    }
+}
+    }//GEN-LAST:event_btnRechazarActionPerformed
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+        int fila = tblPrestamos.getSelectedRow();
+
+if (fila == -1) {
+    JOptionPane.showMessageDialog(this,
+            "Selecciona una solicitud para modificar.");
+    return;
+}
+
+int filaModelo = tblPrestamos.convertRowIndexToModel(fila);
+
+int id = (int) tblPrestamos.getModel()
+        .getValueAt(filaModelo, 0);
+
+try {
+
+    Prestamo prestamo = prestamoDAO.buscarPorId(id);
+
+    if (prestamo == null) {
+        JOptionPane.showMessageDialog(this,
+                "No se encontró el préstamo.");
+        return;
+    }
+
+    if (!"En espera".equals(prestamo.getEstado())) {
+        JOptionPane.showMessageDialog(this,
+                "Solo se pueden modificar solicitudes en espera.");
+        return;
+    }
+
+    if (!prestamo.getMiembro().isActivo()) {
+        JOptionPane.showMessageDialog(this,
+                "No se puede modificar la solicitud "
+                + "porque el miembro está inactivo.");
+        return;
+    }
+
+    java.awt.Frame padre = (java.awt.Frame)
+            javax.swing.SwingUtilities.getWindowAncestor(this);
+
+    DlgNuevoPrestamo dialogo =
+            new DlgNuevoPrestamo(padre, true, prestamo);
+
+    dialogo.setLocationRelativeTo(this);
+    dialogo.setVisible(true);
+
+    cargarPrestamos();
+
+} catch (Exception e) {
+
+    JOptionPane.showMessageDialog(this,
+            "Error al modificar el préstamo: "
+            + e.getMessage());
+}
+    }//GEN-LAST:event_btnModificarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
-    private javax.swing.JButton jButton6;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JPanel PnlBuscador;
+    private javax.swing.JButton btnAprobar;
+    private javax.swing.JButton btnModificar;
+    private javax.swing.JButton btnNuevaSolicitud;
+    private javax.swing.JButton btnRechazar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JLabel jLabel6;
-    private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextField jTextField6;
+    private javax.swing.JTable tblPrestamos;
+    private javax.swing.JTextField txtBuscarPrestamo;
     // End of variables declaration//GEN-END:variables
 }
