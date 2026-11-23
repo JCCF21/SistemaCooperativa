@@ -3,7 +3,7 @@ package com.inf514.sistemacooperativa.utilidades;
 import java.math.BigDecimal;
 
 public class ConfiguracionGlobal {
-    public static final String VERSION_APP = "0.5";
+    public static final String VERSION_APP = "1.0";
 
     // ---- Aporte de cada miembro: porcentaje de su ingreso mensual ----
     // ingreso < 30,000            -> 7%
