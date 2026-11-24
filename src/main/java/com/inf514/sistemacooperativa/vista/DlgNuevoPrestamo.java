@@ -195,6 +195,7 @@ public class DlgNuevoPrestamo extends javax.swing.JDialog {
 
         btnBuscarMiembro.setBackground(new java.awt.Color(74, 122, 150));
         btnBuscarMiembro.setForeground(new java.awt.Color(255, 255, 255));
+        btnBuscarMiembro.setText("🔍");
         btnBuscarMiembro.setToolTipText("Buscar Miembro");
         btnBuscarMiembro.setInheritsPopupMenu(true);
         btnBuscarMiembro.addActionListener(this::btnBuscarMiembroActionPerformed);

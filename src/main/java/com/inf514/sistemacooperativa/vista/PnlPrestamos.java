@@ -221,6 +221,7 @@ private void colorearEstados() {
         btnRechazar = new javax.swing.JButton();
         PnlBuscador = new javax.swing.JPanel();
         txtBuscarPrestamo = new javax.swing.JTextField();
+        lblBusquedaIcon = new javax.swing.JLabel();
         btnModificar = new javax.swing.JButton();
         btnRegistrarPago = new javax.swing.JButton();
 
@@ -369,15 +370,24 @@ private void colorearEstados() {
             }
         });
 
+        lblBusquedaIcon.setForeground(new java.awt.Color(0, 0, 0));
+        lblBusquedaIcon.setText("🔍");
+
         javax.swing.GroupLayout PnlBuscadorLayout = new javax.swing.GroupLayout(PnlBuscador);
         PnlBuscador.setLayout(PnlBuscadorLayout);
         PnlBuscadorLayout.setHorizontalGroup(
             PnlBuscadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(txtBuscarPrestamo, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(PnlBuscadorLayout.createSequentialGroup()
+                .addComponent(txtBuscarPrestamo, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblBusquedaIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         PnlBuscadorLayout.setVerticalGroup(
             PnlBuscadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(txtBuscarPrestamo, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+            .addGroup(PnlBuscadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(txtBuscarPrestamo, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                .addComponent(lblBusquedaIcon))
         );
 
         btnModificar.setBackground(new java.awt.Color(206, 146, 52));
@@ -395,7 +405,7 @@ private void colorearEstados() {
         btnRegistrarPago.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnRegistrarPago.setForeground(new java.awt.Color(255, 255, 255));
         btnRegistrarPago.setText("Registrar pago");
-        btnRegistrarPago.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        btnRegistrarPago.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnRegistrarPago.setFocusPainted(false);
         btnRegistrarPago.addActionListener(this::btnRegistrarPagoActionPerformed);
 
@@ -696,6 +706,7 @@ try {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblBusquedaIcon;
     private javax.swing.JTable tblPrestamos;
     private javax.swing.JTextField txtBuscarPrestamo;
     // End of variables declaration//GEN-END:variables
