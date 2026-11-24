@@ -20,6 +20,8 @@ import java.awt.Font;
 import javax.swing.JTable;
 import javax.swing.JLabel;
 import javax.swing.table.DefaultTableCellRenderer;
+import com.inf514.sistemacooperativa.dao.PagoPrestamoDAO;
+import java.math.BigDecimal;
 
 
 /**
@@ -30,6 +32,7 @@ public class PnlPrestamos extends javax.swing.JPanel {
     
     
 private final PrestamoDAO prestamoDAO = new PrestamoDAO();
+private final PagoPrestamoDAO pagoPrestamoDAO = new PagoPrestamoDAO();
 
 
 public PnlPrestamos() {
@@ -53,6 +56,28 @@ private void cargarPrestamos() {
 
     for (Prestamo p : prestamos) {
 
+        Object cuotasPagadas = "—";
+        Object totalPagado = "—";
+        Object saldoPendiente = "—";
+
+        if ("Aprobado".equals(p.getEstado())
+                || "Pagado".equals(p.getEstado())) {
+
+            int cuotas = pagoPrestamoDAO.obtenerCuotasPagadas(
+                    p.getId());
+
+            BigDecimal pagado = pagoPrestamoDAO.obtenerTotalPagado(
+                    p.getId());
+
+            BigDecimal saldo = p.getTotalPagar().subtract(pagado);
+
+            cuotasPagadas = cuotas + " de " + p.getCantidadCuotas();
+
+            totalPagado = pagado.setScale(2);
+
+            saldoPendiente = saldo.setScale(2);
+        }
+
         modelo.addRow(new Object[]{
             p.getId(),
             p.getMiembro().getCedula(),
@@ -64,7 +89,10 @@ private void cargarPrestamos() {
             p.getTotalPagar(),
             p.getCuotaMensual(),
             p.getFechaSolicitud(),
-            p.getEstado()
+            p.getEstado(),
+            cuotasPagadas,
+            totalPagado,
+            saldoPendiente
         });
     }
 }
@@ -156,6 +184,11 @@ private void colorearEstados() {
                     setBackground(new Color(255, 240, 194));
                     setForeground(new Color(137, 102, 0));
                     break;
+                 
+                case "Pagado":
+                    setBackground(new Color(214, 230, 250));
+                    setForeground(new Color(36, 89, 154));
+                    break;
             }
 
             if (isSelected) {
@@ -188,7 +221,9 @@ private void colorearEstados() {
         btnRechazar = new javax.swing.JButton();
         PnlBuscador = new javax.swing.JPanel();
         txtBuscarPrestamo = new javax.swing.JTextField();
+        lblBusquedaIcon = new javax.swing.JLabel();
         btnModificar = new javax.swing.JButton();
+        btnRegistrarPago = new javax.swing.JButton();
 
         jPanel1.setBackground(new java.awt.Color(244, 239, 230));
 
@@ -197,12 +232,19 @@ private void colorearEstados() {
 
             },
             new String [] {
-                "ID prestamo", "Cedula", "Miembro", "Monto RD$", "Cuotas", "Tasa (%)", "Interes (RD$)", "Total a Pagar", "Cuota Mensual", "Fecha", "Estado"
+                "ID prestamo", "Cedula", "Miembro", "Monto RD$", "Cuotas", "Tasa (%)", "Interes (RD$)", "Total a Pagar", "Cuota Mensual", "Fecha", "Estado", "Cuotas pagadas", "Total pagado (RD$)", "Saldo pendiente (RD$)"
             }
         ) {
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false, false
+            Class[] types = new Class [] {
+                java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.Object.class, java.lang.String.class, java.lang.Object.class, java.lang.Object.class
             };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
@@ -222,6 +264,9 @@ private void colorearEstados() {
             tblPrestamos.getColumnModel().getColumn(8).setPreferredWidth(120);
             tblPrestamos.getColumnModel().getColumn(9).setPreferredWidth(100);
             tblPrestamos.getColumnModel().getColumn(10).setPreferredWidth(100);
+            tblPrestamos.getColumnModel().getColumn(11).setPreferredWidth(120);
+            tblPrestamos.getColumnModel().getColumn(12).setPreferredWidth(145);
+            tblPrestamos.getColumnModel().getColumn(13).setPreferredWidth(155);
         }
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -325,15 +370,24 @@ private void colorearEstados() {
             }
         });
 
+        lblBusquedaIcon.setForeground(new java.awt.Color(0, 0, 0));
+        lblBusquedaIcon.setText("🔍");
+
         javax.swing.GroupLayout PnlBuscadorLayout = new javax.swing.GroupLayout(PnlBuscador);
         PnlBuscador.setLayout(PnlBuscadorLayout);
         PnlBuscadorLayout.setHorizontalGroup(
             PnlBuscadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(txtBuscarPrestamo, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(PnlBuscadorLayout.createSequentialGroup()
+                .addComponent(txtBuscarPrestamo, javax.swing.GroupLayout.PREFERRED_SIZE, 449, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(lblBusquedaIcon, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
         PnlBuscadorLayout.setVerticalGroup(
             PnlBuscadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(txtBuscarPrestamo, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+            .addGroup(PnlBuscadorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(txtBuscarPrestamo, javax.swing.GroupLayout.DEFAULT_SIZE, 30, Short.MAX_VALUE)
+                .addComponent(lblBusquedaIcon))
         );
 
         btnModificar.setBackground(new java.awt.Color(206, 146, 52));
@@ -346,6 +400,14 @@ private void colorearEstados() {
         btnModificar.setIconTextGap(8);
         btnModificar.setPreferredSize(new java.awt.Dimension(170, 40));
         btnModificar.addActionListener(this::btnModificarActionPerformed);
+
+        btnRegistrarPago.setBackground(new java.awt.Color(37, 99, 165));
+        btnRegistrarPago.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        btnRegistrarPago.setForeground(new java.awt.Color(255, 255, 255));
+        btnRegistrarPago.setText("Registrar pago");
+        btnRegistrarPago.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnRegistrarPago.setFocusPainted(false);
+        btnRegistrarPago.addActionListener(this::btnRegistrarPagoActionPerformed);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
@@ -366,10 +428,11 @@ private void colorearEstados() {
                                 .addComponent(btnNuevaSolicitud, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(0, 0, Short.MAX_VALUE))
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(btnRechazar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnAprobar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(btnRechazar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnAprobar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnModificar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(btnRegistrarPago, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))))
         );
         layout.setVerticalGroup(
@@ -389,7 +452,9 @@ private void colorearEstados() {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addComponent(btnAprobar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(12, 12, 12)
-                        .addComponent(btnRechazar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(btnRechazar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnRegistrarPago, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
@@ -581,6 +646,53 @@ try {
 }
     }//GEN-LAST:event_btnModificarActionPerformed
 
+    private void btnRegistrarPagoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarPagoActionPerformed
+       int fila = tblPrestamos.getSelectedRow();
+
+if (fila == -1) {
+    JOptionPane.showMessageDialog(this,
+            "Debes seleccionar un préstamo.");
+    return;
+}
+
+int filaModelo = tblPrestamos.convertRowIndexToModel(fila);
+
+int id = (int) tblPrestamos.getModel()
+        .getValueAt(filaModelo, 0);
+
+try {
+    Prestamo prestamo = prestamoDAO.buscarPorId(id);
+
+    if (prestamo == null) {
+        JOptionPane.showMessageDialog(this,
+                "El préstamo no existe.");
+        return;
+    }
+
+    if (!"Aprobado".equals(prestamo.getEstado())) {
+        JOptionPane.showMessageDialog(this,
+                "Solo se pueden pagar préstamos aprobados.");
+        return;
+    }
+
+    java.awt.Frame padre = (java.awt.Frame)
+            javax.swing.SwingUtilities.getWindowAncestor(this);
+
+    DlgPagoPrestamo dialogo = new DlgPagoPrestamo(
+            padre, true, prestamo);
+
+    dialogo.setLocationRelativeTo(this);
+    dialogo.setVisible(true);
+
+    cargarPrestamos();
+
+} catch (Exception e) {
+    JOptionPane.showMessageDialog(this,
+            "Error al abrir el diálogo de pago: "
+            + e.getMessage());
+}
+    }//GEN-LAST:event_btnRegistrarPagoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel PnlBuscador;
@@ -588,11 +700,13 @@ try {
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnNuevaSolicitud;
     private javax.swing.JButton btnRechazar;
+    private javax.swing.JButton btnRegistrarPago;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblBusquedaIcon;
     private javax.swing.JTable tblPrestamos;
     private javax.swing.JTextField txtBuscarPrestamo;
     // End of variables declaration//GEN-END:variables

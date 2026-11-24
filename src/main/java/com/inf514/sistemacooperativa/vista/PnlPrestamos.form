@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+<Form version="1.8" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -33,10 +33,11 @@
                               <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                           </Group>
                           <Group type="102" attributes="0">
-                              <Group type="103" groupAlignment="0" attributes="0">
-                                  <Component id="btnRechazar" min="-2" max="-2" attributes="0"/>
-                                  <Component id="btnAprobar" min="-2" max="-2" attributes="0"/>
-                                  <Component id="btnModificar" min="-2" max="-2" attributes="0"/>
+                              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                                  <Component id="btnRechazar" max="32767" attributes="0"/>
+                                  <Component id="btnAprobar" max="32767" attributes="0"/>
+                                  <Component id="btnModificar" max="32767" attributes="0"/>
+                                  <Component id="btnRegistrarPago" alignment="0" max="32767" attributes="0"/>
                               </Group>
                               <EmptySpace max="32767" attributes="0"/>
                           </Group>
@@ -64,6 +65,8 @@
                       <Component id="btnAprobar" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="-2" pref="12" max="-2" attributes="0"/>
                       <Component id="btnRechazar" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="btnRegistrarPago" min="-2" pref="40" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace max="32767" attributes="0"/>
@@ -109,7 +112,7 @@
             <Component class="javax.swing.JTable" name="tblPrestamos">
               <Properties>
                 <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
-                  <Table columnCount="11" rowCount="0">
+                  <Table columnCount="14" rowCount="0">
                     <Column editable="false" title="ID prestamo" type="java.lang.Object"/>
                     <Column editable="false" title="Cedula" type="java.lang.Object"/>
                     <Column editable="false" title="Miembro" type="java.lang.Object"/>
@@ -121,6 +124,9 @@
                     <Column editable="false" title="Cuota Mensual" type="java.lang.Object"/>
                     <Column editable="false" title="Fecha" type="java.lang.Object"/>
                     <Column editable="false" title="Estado" type="java.lang.Object"/>
+                    <Column editable="false" title="Cuotas pagadas" type="java.lang.String"/>
+                    <Column editable="false" title="Total pagado (RD$)" type="java.lang.Object"/>
+                    <Column editable="false" title="Saldo pendiente (RD$)" type="java.lang.Object"/>
                   </Table>
                 </Property>
                 <Property name="autoResizeMode" type="int" value="0"/>
@@ -177,6 +183,21 @@
                       <Renderer/>
                     </Column>
                     <Column maxWidth="-1" minWidth="-1" prefWidth="100" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="120" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="145" resizable="true">
+                      <Title/>
+                      <Editor/>
+                      <Renderer/>
+                    </Column>
+                    <Column maxWidth="-1" minWidth="-1" prefWidth="155" resizable="true">
                       <Title/>
                       <Editor/>
                       <Renderer/>
@@ -345,12 +366,20 @@
       <Layout>
         <DimensionLayout dim="0">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="txtBuscarPrestamo" min="-2" pref="449" max="-2" attributes="0"/>
+              <Group type="102" attributes="0">
+                  <Component id="txtBuscarPrestamo" min="-2" pref="449" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
+                  <Component id="lblBusquedaIcon" min="-2" pref="21" max="-2" attributes="0"/>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
           </Group>
         </DimensionLayout>
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
-              <Component id="txtBuscarPrestamo" pref="30" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="txtBuscarPrestamo" alignment="3" pref="30" max="32767" attributes="0"/>
+                  <Component id="lblBusquedaIcon" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
           </Group>
         </DimensionLayout>
       </Layout>
@@ -369,6 +398,14 @@
             <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtBuscarPrestamoFocusGained"/>
             <EventHandler event="focusLost" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="txtBuscarPrestamoFocusLost"/>
           </Events>
+        </Component>
+        <Component class="javax.swing.JLabel" name="lblBusquedaIcon">
+          <Properties>
+            <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+              <Color blue="0" green="0" red="0" type="rgb"/>
+            </Property>
+            <Property name="text" type="java.lang.String" value="\ud83d\udd0d" containsInvalidXMLChars="true"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>
@@ -396,6 +433,27 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnModificarActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="btnRegistrarPago">
+      <Properties>
+        <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="a5" green="63" red="25" type="rgb"/>
+        </Property>
+        <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
+          <Font name="Segoe UI" size="14" style="1"/>
+        </Property>
+        <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
+          <Color blue="ff" green="ff" red="ff" type="rgb"/>
+        </Property>
+        <Property name="text" type="java.lang.String" value="Registrar pago"/>
+        <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+          <Color id="Default Cursor"/>
+        </Property>
+        <Property name="focusPainted" type="boolean" value="false"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnRegistrarPagoActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
